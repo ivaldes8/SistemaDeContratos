@@ -14,9 +14,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'PagesController@index');
-Route::get('/about', 'PagesController@about');
-Route::get('/users/{id}', 'PagesController@users');
-
 
 Auth::routes();
 
@@ -28,11 +25,6 @@ Route::middleware(['auth','isAdmin'])->group(function () {
 });
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/employee', 'EmployeeController@index');
-    Route::get('/add-employee', 'EmployeeController@create');
-    Route::post('/store-employee', 'EmployeeController@store');
-    Route::get('/edit-employee/{id}', 'EmployeeController@edit');
-    Route::put('/update-employee/{id}', 'EmployeeController@update');
-    Route::delete('delete-employee/{id}', 'EmployeeController@delete');
+    Route::resource('organismos', 'OrganismoController');
 });
 
