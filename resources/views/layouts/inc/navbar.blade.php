@@ -26,7 +26,7 @@ background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(194,209,254,1) 
                             <a class="dropdown-item" href="{{ url('organismos') }}">
                                 Organismos
                             </a>
-                            <a class="dropdown-item" href="{{ route('logout') }}">
+                            <a class="dropdown-item" href="{{ url('grupos') }}">
                                 Grupos Empresariales
                             </a>
                             <a class="dropdown-item" href="{{ route('logout') }}">

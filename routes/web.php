@@ -26,5 +26,6 @@ Route::middleware(['auth','isAdmin'])->group(function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::resource('organismos', 'OrganismoController');
+    Route::resource('grupos', 'GrupoController');
 });
 

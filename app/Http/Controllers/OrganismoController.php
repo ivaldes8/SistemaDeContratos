@@ -40,7 +40,6 @@ class OrganismoController extends Controller
         $organismo->codigo = $request->input('codigo');
         $organismo->nombre = $request->input('nombre');
         $organismo->siglas = $request->input('siglas');
-        $organismo->nombre = $request->input('nombre');
         $organismo->activo = $request->input('activo') == true ? '1' : '0';
         $organismo->save();
         return redirect()->back()->with('status', 'Organismo añadido satisfactoriamente');
@@ -83,7 +82,6 @@ class OrganismoController extends Controller
         $organismo->codigo = $request->input('codigo');
         $organismo->nombre = $request->input('nombre');
         $organismo->siglas = $request->input('siglas');
-        $organismo->nombre = $request->input('nombre');
         $organismo->activo = $request->input('activo') == true ? '1' : '0';
 
         $organismo->update();
