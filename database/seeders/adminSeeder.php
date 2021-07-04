@@ -19,6 +19,7 @@ class adminSeeder extends Seeder
             'userName' => 'ivaldes',
             'email' => 'kaosolution8@gmail.com',
             'password' => bcrypt(96100709465),
+            'role_as' => 1
         ]);
     }
 }

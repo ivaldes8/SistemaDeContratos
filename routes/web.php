@@ -20,12 +20,12 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::middleware(['auth','isAdmin'])->group(function () {
-    Route::resource('post', 'PostController');
     Route::resource('user', 'UserController');
 });
 
 Route::middleware(['auth'])->group(function () {
     Route::resource('organismos', 'OrganismoController');
     Route::resource('grupos', 'GrupoController');
+    Route::resource('clientes_proveedores', 'ClienteProveedorController');
 });
 

@@ -14,9 +14,8 @@ class Grupo extends Model
         'codigo',
         'nombre',
         'siglas',
-        'id_Organismo',
         'activo',
-        'id_Client'
+        'id_Organismo',
     ];
     public function organismos(){
         return $this->belongsTo(Organismo::class,'id_Organismo','id');

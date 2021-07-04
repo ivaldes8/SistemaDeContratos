@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "445b2b56036f4fb3c253035674db75e4",
+    "content-hash": "9cc255637d9547f186897884f4baee1e",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -117,6 +117,86 @@
                 }
             ],
             "time": "2021-01-20T22:51:39+00:00"
+        },
+        {
+            "name": "composer/semver",
+            "version": "1.7.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/composer/semver.git",
+                "reference": "647490bbcaf7fc4891c58f47b825eb99d19c377a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/composer/semver/zipball/647490bbcaf7fc4891c58f47b825eb99d19c377a",
+                "reference": "647490bbcaf7fc4891c58f47b825eb99d19c377a",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.3.2 || ^7.0 || ^8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.5 || ^5.0.5"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Composer\\Semver\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nils Adermann",
+                    "email": "naderman@naderman.de",
+                    "homepage": "http://www.naderman.de"
+                },
+                {
+                    "name": "Jordi Boggiano",
+                    "email": "j.boggiano@seld.be",
+                    "homepage": "http://seld.be"
+                },
+                {
+                    "name": "Rob Bast",
+                    "email": "rob.bast@gmail.com",
+                    "homepage": "http://robbast.nl"
+                }
+            ],
+            "description": "Semver library that offers utilities, version constraint parsing and validation.",
+            "keywords": [
+                "semantic",
+                "semver",
+                "validation",
+                "versioning"
+            ],
+            "support": {
+                "irc": "irc://irc.freenode.org/composer",
+                "issues": "https://github.com/composer/semver/issues",
+                "source": "https://github.com/composer/semver/tree/1.7.2"
+            },
+            "funding": [
+                {
+                    "url": "https://packagist.com",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/composer",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/composer/composer",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-12-03T15:47:16+00:00"
         },
         {
             "name": "doctrine/inflector",
@@ -2159,6 +2239,77 @@
                 "source": "https://github.com/bobthecow/psysh/tree/v0.10.8"
             },
             "time": "2021-04-10T16:23:39+00:00"
+        },
+        {
+            "name": "radic/blade-extensions",
+            "version": "7.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/RobinRadic/blade-extensions.git",
+                "reference": "57875f03ada6e612f59d9b3ada6702c546cf81fb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/RobinRadic/blade-extensions/zipball/57875f03ada6e612f59d9b3ada6702c546cf81fb",
+                "reference": "57875f03ada6e612f59d9b3ada6702c546cf81fb",
+                "shasum": ""
+            },
+            "require": {
+                "composer/semver": "~1.4",
+                "illuminate/contracts": "~5.0|~6.0|~7.0|~8.0",
+                "illuminate/filesystem": "~5.0|~6.0|~7.0|~8.0",
+                "illuminate/support": "~5.0|~6.0|~7.0|~8.0",
+                "illuminate/view": "~5.0|~6.0|~7.0|~8.0",
+                "php": ">=5.5.9"
+            },
+            "require-dev": {
+                "cebe/markdown": "~1.1",
+                "laradic/testing": "~1.0.4",
+                "matthiasmullie/minify": "~1.3",
+                "mockery/mockery": "~0.9|~1.0",
+                "zaininnari/html-minifier": "~0.4"
+            },
+            "suggest": {
+                "cebe/markdown": "Enables the use of @markdown directives (~1.5)",
+                "matthiasmullie/minify": "Enables the use of @minify('css') or @minify('js') directive (~1.3)",
+                "raveren/kint": "Improved @dump output (1.0.*)",
+                "zaininnari/html-minifier": "Improves the @minify('html') directive"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "7.4.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Radic\\BladeExtensions\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Robin Radic",
+                    "email": "robin@radic.nl",
+                    "role": "Package Author/Developer"
+                }
+            ],
+            "description": "Laravel package providing additional Blade extensions: foreach (with $loop data like twig), break, continue, set,array (multiline), etc",
+            "homepage": "https://github.com/RobinRadic/blade-extensions",
+            "keywords": [
+                "blade",
+                "extensions",
+                "laravel",
+                "loop"
+            ],
+            "support": {
+                "issues": "https://github.com/RobinRadic/blade-extensions/issues",
+                "source": "https://github.com/RobinRadic/blade-extensions/tree/7.4.0"
+            },
+            "time": "2020-05-16T05:43:30+00:00"
         },
         {
             "name": "ralouphie/getallheaders",

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateGruposTable extends Migration
+class CreateEntidadCPSTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreateGruposTable extends Migration
      */
     public function up()
     {
-        Schema::create('grupos', function (Blueprint $table) {
+        Schema::create('entidad_c_p_s', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('codigo')->required();
-            $table->string('nombre')->required();
-            $table->string('siglas')->nullable();
-            $table->tinyInteger('activo')->default('1')->nullable();
-            $table->integer('id_Organismo')->required();
+            $table->boolean('cliente')->default('false');
+            $table->boolean('proveedor')->default('false');
+            $table->integer('idClient');
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ class CreateGruposTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('grupos');
+        Schema::dropIfExists('entidad_c_p_s');
     }
 }

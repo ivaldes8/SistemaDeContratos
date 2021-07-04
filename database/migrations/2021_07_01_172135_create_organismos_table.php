@@ -15,7 +15,7 @@ class CreateOrganismosTable extends Migration
     {
         Schema::create('organismos', function (Blueprint $table) {
             $table->id();
-            $table->float('codigo')->required();
+            $table->bigInteger('codigo')->required();
             $table->string('nombre')->required();
             $table->string('siglas')->required();
             $table->tinyInteger('activo')->default('1')->nullable();

@@ -5,16 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Organismo extends Model
+class EntidadCP extends Model
 {
     use HasFactory;
-    protected $table = 'organismos';
+    protected $table = 'entidad_c_p_s';
     protected $fillable = [
         'id',
-        'codigo',
-        'nombre',
-        'siglas',
-        'activo',
-        'id_Client',
+        'idClient',
+        'cliente',
+        'proveedor'
     ];
 }

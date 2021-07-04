@@ -89,6 +89,7 @@ class GrupoController extends Controller
         $grupo->siglas = $request->input('siglas');
         $grupo->activo = $request->input('activo') == true ? '1' : '0';
         $grupo->id_Organismo = $request->input('id_Organismo');
+
         $grupo->update();
         return redirect()->back()->with('status', 'Grupo editado satisfactoriamente');
     }

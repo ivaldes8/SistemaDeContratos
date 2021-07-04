@@ -33,7 +33,7 @@ class LoginController extends Controller
     protected function authenticated()
     {
         if(Auth::user()->role_as == '1'){
-            return redirect('/post')->with('status', 'Welcome admin');
+            return redirect('/home')->with('status', 'Welcome admin');
         }
         elseif(Auth::user()->role_as == '0'){
             return redirect('/home')->with('status', 'Logged inn successfully');
