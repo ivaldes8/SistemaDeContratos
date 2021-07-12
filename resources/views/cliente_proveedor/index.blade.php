@@ -8,6 +8,10 @@
         <div class="alert alert-success">{{session('status')}}</div>
     @endif
     <div class="card">
+        <div class="card-header">
+            <h1>Filtros</h1>
+            <div class="fa fa-search"></div>
+        </div>
         <div class="card-body">
             <table class="table table-bordered table-sm table-striped">
                 <thead>
@@ -30,10 +34,19 @@
                         <td><a href="{{url('clientes_proveedores/'.$item->identidad.'/edit')}}">{{$item->codigo}}</a></td>
                         <td>{{$item->codigoreu}}</td>
                         <td>{{$item->nombre}}</td>
-
-                        <td>LOL</td>
-                        <td>LOL</td>
                         <td>{{$item->abreviatura}}</td>
+                        @foreach ($GO as $item3)
+                            @if ($item3->idClient == $item->identidad)
+                                <td>{{ $item3->organismos->nombre }}</td>
+                                @break
+                            @endif
+                        @endforeach
+                        @foreach ($GO as $item4)
+                            @if ($item4->idClient == $item->identidad)
+                                <td>{{ $item4->grupos->nombre }}</td>
+                                @break
+                            @endif
+                        @endforeach
                         @foreach ($CP as $item2)
                             @if ($item2->idClient == $item->identidad)
                                 <td>{{ $item2->cliente == true ? 'Si' : 'No' }}</td>

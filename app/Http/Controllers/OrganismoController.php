@@ -36,12 +36,20 @@ class OrganismoController extends Controller
      */
     public function store(Request $request)
     {
+        $validatedData = $request->validate([
+            'codigo' => 'required',
+            'nombre' => 'required',
+        ],[
+            'codigo.required' => 'Tiene que introducir un código',
+            'nombre.required' => 'Tiene que introducir un nombre',
+        ]);
+
         $organismo = new Organismo();
         $organismo->codigo = $request->input('codigo');
         $organismo->nombre = $request->input('nombre');
         $organismo->siglas = $request->input('siglas');
         $organismo->activo = $request->input('activo') == true ? '1' : '0';
-        $organismo->save();
+        $organismo->save($validatedData);
         return redirect()->back()->with('status', 'Organismo añadido satisfactoriamente');
     }
 
@@ -77,6 +85,14 @@ class OrganismoController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $validatedData = $request->validate([
+            'codigo' => 'required',
+            'nombre' => 'required',
+        ],[
+            'codigo.required' => 'Tiene que introducir un código',
+            'nombre.required' => 'Tiene que introducir un nombre',
+        ]);
+
         $organismo = Organismo::find($id);
 
         $organismo->codigo = $request->input('codigo');
@@ -84,7 +100,7 @@ class OrganismoController extends Controller
         $organismo->siglas = $request->input('siglas');
         $organismo->activo = $request->input('activo') == true ? '1' : '0';
 
-        $organismo->update();
+        $organismo->update($validatedData);
         return redirect()->back()->with('status', 'Organismo editado satisfactoriamente');
     }
 

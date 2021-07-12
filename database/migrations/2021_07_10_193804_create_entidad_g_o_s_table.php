@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateOrganismosTable extends Migration
+class CreateEntidadGOSTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateOrganismosTable extends Migration
      */
     public function up()
     {
-        Schema::create('organismos', function (Blueprint $table) {
+        Schema::create('entidad_g_o_s', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('codigo')->required();
-            $table->string('nombre')->required();
-            $table->string('siglas')->required();
-            $table->tinyInteger('activo')->default('1')->nullable();
+            $table->integer('idClient')->require();
+            $table->integer('idOrganismo')->required();
+            $table->integer('idGrupo')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreateOrganismosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('organismos');
+        Schema::dropIfExists('entidad_g_o_s');
     }
 }

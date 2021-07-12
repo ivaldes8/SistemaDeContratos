@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\ClienteProveedor;
 use App\Models\EntidadCP;
-use App\Models\GrupoEntidad;
+use App\Models\EntidadGO;
 use App\Models\Organismo;
+use App\Models\Grupo;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Route;
+use App\Rules\noOrganismo;
 
 class ClienteProveedorController extends Controller
 {
@@ -21,9 +23,9 @@ class ClienteProveedorController extends Controller
     {
         $cliente_proveedor = ClienteProveedor::paginate(50);
         $CP = EntidadCP::all();
-        $GO = GrupoEntidad::all();
+        $GO = EntidadGO::all();
         //dd($CP);
-        return view('cliente_proveedor.index', compact('cliente_proveedor', 'CP', 'GO'));
+        return view('cliente_proveedor.index', compact('cliente_proveedor', 'CP','GO'));
     }
 
     /**
@@ -68,10 +70,11 @@ class ClienteProveedorController extends Controller
     {
         //$entidad= DB::table('dbo.ClientsView')->where('identidad', '1')->get();
         $entidad = ClienteProveedor::where('identidad', $id)->get();
-
         $CP = EntidadCP::where('idClient',$id)->get();
-        //dd($CP);
-        return view('cliente_proveedor.edit', compact('entidad','CP'));
+        $GO = EntidadGO::where('idClient', $id)->get();
+        $organismos = Organismo::all();
+        //dd($Organismo);
+        return view('cliente_proveedor.edit', compact('entidad','CP','GO', 'organismos'));
     }
 
     /**
@@ -83,13 +86,20 @@ class ClienteProveedorController extends Controller
      */
     public function update(Request $request, $id)
     {
+        //dd($request);
+        $validatedData = $request->validate([
+            'organismo_id' => ['required', new noOrganismo()]
+        ],[
+            'organismo_id.required' => 'Tiene que seleccionar un organismo'
+        ]);
+
         $entidadCP = EntidadCP::where('idClient', $id)->get();
         if(count($entidadCP)>0){
             $entidadCP[0]->cliente = $request->input('tipo') == 'on' ? 'true' : 'false';
             $entidadCP[0]->proveedor = $request->input('proveedor') == 'on' ? 'true' : 'false';
             //dd($entidadCP);
             $entidadCP[0]->update();
-            return redirect()->back()->with('status', 'Assignación editada satisfactoriamente');
+            //return redirect()->back()->with('status', 'Asignación editada satisfactoriamente');
         }
         else{
             $entidadCP = new EntidadCP();
@@ -97,8 +107,35 @@ class ClienteProveedorController extends Controller
             $entidadCP->cliente = $request->input('tipo') == 'on' ? 'true' : 'false';
             $entidadCP->proveedor = $request->input('proveedor') == 'on' ? 'true' : 'false';
             $entidadCP->save();
-            return redirect()->back()->with('status', 'Asignación añadida satisfactoriamente');
+            //return redirect()->back()->with('status', 'Asignación añadida satisfactoriamente');
         }
+
+        $entidadGO = EntidadGO::where('idClient', $id)->get();
+        if(count($entidadGO)>0){
+            $entidadGO[0]->idOrganismo = $request->input('organismo_id');
+            if( !($request->input('grupo')) || $request->input('grupo') == 'Grupo no seleccionado'){
+                $entidadGO[0]->idGrupo = '1';
+            }
+            else{
+                $entidadGO[0]->idGrupo = $request->input('grupo');
+            }
+            $entidadGO[0]->update($validatedData);
+            //$newOrganismo->
+        }
+        else{
+            $entidadGO = new EntidadGO();
+            $entidadGO->idClient = $id;
+            $entidadGO->idOrganismo = $request->input('organismo_id');
+            if( !($request->input('grupo')) || $request->input('grupo') == 'Grupo no seleccionado'){
+                $entidadGO->idGrupo = '1';
+            }
+            else{
+                $entidadGO->idGrupo = $request->input('grupo');
+            }
+            $entidadGO->save($validatedData);
+        }
+        //dd($entidadGO);
+        return redirect()->back()->with('status', 'Asignación realizada satisfactoriamente');
 
     }
 

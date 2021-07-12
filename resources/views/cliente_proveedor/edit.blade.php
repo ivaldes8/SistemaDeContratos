@@ -1,13 +1,21 @@
 @extends('layouts.frontend')
 
 @section('content')
-
-<div class="container">
+<script src="{{ asset('frontend/js/ajaxjquery.js') }}"></script>
+<script src="{{ asset('frontend/js/ajaxpropper.js') }}"></script>
+<div class="container mt-3">
     <div class="row justify-content-center">
         <div class="col-md-8">
 
         @if (session('status'))
             <div class="alert alert-success">{{session('status')}}</div>
+        @endif
+        @if (count($errors) > 0)
+            <ul class="alert alert-danger pl-5 mt-3 mb-3">
+	            @foreach($errors->all() as $error)
+	                <li>{{ $error }}</li>
+	            @endforeach
+            </ul>
         @endif
             <div class="card">
                 <div class="card-header">
@@ -39,26 +47,66 @@
                         </div>
                         @if (count($CP)>0)
                             <div class="form-group mb-3">
-                                <label for="">Tipo</label>
-                                Cliente<input type="checkbox" name="tipo" {!! $CP[0]->cliente == true ? 'checked' : '' !!}>
-                                Proveedor<input type="checkbox" name="proveedor" {!! $CP[0]->proveedor == true ? 'checked' : '' !!}>
+                                <label for="">Tipo:</label>
+                                <p>Cliente<input type="checkbox" name="tipo" {!! $CP[0]->cliente == true ? 'checked' : '' !!}></p>
+                                <p>Proveedor<input type="checkbox" name="proveedor" {!! $CP[0]->proveedor == true ? 'checked' : '' !!}></p>
                             </div>
                         @else
                             <div class="form-group mb-3">
-                                <label for="">Tipo</label>
+                                <label for="">Tipo:</label>
                                 <p>Cliente.<input  type="checkbox" name="tipo"></p>
                                 <p>Proveedor.<input  type="checkbox" name="proveedor"></p>
                             </div>
                         @endif
 
                         <div class="form-group mb-3">
+                            <label for="state">Organismo:</label>
+                            <select id="organismo" name="organismo_id" class="@error('organismo_id') is-invalid @enderror col-8">
+                                <option value="" selected disabled>Seleccione un Organismo:</option>
+                                @foreach($organismos as $organismo)
+                                <option value="{{$organismo->id}}" {{ $organismo->id == $GO[0] -> idOrganismo ? 'selected' : '' }} > {{$organismo->nombre}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="grupo">Seleccione un Grupo:</label>
+                            <select name="grupo" id="grupo" class="col-8">
+                                <option value = '{{$GO[0]->grupos->id}}'>{{$GO[0]->grupos->nombre}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group mb-3">
                             <label for="">Activo</label>
-                            <input type="checkbox" name="activo" disabled {!! $entidad[0]->activo == 1 ? 'checked' : '' !!}>
+                            <input type="checkbox" name="activo" disabled {{ $entidad[0]->activo == 1 ? 'checked' : '' }}>
                         </div>
                         <div class="form-group mb-3">
                             <button class="btn btn-primary" type="submit">Actualizar</button>
                         </div>
                     </form>
+                        <script type=text/javascript>
+                            $('#organismo').change(function(){
+                                var organismoID = $(this).val();
+                                if(organismoID){
+                                    $.ajax({
+                                        type:"GET",
+                                        url:"{{url('getGrupo')}}?organismo_id="+organismoID,
+                                        success:function(res){
+                                            if(res){
+                                                $("#grupo").empty();
+                                                $("#grupo").append('<option>Grupo no seleccionado</option>');
+                                                $.each(res,function(key,value){
+                                                $("#grupo").append('<option value="'+key+'">'+value+'</option>');
+                                                });
+
+                                            }else{
+                                                $("#grupo").empty();
+                                            }
+                                        }
+                                    });
+                                }else{
+                                    $("#grupo").empty();
+                                }
+                            });
+                        </script>
                 </div>
             </div>
         </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Grupo;
 use App\Models\Organismo;
 use Illuminate\Http\Request;
+use App\Rules\noOrganismo;
 
 class GrupoController extends Controller
 {
@@ -38,14 +39,24 @@ class GrupoController extends Controller
      */
     public function store(Request $request)
     {
+        $validatedData = $request->validate([
+            'codigo' => 'required',
+            'nombre' => 'required',
+            'id_Organismo' => ['required', new noOrganismo()]
+        ],[
+            'codigo.required' => 'Tiene que introducir un código',
+            'nombre.required' => 'Tiene que introducir un nombre',
+            'id_Organismo.required' => 'Tiene que seleccionar un organismo'
+        ]);
+
         $grupo = new Grupo();
         $grupo->codigo = $request->input('codigo');
         $grupo->nombre = $request->input('nombre');
         $grupo->siglas = $request->input('siglas');
         $grupo->id_Organismo = $request->input('id_Organismo');
         $grupo->activo = $request->input('activo') == true ? '1' : '0';
-        //dd($grupo);
-        $grupo->save();
+        //dd($request);
+        $grupo->save($validatedData);
         return redirect()->back()->with('status', 'Grupo añadido satisfactoriamente');
     }
 
@@ -82,6 +93,16 @@ class GrupoController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $validatedData = $request->validate([
+            'codigo' => 'required',
+            'nombre' => 'required',
+            'id_Organismo' => ['required', new noOrganismo()]
+        ],[
+            'codigo.required' => 'Tiene que introducir un código',
+            'nombre.required' => 'Tiene que introducir un nombre',
+            'id_Organismo.required' => 'Tiene que seleccionar un organismo'
+        ]);
+
         $grupo = Grupo::find($id);
 
         $grupo->codigo = $request->input('codigo');
@@ -90,7 +111,7 @@ class GrupoController extends Controller
         $grupo->activo = $request->input('activo') == true ? '1' : '0';
         $grupo->id_Organismo = $request->input('id_Organismo');
 
-        $grupo->update();
+        $grupo->update($validatedData);
         return redirect()->back()->with('status', 'Grupo editado satisfactoriamente');
     }
 

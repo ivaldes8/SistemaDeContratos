@@ -4,17 +4,12 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Sistema de contratos</title>
-
+        <title>Laravel</title>
         <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="{{ asset('frontend/css/bootstrap5.css') }}"/>
-        <link rel="stylesheet" href="{{ asset('frontend/css/custom.css') }}"/>
-        <link type="text/css" rel="stylesheet" href="{{ mix('css/app.css') }}">
-        <!--<script src="{{asset('frontend/js/jquery-3.6.0.min.js')}}"></script>-->
+        <link rel="stylesheet" href="{{ asset('frontend/css/bootstrap4css.css') }}">
         <script src="{{ asset('frontend/js/ajaxjquery.js') }}"></script>
         <script src="{{ asset('frontend/js/ajaxpropper.js') }}"></script>
-        <script src="{{asset('frontend/js/bootstrap5.bundle.js')}}"></script>
+        <script src="{{ asset('frontend/js/bootstra4js.js') }}"></script>
 
         <!-- Styles -->
         <style>
@@ -27,10 +22,47 @@
             }
         </style>
     </head>
-    <body>
-            <div>
-                @include('layouts.inc.navbar')
-                @yield('content')
-            </div>
-    </body>
+    <body >
+    <div class="container">
+  <h2>Laravel 8 Dynamic Dependent Dropdown using Jquery Ajax</h2>
+    <div class="form-group">
+      <label for="country">Country:</label>
+   <select id="country" name="category_id" class="form-control">
+        <option value="" selected disabled>Select Country</option>
+         @foreach($countries as $key => $country)
+         <option value="{{$key}}"> {{$country}}</option>
+         @endforeach
+         </select>
+    </div>
+    <div class="form-group">
+      <label for="state">State:</label>
+      <select name="state" id="state" class="form-control"></select>
+    </div>
+</div>
+<script type=text/javascript>
+  $('#country').change(function(){
+  var countryID = $(this).val();
+  if(countryID){
+    $.ajax({
+      type:"GET",
+      url:"{{url('getState')}}?country_id="+countryID,
+      success:function(res){
+      if(res){
+        $("#state").empty();
+        $("#state").append('<option>Select State</option>');
+        $.each(res,function(key,value){
+          $("#state").append('<option value="'+key+'">'+value+'</option>');
+        });
+
+      }else{
+        $("#state").empty();
+      }
+      }
+    });
+  }else{
+    $("#state").empty();
+  }
+  });
+</script>
+</body>
 </html>

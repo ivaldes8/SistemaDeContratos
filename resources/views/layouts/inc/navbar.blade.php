@@ -32,12 +32,6 @@ background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(194,209,254,1) 
                             <a class="dropdown-item" href="{{ url('clientes_proveedores') }}">
                                 Entidades
                             </a>
-                            <a class="dropdown-item" href="{{ url('clientes') }}">
-                                Clientes
-                            </a>
-                            <a class="dropdown-item" href="{{ url('clientes') }}">
-                                Proveedores
-                            </a>
                             <a class="dropdown-item" href="{{ route('logout') }}">
                                 Tipos de Contratos
                             </a>

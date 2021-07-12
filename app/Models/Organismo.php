@@ -15,6 +15,5 @@ class Organismo extends Model
         'nombre',
         'siglas',
         'activo',
-        'id_Client',
     ];
 }

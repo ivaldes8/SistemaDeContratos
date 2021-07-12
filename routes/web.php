@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\DropdownController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,7 +18,8 @@ Route::get('/', 'PagesController@index');
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
+//Route::get('dropdown',[DropdownController::class, 'index']);
+Route::get('getGrupo',[DropdownController::class, 'getGrupo'])->name('getGrupo');
 Route::middleware(['auth','isAdmin'])->group(function () {
     Route::resource('user', 'UserController');
 });
