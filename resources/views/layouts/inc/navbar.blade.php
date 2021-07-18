@@ -51,8 +51,11 @@ background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(194,209,254,1) 
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Contratos</a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li>
-                            <a class="dropdown-item" href="{{ route('logout') }}">
+                            <a class="dropdown-item" href="{{ url('contratos_marco') }}">
                                 Contratos Marco
+                            </a>
+                            <a class="dropdown-item" href="{{ url('objeto_CM') }}">
+                                Objetos de Contratos Marco
                             </a>
                             <a class="dropdown-item" href="{{ route('logout') }}">
                                 Contrato Proveedores

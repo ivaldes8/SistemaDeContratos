@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ClienteProveedor;
+use App\Models\ContratoMarco;
 use App\Models\EntidadCP;
 use App\Models\EntidadGO;
 use App\Models\Organismo;
+use Carbon\Carbon;
 use App\Models\Grupo;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
@@ -33,9 +35,23 @@ class ClienteProveedorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $codInt = $request->input('codInterno');
+        $codReu = $request->input('codReu');
+        $nombre = $request->input('nombre');
+        $siglas = $request->input('siglas');
+        //$cliente_proveedor = ClienteProveedor::paginate(50);
+        $CP = EntidadCP::all();
+        $GO = EntidadGO::all();
+        //dd($search);
+        $cliente_proveedor = ClienteProveedor::query()
+        ->where('codigo', 'LIKE', "%{$codInt}%")
+        ->where('codigoreu', 'LIKE', "%{$codReu}%")
+        ->where('nombre', 'LIKE', "%{$nombre}%")
+        ->where('abreviatura', 'LIKE', "%{$siglas}%")
+        ->get();
+        return view('cliente_proveedor.index', compact('cliente_proveedor', 'CP','GO'));
     }
 
     /**
@@ -57,7 +73,14 @@ class ClienteProveedorController extends Controller
      */
     public function show($id)
     {
-        //
+        $CM = ContratoMarco::query()
+        ->where('idClient', 'LIKE', "%{$id}%")
+        ->get();
+        //dd($id);
+        //$last = ContratoMarco::latest()->first();
+        $now = Carbon::now()->format('d-m-y');
+        $ThreeDaysearly = Carbon::now()->addDays(3)->format('d-m-y');
+        return view('contratos_marco.index',compact('CM','now','ThreeDaysearly'));
     }
 
     /**

@@ -37,7 +37,7 @@
                         </div>
                         <div class="form-group mb-3">
                             <label for="">Siglas</label>
-                            <input type="text" name="siglas" class="form-control">
+                            <input type="text" name="siglas" class="@error('siglas') is-invalid @enderror form-control">
                         </div>
                         <div class="form-group mb-3">
                             <label for="">Activo</label>

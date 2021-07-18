@@ -38,7 +38,7 @@
                         </div>
                         <div class="form-group mb-3">
                             <label for="">Siglas</label>
-                            <input type="text" name="siglas" class="form-control" value="{{ $organismo->siglas }}">
+                            <input type="text" name="siglas" class="@error('siglas') is-invalid @enderror form-control" value="{{ $organismo->siglas }}">
                         </div>
                         <div class="form-group mb-3">
                             <label for="">Activo</label>

@@ -21,4 +21,7 @@ class EntidadGO extends Model
     public function grupos(){
         return $this->belongsTo(Grupo::class, 'idGrupo', 'id');
     }
+    public function entidades(){
+        return $this->belongsTo(ClienteProveedor::class, 'idClient', 'identidad');
+    }
 }

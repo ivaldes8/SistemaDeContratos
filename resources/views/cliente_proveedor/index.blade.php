@@ -9,8 +9,26 @@
     @endif
     <div class="card">
         <div class="card-header">
-            <h1>Filtros</h1>
-            <div class="fa fa-search"></div>
+                <form action="{{ url('clientes_proveedores/create') }}" method="GET">
+                    <div class="row">
+                        <div class="col-2">
+                            Código Interno:<input type="text" class="form-control" name="codInterno"/>
+                        </div>
+                        <div class="col-2">
+                            Código REU:<input type="text" class="form-control" name="codReu"/>
+                        </div>
+                        <div class="col-3">
+                            Nombre:<input type="text" class="form-control" name="nombre"/>
+                        </div>
+                        <div class="col-2">
+                            Siglas:<input type="text" class="form-control" name="siglas"/>
+                        </div>
+
+                        <div class="col-12">
+                            <button class="btn btn-primary fa fa-search float-right" type="submit">Buscar</button>
+                        </div>
+                    </div>
+                </form>
         </div>
         <div class="card-body">
             <table class="table table-bordered table-sm table-striped">
@@ -54,7 +72,7 @@
                                 @break
                             @endif
                         @endforeach
-                        <td>Contrato</td>
+                        <td><a href="{{url('clientes_proveedores/'.$item->identidad)}}"><svg xmlns="http://www.w3.org/2000/svg" style="width: 15%;" viewBox="0 0 384 512"><!-- Font Awesome Free 5.15.3 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M369.9 97.9L286 14C277 5 264.8-.1 252.1-.1H48C21.5 0 0 21.5 0 48v416c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48V131.9c0-12.7-5.1-25-14.1-34zM332.1 128H256V51.9l76.1 76.1zM48 464V48h160v104c0 13.3 10.7 24 24 24h104v288H48z"/></svg></a></td>
                         <td>
                             @if ($item->activo == 1)
                                 Activo
@@ -66,7 +84,7 @@
                     @endforeach
                 </tbody>
             </table>
-            {{$cliente_proveedor->links()}}
+
         </div>
     </div>
     </div>

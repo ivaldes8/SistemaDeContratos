@@ -39,9 +39,11 @@ class OrganismoController extends Controller
         $validatedData = $request->validate([
             'codigo' => 'required',
             'nombre' => 'required',
+            'siglas' => 'required'
         ],[
             'codigo.required' => 'Tiene que introducir un código',
             'nombre.required' => 'Tiene que introducir un nombre',
+            'siglas.required' => 'Tiene que introducir las siglas'
         ]);
 
         $organismo = new Organismo();
@@ -88,9 +90,11 @@ class OrganismoController extends Controller
         $validatedData = $request->validate([
             'codigo' => 'required',
             'nombre' => 'required',
+            'siglas' => 'required'
         ],[
             'codigo.required' => 'Tiene que introducir un código',
             'nombre.required' => 'Tiene que introducir un nombre',
+            'siglas.required' => 'Tiene que introducir las siglas'
         ]);
 
         $organismo = Organismo::find($id);
