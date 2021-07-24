@@ -11,7 +11,7 @@ class EntidadGO extends Model
     protected $table = 'entidad_g_o_s';
     protected $fillable = [
         'id',
-        'idClient',
+        'idClientGO',
         'idGrupo',
         'idOrganismo'
     ];
@@ -22,6 +22,6 @@ class EntidadGO extends Model
         return $this->belongsTo(Grupo::class, 'idGrupo', 'id');
     }
     public function entidades(){
-        return $this->belongsTo(ClienteProveedor::class, 'idClient', 'identidad');
+        return $this->belongsTo(ClienteProveedor::class, 'idClientGO', 'identidad');
     }
 }

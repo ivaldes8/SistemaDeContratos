@@ -18,7 +18,7 @@
         @endif
             <div class="card">
                 <div class="card-header">
-                    <h4>Añadir Objeto de Contrato Marco
+                    <h4>Añadir Tipo Contrato
                     <a href="{{url('objeto_CM')}}" class="btn btn-danger float-end">
                         Atrás
                     </a>

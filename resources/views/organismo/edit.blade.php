@@ -30,19 +30,19 @@
                         @method('PUT')
                         <div class="form-group mb-3">
                             <label for="">Código</label>
-                            <input type="number" name="codigo" class="@error('codigo') is-invalid @enderror form-control" value="{{ $organismo->codigo }}">
+                            <input type="number" name="codigo" class="@error('codigo') is-invalid @enderror form-control" value="{{ $organismo->codigoO }}">
                         </div>
                         <div class="form-group mb-3">
                             <label for="">Nombre</label>
-                            <input type="text" name="nombre" class="@error('nombre') is-invalid @enderror form-control" value="{{ $organismo->nombre }}">
+                            <input type="text" name="nombre" class="@error('nombre') is-invalid @enderror form-control" value="{{ $organismo->nombreO }}">
                         </div>
                         <div class="form-group mb-3">
                             <label for="">Siglas</label>
-                            <input type="text" name="siglas" class="@error('siglas') is-invalid @enderror form-control" value="{{ $organismo->siglas }}">
+                            <input type="text" name="siglas" class="@error('siglas') is-invalid @enderror form-control" value="{{ $organismo->siglasO }}">
                         </div>
                         <div class="form-group mb-3">
                             <label for="">Activo</label>
-                            <input type="checkbox" name="activo" {!! $organismo->activo == 1 ? 'checked' : '' !!}>
+                            <input type="checkbox" name="activo" {!! $organismo->activoO == 1 ? 'checked' : '' !!}>
                         </div>
                         <div class="form-group mb-3">
                             <button class="btn btn-primary" type="submit">Actualizar</button>

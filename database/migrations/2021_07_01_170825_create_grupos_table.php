@@ -15,10 +15,10 @@ class CreateGruposTable extends Migration
     {
         Schema::create('grupos', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('codigo')->required();
-            $table->string('nombre')->required();
-            $table->string('siglas')->nullable();
-            $table->tinyInteger('activo')->default('1')->nullable();
+            $table->bigInteger('codigoG')->required();
+            $table->string('nombreG')->required();
+            $table->string('siglasG')->nullable();
+            $table->tinyInteger('activoG')->default('1')->nullable();
             $table->integer('id_Organismo')->nullable();
             $table->timestamps();
         });

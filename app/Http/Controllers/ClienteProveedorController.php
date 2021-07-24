@@ -26,8 +26,10 @@ class ClienteProveedorController extends Controller
         $cliente_proveedor = ClienteProveedor::paginate(50);
         $CP = EntidadCP::all();
         $GO = EntidadGO::all();
+        $grupos = Grupo::all();
+        $organismos = Organismo::all();
         //dd($CP);
-        return view('cliente_proveedor.index', compact('cliente_proveedor', 'CP','GO'));
+        return view('cliente_proveedor.index', compact('cliente_proveedor', 'CP','GO','organismos','grupos'));
     }
 
     /**
@@ -37,21 +39,7 @@ class ClienteProveedorController extends Controller
      */
     public function create(Request $request)
     {
-        $codInt = $request->input('codInterno');
-        $codReu = $request->input('codReu');
-        $nombre = $request->input('nombre');
-        $siglas = $request->input('siglas');
-        //$cliente_proveedor = ClienteProveedor::paginate(50);
-        $CP = EntidadCP::all();
-        $GO = EntidadGO::all();
-        //dd($search);
-        $cliente_proveedor = ClienteProveedor::query()
-        ->where('codigo', 'LIKE', "%{$codInt}%")
-        ->where('codigoreu', 'LIKE', "%{$codReu}%")
-        ->where('nombre', 'LIKE', "%{$nombre}%")
-        ->where('abreviatura', 'LIKE', "%{$siglas}%")
-        ->get();
-        return view('cliente_proveedor.index', compact('cliente_proveedor', 'CP','GO'));
+       //
     }
 
     /**
@@ -93,8 +81,8 @@ class ClienteProveedorController extends Controller
     {
         //$entidad= DB::table('dbo.ClientsView')->where('identidad', '1')->get();
         $entidad = ClienteProveedor::where('identidad', $id)->get();
-        $CP = EntidadCP::where('idClient',$id)->get();
-        $GO = EntidadGO::where('idClient', $id)->get();
+        $CP = EntidadCP::where('idClientCP',$id)->get();
+        $GO = EntidadGO::where('idClientGO', $id)->get();
         $organismos = Organismo::all();
         //dd($Organismo);
         return view('cliente_proveedor.edit', compact('entidad','CP','GO', 'organismos'));
@@ -116,7 +104,7 @@ class ClienteProveedorController extends Controller
             'organismo_id.required' => 'Tiene que seleccionar un organismo'
         ]);
 
-        $entidadCP = EntidadCP::where('idClient', $id)->get();
+        $entidadCP = EntidadCP::where('idClientCP', $id)->get();
         if(count($entidadCP)>0){
             $entidadCP[0]->cliente = $request->input('tipo') == 'on' ? 'true' : 'false';
             $entidadCP[0]->proveedor = $request->input('proveedor') == 'on' ? 'true' : 'false';
@@ -133,7 +121,7 @@ class ClienteProveedorController extends Controller
             //return redirect()->back()->with('status', 'Asignación añadida satisfactoriamente');
         }
 
-        $entidadGO = EntidadGO::where('idClient', $id)->get();
+        $entidadGO = EntidadGO::where('idClientGO', $id)->get();
         if(count($entidadGO)>0){
             $entidadGO[0]->idOrganismo = $request->input('organismo_id');
             if( !($request->input('grupo')) || $request->input('grupo') == 'Grupo no seleccionado'){

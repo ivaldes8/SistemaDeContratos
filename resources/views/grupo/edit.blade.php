@@ -30,27 +30,27 @@
                         @method('PUT')
                         <div class="form-group mb-3">
                             <label for="">Código</label>
-                            <input type="number" name="codigo" class="@error('codigo') is-invalid @enderror form-control" value="{{ $grupo->codigo }}">
+                            <input type="number" name="codigo" class="@error('codigo') is-invalid @enderror form-control" value="{{ $grupo->codigoG }}">
                         </div>
                         <div class="form-group mb-3">
                             <label for="">Nombre</label>
-                            <input type="text" name="nombre" class="@error('nombre') is-invalid @enderror form-control" value="{{ $grupo->nombre }}">
+                            <input type="text" name="nombre" class="@error('nombre') is-invalid @enderror form-control" value="{{ $grupo->nombreG }}">
                         </div>
                         <div class="form-group mb-3">
                             <label for="">Siglas</label>
-                            <input type="text" name="siglas" class="form-control" value="{{ $grupo->siglas }}">
+                            <input type="text" name="siglas" class="form-control" value="{{ $grupo->siglasG }}">
                         </div>
                         <div class="form-group mb-3">
                             <label for="organismo">Organismo</label>
                             <select class="@error('id_organismo') is-invalid @enderror col-12" style="border: solid 1px;"  value="{{ $grupo->id_Organismo }}" id="organismo" name="id_Organismo">
                             @foreach ( $organismo as $item )
-                                <option value="{{$item->id}}"  {{ $item->id == $grupo->id_Organismo ? 'selected' : '' }}>{{$item->nombre}}</option>
+                                <option value="{{$item->id}}"  {{ $item->id == $grupo->id_Organismo ? 'selected' : '' }}>{{$item->nombreO}}</option>
                             @endforeach
                             </select>
                         </div>
                         <div class="form-group mb-3">
                             <label for="">Activo</label>
-                            <input type="checkbox" name="activo" {{ $grupo->activo == 1 ? 'checked' : '' }}>
+                            <input type="checkbox" name="activo" {{ $grupo->activoG == 1 ? 'checked' : '' }}>
                         </div>
                         <div class="form-group mb-3">
                             <button class="btn btn-primary" type="submit">Actualizar</button>

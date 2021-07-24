@@ -11,10 +11,10 @@ class Grupo extends Model
     protected $table = 'grupos';
     protected $fillable = [
         'id',
-        'codigo',
-        'nombre',
-        'siglas',
-        'activo',
+        'codigoG',
+        'nombreG',
+        'siglasG',
+        'activoG',
         'id_Organismo',
     ];
     public function organismos(){

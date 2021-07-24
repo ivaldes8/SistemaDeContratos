@@ -9,7 +9,7 @@
     @endif
     <div class="card">
         <div class="card-header">
-                <form action="{{ url('clientes_proveedores/create') }}" method="GET">
+                <form action="{{ url('entidadSearch') }}" method="GET">
                     <div class="row">
                         <div class="col-2">
                             Código Interno:<input type="text" class="form-control" name="codInterno"/>
@@ -23,12 +23,60 @@
                         <div class="col-2">
                             Siglas:<input type="text" class="form-control" name="siglas"/>
                         </div>
-
-                        <div class="col-12">
-                            <button class="btn btn-primary fa fa-search float-right" type="submit">Buscar</button>
+                        <div class="col-3">
+                            <p>Cliente-Proveeddor:</p>
+                            <div style="margin-top: -10px;">
+                                Cliente:<input type="checkbox" name="cliente"/>
+                                Proveedor:<input type="checkbox" name="proveedor"/>
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="row">
+                        <div class="col-5">
+                            <label for="state">Organismo:</label>
+                            <select id="organismo" name="organismo_id" class="col-8">
+                                @foreach($organismos as $organismo)
+                                <option value="{{$organismo->id}}" > {{$organismo->nombreO}}</>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-6">
+                            <label for="grupo">Seleccione un Grupo:</label>
+                            <select name="grupo" id="grupo" class="col-8">
+                                <option value = '{{$grupos[0]->id}}'>{{$grupos[0]->nombreG}}</option>
+                            </select>
+                        </div>
+                        <div class="col-1">
+                            <button class="btn btn-primary" type="submit">Buscar</button>
                         </div>
                     </div>
                 </form>
+                <script type=text/javascript>
+                            $('#organismo').change(function(){
+                                var organismoID = $(this).val();
+                                if(organismoID){
+                                    $.ajax({
+                                        type:"GET",
+                                        url:"{{url('getGrupo')}}?organismo_id="+organismoID,
+                                        success:function(res){
+                                            if(res){
+                                                $("#grupo").empty();
+                                                $("#grupo").append('<option>Grupo no seleccionado</option>');
+                                                $.each(res,function(key,value){
+                                                $("#grupo").append('<option value="'+key+'">'+value+'</option>');
+                                                });
+
+                                            }else{
+                                                $("#grupo").empty();
+                                            }
+                                        }
+                                    });
+                                }else{
+                                    $("#grupo").empty();
+                                }
+                            });
+                </script>
         </div>
         <div class="card-body">
             <table class="table table-bordered table-sm table-striped">
@@ -54,19 +102,19 @@
                         <td>{{$item->nombre}}</td>
                         <td>{{$item->abreviatura}}</td>
                         @foreach ($GO as $item3)
-                            @if ($item3->idClient == $item->identidad)
-                                <td>{{ $item3->organismos->nombre }}</td>
+                            @if ($item3->idClientGO == $item->identidad)
+                                <td>{{ $item3->organismos->nombreO }}</td>
                                 @break
                             @endif
                         @endforeach
                         @foreach ($GO as $item4)
-                            @if ($item4->idClient == $item->identidad)
-                                <td>{{ $item4->grupos->nombre }}</td>
+                            @if ($item4->idClientGO == $item->identidad)
+                                <td>{{ $item4->grupos->nombreG }}</td>
                                 @break
                             @endif
                         @endforeach
                         @foreach ($CP as $item2)
-                            @if ($item2->idClient == $item->identidad)
+                            @if ($item2->idClientCP == $item->identidad)
                                 <td>{{ $item2->cliente == true ? 'Si' : 'No' }}</td>
                                 <td>{{ $item2->proveedor == true ? 'Si' : 'No' }}</td>
                                 @break

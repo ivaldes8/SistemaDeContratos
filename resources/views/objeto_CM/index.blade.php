@@ -10,9 +10,9 @@
         @endif
             <div class="card">
                 <div class="card-header">
-                    Objetos Contratos Marco
+                    Tipos de Contratos
                     <a href="{{url('objeto_CM/create')}}" class="btn btn-primary float-end">
-                        Añadir Objeto
+                        Añadir Tipo de Contrato
                     </a>
                 </div>
 

@@ -18,26 +18,33 @@
         @endif
             <div class="card">
                 <div class="card-header">
-                    <h4>Editar Tipo de Contrato
-                    <a href="{{url('objeto_CM')}}" class="btn btn-danger float-end">
+                    <h4>Añadir Organismo
+                    <a href="{{url('organismos')}}" class="btn btn-danger float-end">
                         Atrás
                     </a>
                     </h4>
                 </div>
                 <div class="card-body">
-                    <form action="{{url('objeto_CM/' .$objeto->id)}}" method="POST">
+                    <form action="{{url('organismos')}}" method="POST">
                         @csrf
-                        @method('PUT')
                         <div class="form-group mb-3">
-                            <label for="">ID</label>
-                            <input type="number" disabled class="form-control" value="{{ $objeto->id}}">
+                            <label for="">Código</label>
+                            <input type="number" name="codigo" class="@error('codigo') is-invalid @enderror form-control">
                         </div>
                         <div class="form-group mb-3">
                             <label for="">Nombre</label>
-                            <input type="text" name="nombre" class="@error('nombre') is-invalid @enderror form-control" value="{{ $objeto->nombre }}">
+                            <input type="text" name="nombre" class="@error('nombre') is-invalid @enderror form-control">
                         </div>
                         <div class="form-group mb-3">
-                            <button class="btn btn-primary" type="submit">Actualizar</button>
+                            <label for="">Siglas</label>
+                            <input type="text" name="siglas" class="@error('siglas') is-invalid @enderror form-control">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="">Activo</label>
+                            <input type="checkbox" name="activo" checked>
+                        </div>
+                        <div class="form-group mb-3">
+                            <button class="btn btn-primary" type="submit">Crear</button>
                         </div>
                     </form>
                 </div>

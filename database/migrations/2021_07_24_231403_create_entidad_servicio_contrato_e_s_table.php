@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEntidadGOSTable extends Migration
+class CreateEntidadServicioContratoESTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateEntidadGOSTable extends Migration
      */
     public function up()
     {
-        Schema::create('entidad_g_o_s', function (Blueprint $table) {
+        Schema::create('entidad_servicio_contrato_e_s', function (Blueprint $table) {
             $table->id();
-            $table->integer('idClientGO')->require();
-            $table->integer('idOrganismo')->required();
-            $table->integer('idGrupo')->nullable();
+            $table->string('idServicio')->required();
+            $table->string('idContratoEspecifico')->required();
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateEntidadGOSTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('entidad_g_o_s');
+        Schema::dropIfExists('entidad_servicio_contrato_e_s');
     }
 }

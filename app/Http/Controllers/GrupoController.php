@@ -17,7 +17,8 @@ class GrupoController extends Controller
     public function index()
     {
         $grupo = Grupo::all();
-        return view('grupo.index',compact('grupo'));
+        $organismo = Organismo::all();
+        return view('grupo.index',compact('grupo','organismo'));
     }
 
     /**
@@ -50,11 +51,11 @@ class GrupoController extends Controller
         ]);
 
         $grupo = new Grupo();
-        $grupo->codigo = $request->input('codigo');
-        $grupo->nombre = $request->input('nombre');
-        $grupo->siglas = $request->input('siglas');
+        $grupo->codigoG = $request->input('codigo');
+        $grupo->nombreG = $request->input('nombre');
+        $grupo->siglasG = $request->input('siglas');
         $grupo->id_Organismo = $request->input('id_Organismo');
-        $grupo->activo = $request->input('activo') == true ? '1' : '0';
+        $grupo->activoG = $request->input('activo') == true ? '1' : '0';
         //dd($request);
         $grupo->save($validatedData);
         return redirect()->back()->with('status', 'Grupo añadido satisfactoriamente');
@@ -105,10 +106,10 @@ class GrupoController extends Controller
 
         $grupo = Grupo::find($id);
 
-        $grupo->codigo = $request->input('codigo');
-        $grupo->nombre = $request->input('nombre');
-        $grupo->siglas = $request->input('siglas');
-        $grupo->activo = $request->input('activo') == true ? '1' : '0';
+        $grupo->codigoG = $request->input('codigo');
+        $grupo->nombreG = $request->input('nombre');
+        $grupo->siglasG = $request->input('siglas');
+        $grupo->activoG = $request->input('activo') == true ? '1' : '0';
         $grupo->id_Organismo = $request->input('id_Organismo');
 
         $grupo->update($validatedData);

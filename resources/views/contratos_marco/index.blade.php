@@ -49,7 +49,7 @@
                                 <td>{{$item->cliente->codigoreu}}</td>
                                 <td>{{$item->cliente->nombre}}</td>
                                 <td>{{$item->cliente->abreviatura}}</td>
-                                <td>{{$item->organismos->siglas}}/{{$item->grupos->siglas}}</td>
+                                <td>{{$item->organismos->siglasO}}/{{$item->grupos->siglasG}}</td>
                                 <td>{{$item->objeto}}</td>
                                 <td>{{$item->estado}}</td>
                                 <td>{{$item->fechaIni}}</td>

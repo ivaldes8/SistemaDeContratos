@@ -126,7 +126,7 @@ class ContratoMarcoController extends Controller
     {
         //$entidad= DB::table('dbo.ClientsView')->where('identidad', '1')->get();
         $contrato = ContratoMarco::find($id);
-        $GO = EntidadGO::where('idClient', $contrato->idClient)->get();
+        $GO = EntidadGO::where('idClientGO', $contrato->idClient)->get();
         $organismos = Organismo::all();
         $objeto = ObjetoCM::all();
         //dd($Organismo);

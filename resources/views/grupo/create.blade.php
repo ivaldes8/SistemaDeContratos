@@ -43,7 +43,7 @@
                             <label for="organismo">Organismo</label>
                             <select class="@error('id_organismo') is-invalid @enderror col-12" style="border: solid 1px;" id="organismo" name="id_Organismo">
                             @foreach ( $organismo as $item )
-                                <option value="{{$item->id}}">{{$item->nombre}}</option>
+                                <option value="{{$item->id}}">{{$item->nombreO}}</option>
                             @endforeach
                             </select>
                         </div>

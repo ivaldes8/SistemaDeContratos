@@ -20,23 +20,23 @@ class EntidadGOTable extends Seeder
         $a=ClienteProveedor::all();
         foreach ($a as $item) {
             EntidadGO::create([
-                'idClient'=>$item->identidad,
+                'idClientGO'=>$item->identidad,
                 'idOrganismo'=>'1',
                 'idGrupo'=>'1'
             ]);
         }
 
         Grupo::create([
-            'codigo' => '0',
-            'nombre' => 'Grupo no seleccionado',
+            'codigoG' => '0',
+            'nombreG' => 'Grupo no seleccionado',
             'id_Organismo' => '1',
-            'siglas' => 'NoGrup'
+            'siglasG' => 'NoGrup'
         ]);
 
         Organismo::create([
-            'codigo' => '0',
-            'nombre' => 'Organismo no seleccionado',
-            'siglas' => 'NoOrg',
+            'codigoO' => '0',
+            'nombreO' => 'Organismo no seleccionado',
+            'siglasO' => 'NoOrg',
         ]);
     }
 }

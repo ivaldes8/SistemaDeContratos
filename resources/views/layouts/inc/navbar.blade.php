@@ -32,14 +32,11 @@ background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(194,209,254,1) 
                             <a class="dropdown-item" href="{{ url('clientes_proveedores') }}">
                                 Entidades
                             </a>
-                            <a class="dropdown-item" href="{{ route('logout') }}">
+                            <a class="dropdown-item" href="{{ url('objeto_CM') }}">
                                 Tipos de Contratos
                             </a>
-                            <a class="dropdown-item" href="{{ route('logout') }}">
+                            <a class="dropdown-item" href="{{ url('servicio_area') }}">
                                 Servicios
-                            </a>
-                            <a class="dropdown-item" href="{{ route('logout') }}">
-                                Configuración del servidor de correo
                             </a>
                             <a class="dropdown-item" href="{{url('user')}}">
                                 Usuarios
@@ -53,9 +50,6 @@ background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(194,209,254,1) 
                         <li>
                             <a class="dropdown-item" href="{{ url('contratos_marco') }}">
                                 Contratos Marco
-                            </a>
-                            <a class="dropdown-item" href="{{ url('objeto_CM') }}">
-                                Objetos de Contratos Marco
                             </a>
                             <a class="dropdown-item" href="{{ route('logout') }}">
                                 Contrato Proveedores

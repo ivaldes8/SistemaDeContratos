@@ -5,14 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class EntidadCP extends Model
+class Area extends Model
 {
     use HasFactory;
-    protected $table = 'entidad_c_p_s';
+    protected $table = 'dbo.areasView';
     protected $fillable = [
-        'id',
-        'idClientCP',
-        'cliente',
-        'proveedor'
+        'idarea',
+        'Expr4',
+        'descripcion',
     ];
 }

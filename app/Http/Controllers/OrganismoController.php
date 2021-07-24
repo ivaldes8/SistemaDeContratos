@@ -47,10 +47,10 @@ class OrganismoController extends Controller
         ]);
 
         $organismo = new Organismo();
-        $organismo->codigo = $request->input('codigo');
-        $organismo->nombre = $request->input('nombre');
-        $organismo->siglas = $request->input('siglas');
-        $organismo->activo = $request->input('activo') == true ? '1' : '0';
+        $organismo->codigoO = $request->input('codigo');
+        $organismo->nombreO = $request->input('nombre');
+        $organismo->siglasO = $request->input('siglas');
+        $organismo->activoO = $request->input('activo') == true ? '1' : '0';
         $organismo->save($validatedData);
         return redirect()->back()->with('status', 'Organismo añadido satisfactoriamente');
     }
@@ -99,10 +99,10 @@ class OrganismoController extends Controller
 
         $organismo = Organismo::find($id);
 
-        $organismo->codigo = $request->input('codigo');
-        $organismo->nombre = $request->input('nombre');
-        $organismo->siglas = $request->input('siglas');
-        $organismo->activo = $request->input('activo') == true ? '1' : '0';
+        $organismo->codigoO = $request->input('codigo');
+        $organismo->nombreO = $request->input('nombre');
+        $organismo->siglasO = $request->input('siglas');
+        $organismo->activoO = $request->input('activo') == true ? '1' : '0';
 
         $organismo->update($validatedData);
         return redirect()->back()->with('status', 'Organismo editado satisfactoriamente');

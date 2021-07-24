@@ -24,4 +24,7 @@ class ClienteProveedor extends Model
         'provincia',
         'pais'
     ];
+    public function organismos(){
+        return $this->belongsTo(EntidadGO::class,'identidad','idClientGO');
+    }
 }

@@ -5,14 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class EntidadCP extends Model
+class EntidadServicioContratoE extends Model
 {
     use HasFactory;
-    protected $table = 'entidad_c_p_s';
+    protected $table = 'entidad_servicio_contrato_e_s';
     protected $fillable = [
         'id',
-        'idClientCP',
-        'cliente',
-        'proveedor'
+        'idServicio',
+        'idContratoEspecifico'
     ];
 }

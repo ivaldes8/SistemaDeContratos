@@ -17,7 +17,7 @@ class DropdownController extends Controller
  {
  $grupos = DB::table("grupos")
  ->where("id_Organismo",$request->organismo_id)
- ->pluck("nombre","id");
+ ->pluck("nombreG","id");
  return response()->json($grupos);
  }
 
@@ -25,15 +25,15 @@ class DropdownController extends Controller
  {
  $grupos = EntidadGO::where("idOrganismo",$request->organismo_id)
  ->join("dbo.grupos", 'dbo.grupos.id', '=', 'idGrupo')
- ->pluck("nombre","idGrupo");
+ ->pluck("nombreG","idGrupo");
  return response()->json($grupos);
  }
 
  public function getClient(Request $request)
  {
     $clients = EntidadGO::where("idGrupo",$request->grupo_id)
-    ->join("dbo.ClientsView", 'dbo.ClientsView.identidad', '=', 'idClient')
-    ->pluck("dbo.ClientsView.nombre","idClient");
+    ->join("dbo.ClientsView", 'dbo.ClientsView.identidad', '=', 'idClientGO')
+    ->pluck("dbo.ClientsView.nombre","idClientGO");
     return response()->json($clients);
  }
 
@@ -41,8 +41,8 @@ class DropdownController extends Controller
  {
     $clients = EntidadGO::where("idGrupo",$request->grupoID)
     ->where("idOrganismo", $request->organismoID)
-    ->join("dbo.ClientsView", 'dbo.ClientsView.identidad', '=', 'idClient')
-    ->pluck("dbo.ClientsView.nombre","idClient");
+    ->join("dbo.ClientsView", 'dbo.ClientsView.identidad', '=', 'idClientGO')
+    ->pluck("dbo.ClientsView.nombre","idClientGO");
     return response()->json($clients);
  }
 }

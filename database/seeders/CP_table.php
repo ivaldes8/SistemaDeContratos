@@ -18,7 +18,7 @@ class CP_table extends Seeder
         $a=ClienteProveedor::all();
         foreach ($a as $item) {
             EntidadCP::create([
-                'idClient'=>$item->identidad,
+                'idClientCP'=>$item->identidad,
                 'cliente'=>'false',
                 'proveedor'=>'false'
             ]);

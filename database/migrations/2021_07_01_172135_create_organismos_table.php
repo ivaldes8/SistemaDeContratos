@@ -15,10 +15,10 @@ class CreateOrganismosTable extends Migration
     {
         Schema::create('organismos', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('codigo')->required();
-            $table->string('nombre')->required();
-            $table->string('siglas')->required();
-            $table->tinyInteger('activo')->default('1')->nullable();
+            $table->bigInteger('codigoO')->required();
+            $table->string('nombreO')->required();
+            $table->string('siglasO')->required();
+            $table->tinyInteger('activoO')->default('1')->nullable();
             $table->timestamps();
         });
     }

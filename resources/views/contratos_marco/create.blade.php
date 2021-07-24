@@ -43,7 +43,7 @@
                             <select id="organismo" name="organismo" class="@error('organismo') is-invalid @enderror col-8">
                                 <option value="" selected disabled>Seleccione un Organismo:</option>
                                 @foreach($organismos as $organismo)
-                                <option value="{{$organismo->id}}" > {{$organismo->nombre}}</option>
+                                <option value="{{$organismo->id}}" > {{$organismo->nombreO}}</option>
                                 @endforeach
                             </select>
                         </div>

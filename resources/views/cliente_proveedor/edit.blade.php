@@ -64,14 +64,14 @@
                             <select id="organismo" name="organismo_id" class="@error('organismo_id') is-invalid @enderror col-8">
                                 <option value="" selected disabled>Seleccione un Organismo:</option>
                                 @foreach($organismos as $organismo)
-                                <option value="{{$organismo->id}}" {{ $organismo->id == $GO[0] -> idOrganismo ? 'selected' : '' }} > {{$organismo->nombre}}</option>
+                                <option value="{{$organismo->id}}" {{ $organismo->id == $GO[0] -> idOrganismo ? 'selected' : '' }} > {{$organismo->nombreO}}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="grupo">Seleccione un Grupo:</label>
                             <select name="grupo" id="grupo" class="col-8">
-                                <option value = '{{$GO[0]->grupos->id}}'>{{$GO[0]->grupos->nombre}}</option>
+                                <option value = '{{$GO[0]->grupos->id}}'>{{$GO[0]->grupos->nombreG}}</option>
                             </select>
                         </div>
                         <div class="form-group mb-3">

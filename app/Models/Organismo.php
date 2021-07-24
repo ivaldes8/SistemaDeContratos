@@ -11,9 +11,9 @@ class Organismo extends Model
     protected $table = 'organismos';
     protected $fillable = [
         'id',
-        'codigo',
-        'nombre',
-        'siglas',
-        'activo',
+        'codigoO',
+        'nombreO',
+        'siglasO',
+        'activoO',
     ];
 }
