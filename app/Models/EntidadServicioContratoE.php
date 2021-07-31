@@ -11,11 +11,11 @@ class EntidadServicioContratoE extends Model
     protected $table = 'entidad_servicio_contrato_e_s';
     protected $fillable = [
         'id',
-        'idServicio',
+        'idServicioS',
         'idContratoEspecifico'
     ];
     public function servicios(){
-        return $this->belongsTo(Servicio::class, 'idServicio', 'idservicio');
+        return $this->belongsTo(Servicio::class, 'idServicioS', 'idservicio');
     }
     public function CE(){
         return $this->belongsTo(Servicio::class, 'idContratoEspecifico', 'id');

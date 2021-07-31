@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Area;
 use App\Models\ClienteProveedor;
+use App\Models\ContratoEspecifico;
 use App\Models\ContratoMarco;
 use App\Models\EntidadAreaServico;
 use App\Models\EntidadCP;
 use App\Models\EntidadGO;
+use App\Models\EntidadServicioContratoE;
 use App\Models\Grupo;
 use App\Models\ObjetoCM;
 use App\Models\Organismo;
@@ -560,5 +562,214 @@ class SearchController extends Controller
         $objeto = ObjetoCM::all();
         $links = false;
         return view('contratos_marco.index',compact('CM','now','ThreeDaysearly','organismos','objeto','links','now','ThreeDaysearly'));
+    }
+    
+    public function CESearch(Request $request){
+        //dd($request);
+        $url = $request->input('url');
+        $organismo = $request->input('organismo');
+        if($organismo == "1"){
+            $organismo = null;
+        }
+        $grupo = $request->input('grupo');
+        if($grupo == "1"){
+            $grupo = null;
+        }
+        $estado = $request->input('estado');
+        if($estado == "@"){
+            $estado = null;
+        }
+        $a = $request->input('area');
+        if($a == "@"){
+            $a = null;
+        }
+        $noCM = $request->input('noCM');
+        $noCE = $request->input('noCE');
+        $cliente = $request->input('cliente');
+        $codInt = $request->input('codInt');
+        $codReu = $request->input('codReu');
+        $FfechaIni = $request->input('FfechaIni');
+        $FfechaEnd = $request->input('FfechaEnd');
+        $codServ = $request->input('codServicio');
+
+        $BaseQuery = ContratoEspecifico::query()
+        ->join("areasView",'areasView.idarea', '=', 'idAreaCE')
+        ->join("contrato_marcos", 'contrato_marcos.id', '=', 'idCM')
+        ->join("ClientsView", 'ClientsView.identidad', "=", 'idClient')
+        ->get();
+        //dd($BaseQuery);
+        $CE = collect([]);
+        for ($i=0; $i < count($BaseQuery); $i++) {
+            $CE->push($BaseQuery[$i]);
+        }
+
+        $BaseQuery2 = EntidadServicioContratoE::query()
+        ->join("ServicesView", 'ServicesView.idservicio', "=", 'idServicioS')
+        ->get();
+
+        $EServicios = collect([]);
+        for ($i=0; $i < count($BaseQuery2); $i++) {
+            $EServicios->push($BaseQuery2[$i]);
+        }
+
+        //dd($EServicios);
+
+        if ($noCE!= null) {
+            $aux = collect([]);
+            for ($i=0; $i < count($CE); $i++) {
+                if(strstr( $CE[$i]->noContratoEspecifico, $noCE )){
+                    $aux->push($CE[$i]);
+                }
+            }
+            $CE = $aux;
+        }
+
+        if ($codInt!= null) {
+            $aux = collect([]);
+            for ($i=0; $i < count($CE); $i++) {
+                if(strstr( $CE[$i]->codigo, $codInt )){
+                    $aux->push($CE[$i]);
+                }
+            }
+            $CE = $aux;
+        }
+
+        if ($organismo!= null) {
+            $aux = collect([]);
+            for ($i=0; $i < count($CE); $i++) {
+                if(strstr( $CE[$i]->organismo, $organismo )){
+                    $aux->push($CE[$i]);
+                }
+            }
+            $CE = $aux;
+        }
+
+        if ($grupo!= null) {
+            $aux = collect([]);
+            for ($i=0; $i < count($CE); $i++) {
+                if(strstr( $CE[$i]->grupo, $grupo )){
+                    $aux->push($CE[$i]);
+                }
+            }
+            $CE = $aux;
+        }
+
+        if ($cliente!= null) {
+            $aux = collect([]);
+            for ($i=0; $i < count($CE); $i++) {
+                if(strstr( $CE[$i]->identidad, $cliente )){
+                    $aux->push($CE[$i]);
+                }
+            }
+            $CE = $aux;
+        }
+
+        if ($noCM!= null) {
+            $aux = collect([]);
+            for ($i=0; $i < count($CE); $i++) {
+                if(strstr( $CE[$i]->noContrato, $noCM )){
+                    $aux->push($CE[$i]);
+                }
+            }
+            $CE = $aux;
+        }
+
+        if ($codReu!= null) {
+            $aux = collect([]);
+            for ($i=0; $i < count($CE); $i++) {
+                if(strstr( $CE[$i]->codigoreu, $codReu )){
+                    $aux->push($CE[$i]);
+                }
+            }
+            $CE = $aux;
+        }
+
+        if ($a!= null) {
+            $aux = collect([]);
+            for ($i=0; $i < count($CE); $i++) {
+                if(strstr( $CE[$i]->idAreaCE, $a )){
+                    $aux->push($CE[$i]);
+                }
+            }
+            $CE = $aux;
+        }
+
+        if ($estado!= null) {
+            $aux = collect([]);
+            for ($i=0; $i < count($CE); $i++) {
+                if(strstr( $CE[$i]->estado, $estado )){
+                    $aux->push($CE[$i]);
+                }
+            }
+            $CE = $aux;
+        }
+
+        if ($estado!= null) {
+            $aux = collect([]);
+            for ($i=0; $i < count($CE); $i++) {
+                if(strstr( $CE[$i]->estado, $estado )){
+                    $aux->push($CE[$i]);
+                }
+            }
+            $CE = $aux;
+        }
+
+        if($FfechaIni != null && $FfechaEnd != null){
+            $initialDate = Carbon::parse($FfechaIni)->format('d-m-y');
+            $endDate = Carbon::parse($FfechaEnd)->format('d-m-y');
+            $FfechaIni = Carbon::createFromFormat('d-m-y', $initialDate);
+            $FfechaEnd = Carbon::createFromFormat('d-m-y', $endDate);
+            $aux = collect([]);
+            for ($i=0; $i < count($CE); $i++) {
+                $ini = Carbon::parse($CE[$i]->fechaIniCE)->format('d-m-y');
+                $fechaIni = Carbon::createFromFormat('d-m-y',$ini);
+                if($fechaIni->gte($FfechaIni) && $fechaIni->lte($FfechaEnd)){
+                    $aux->push($CE[$i]);
+                }
+            }
+            $CE = $aux;
+        }
+        if($FfechaIni != null && $FfechaEnd == null){
+           $initialDate = Carbon::parse($FfechaIni)->format('d-m-y');
+           $FfechaIni = Carbon::createFromFormat('d-m-y', $initialDate);
+            $aux = collect([]);
+            for ($i=0; $i < count($CE); $i++) {
+                $ini = Carbon::parse($CE[$i]->fechaIniCE)->format('d-m-y');
+                $fechaIni = Carbon::createFromFormat('d-m-y',$ini);
+                if($fechaIni->gte($FfechaIni)){
+                    $aux->push($CE[$i]);
+                }
+            }
+            $CE = $aux;
+        }
+
+        if($codServ != null){
+            $aux = collect([]);
+            for ($i=0; $i < count($CE); $i++) { 
+                for ($j=0; $j < count($EServicios); $j++) { 
+                    if($CE[$i]->idCEspecifico == $EServicios[$j]->idContratoEspecifico){
+                        //if(strstr( $EServicios[$j]->codigo, $codServ )){
+                            //$aux->push($CE[$i]);
+                        //}
+                        if($EServicios[$j]->codigo == $codServ){
+                            $aux->push($CE[$i]);
+                        }
+                    }
+                }
+            }
+            
+            $CE = $aux;
+            $CE->unique('idCEspecifico');
+        }
+        
+        $now = Carbon::now()->format('d-m-y');
+        $ThreeDaysearly = Carbon::now()->addDays(3)->format('d-m-y');
+        $servicios = EntidadServicioContratoE::all();
+        $organismos = Organismo::all();
+        $area = Area::all();
+        $links = false;
+        if($url = "1"){
+            return view('contratos_especificos.index', compact('CE','now','ThreeDaysearly','servicios','organismos','area','links'));
+        }    
     }
 }

@@ -15,7 +15,7 @@ class CreateEntidadServicioContratoESTable extends Migration
     {
         Schema::create('entidad_servicio_contrato_e_s', function (Blueprint $table) {
             $table->id();
-            $table->string('idServicio')->required();
+            $table->string('idServicioS')->required();
             $table->string('idContratoEspecifico')->required();
             $table->timestamps();
         });

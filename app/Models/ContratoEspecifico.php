@@ -9,20 +9,21 @@ class ContratoEspecifico extends Model
 {
     protected $table = 'contrato_especificos';
     protected $fillable = [
-        'id',
+        'idCEspecifico',
         'idCM',
-        'idArea',
+        'idAreaCE',
         'noContratoEspecifico',
         'estado',
-        'fechaIni',
-        'fechaEnd',
+        'fechaIniCE',
+        'fechaEndCE',
         'ejecutorName',
         'clienteName',
         'observaciones',
         'monto'
     ];
+    public $timestamps = false;
     public function areas(){
-        return $this->belongsTo(Area::class, 'idArea', 'idarea');
+        return $this->belongsTo(Area::class, 'idAreaCE', 'idarea');
     }
     public function CMs(){
         return $this->belongsTo(ContratoMarco::class,'idCM','id');

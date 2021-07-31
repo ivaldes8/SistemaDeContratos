@@ -7,6 +7,7 @@ use App\Models\ContratoEspecifico;
 use App\Models\ContratoMarco;
 use App\Models\EntidadAreaServico;
 use App\Models\EntidadServicioContratoE;
+use App\Models\Organismo;
 use App\Models\Servicio;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -20,11 +21,14 @@ class ContratoEspecificoController extends Controller
      */
     public function index()
     {
-        $CE = ContratoEspecifico::all();
+        $CE = ContratoEspecifico::paginate(50);
         $now = Carbon::now()->format('d-m-y');
         $ThreeDaysearly = Carbon::now()->addDays(3)->format('d-m-y');
         $servicios = EntidadServicioContratoE::all();
-        return view('contratos_especificos.index', compact('CE','now','ThreeDaysearly','servicios'));
+        $organismos = Organismo::all();
+        $area = Area::all();
+        $links = true;
+        return view('contratos_especificos.index', compact('CE','now','ThreeDaysearly','servicios','organismos','area','links'));
     }
 
     /**
@@ -71,24 +75,24 @@ class ContratoEspecificoController extends Controller
 
         $CE = new ContratoEspecifico();
         $CE->idCM = $request->input('noContrato');
-        $CE->idArea = $request->input('area');
+        $CE->idAreaCE = $request->input('area');
         $CE->noContratoEspecifico = $noCE + 1;
         $CE->estado = $request->input('estado');
-        $CE->fechaIni = $request->input('fechaIni');
-        $CE->fechaEnd = $request->input('fechaEnd');
+        $CE->fechaIniCE = $request->input('fechaIni');
+        $CE->fechaEndCE = $request->input('fechaEnd');
         $CE->ejecutorname = $request->input('ejecutorName');
         $CE->clienteName = $request->input('clienteName');
         $CE->observaciones = $request->input('observaciones');
         $CE->monto = $request->input('monto');
         $CE->save($validatedData);
 
-        $lastCE = ContratoEspecifico::latest('id')->first();
+        $lastCE = ContratoEspecifico::latest('idCEspecifico')->first();
 
         $services = $request->input('services');
         for ($i=0; $i < count($services); $i++) { 
            $EntidadSCE = new EntidadServicioContratoE();
-           $EntidadSCE->idServicio = $services[$i];
-           $EntidadSCE->idContratoEspecifico = $lastCE->id;
+           $EntidadSCE->idServicioS = $services[$i];
+           $EntidadSCE->idContratoEspecifico = $lastCE->idCEspecifico;
            $EntidadSCE->save();
         }
 
@@ -109,7 +113,9 @@ class ContratoEspecificoController extends Controller
         $now = Carbon::now()->format('d-m-y');
         $ThreeDaysearly = Carbon::now()->addDays(3)->format('d-m-y');
         $servicios = EntidadServicioContratoE::all();
-        return view('contratos_especificos.detail', compact('CE','now','ThreeDaysearly','CM','servicios'));
+        $organismos = Organismo::all();
+        $area = Area::all();
+        return view('contratos_especificos.detail', compact('CE','now','ThreeDaysearly','CM','servicios','organismos','area'));
     }
 
     /**
@@ -120,7 +126,7 @@ class ContratoEspecificoController extends Controller
      */
     public function edit($id)
     {
-        $contratoE = ContratoEspecifico::find($id);
+        $contratoE = ContratoEspecifico::where('idCEspecifico',$id)->get();
         $selectedServ = EntidadServicioContratoE::where('idContratoEspecifico',$id)->get();
         $area = Area::all();
         $servicios= Servicio::all();
@@ -155,17 +161,31 @@ class ContratoEspecificoController extends Controller
             'services.required' => 'Tiene que seleccionar uno o más servicios'
         ]);
 
-        $CE = ContratoEspecifico::find($id);
+        //$CE = ContratoEspecifico::where('idCEspecifico',$id)->first();
+        /*$CE = ContratoEspecifico::where('idCEspecifico',$id)->first();
         $CE->idCM = $request->input('noContrato');
-        $CE->idArea = $request->input('area');
+        $CE->idAreaCE = $request->input('area');
         $CE->estado = $request->input('estado');
-        $CE->fechaIni = $request->input('fechaIni');
-        $CE->fechaEnd = $request->input('fechaEnd');
+        $CE->fechaIniCE = $request->input('fechaIni');
+        $CE->fechaEndCE = $request->input('fechaEnd');
         $CE->ejecutorName = $request->input('ejecutorName');
         $CE->clienteName = $request->input('clienteName');
         $CE->observaciones = $request->input('observaciones');
         $CE->monto = $request->input('monto');
-        $CE->update($validatedData);
+        $CE->update($validatedData);*/
+
+        $CE = ContratoEspecifico::where('idCEspecifico',$id)
+              ->update(['idCM' => $request->input('noContrato'),
+               'idAreaCE' => $request->input('area'),
+               'estado' => $request->input('estado'),
+               'fechaIniCE' => $request->input('fechaIni'),
+               'fechaEndCE' => $request->input('fechaEnd'),
+               'ejecutorName' => $request->input('ejecutorName'),
+               'clienteName' => $request->input('clienteName'),
+               'observaciones' => $request->input('observaciones'),
+               'monto' => $request->input('monto')
+            ]);
+        //dd($request->input('services'));
 
         $oldServcices = EntidadServicioContratoE::where('idContratoEspecifico', $id)->get();
         for ($i=0; $i < count($oldServcices); $i++) { 
@@ -175,13 +195,12 @@ class ContratoEspecificoController extends Controller
 
         $aux = array_unique($request->input('services'));
 
-        //dd($aux);
         $services = array_values($aux);
 
         //dd($services);
         for ($i=0; $i < count($services); $i++) { 
            $EntidadSCE = new EntidadServicioContratoE();
-           $EntidadSCE->idServicio = $services[$i];
+           $EntidadSCE->idServicioS = $services[$i];
            $EntidadSCE->idContratoEspecifico = $id;
            $EntidadSCE->save();
         }
@@ -203,9 +222,8 @@ class ContratoEspecificoController extends Controller
             $del= EntidadServicioContratoE::find($oldServcices[$i]->id);
             $del->delete();
         }
-
-        $CE = ContratoEspecifico::find($id);
-        $CE->delete();
+        //DB::table('users')->where('votes', '>', 100)->delete();
+        $CE = ContratoEspecifico::where('idCEspecifico',$id)->delete(); 
         return redirect()->back()->with('status', 'Contrato Específico eliminado satisfactoriamente');
     }
 }

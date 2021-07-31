@@ -10,6 +10,7 @@ use App\Models\EntidadGO;
 use App\Models\Organismo;
 use Carbon\Carbon;
 use App\Models\Grupo;
+use App\Models\ObjetoCM;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use App\Rules\noOrganismo;
@@ -69,7 +70,10 @@ class ClienteProveedorController extends Controller
         //$last = ContratoMarco::latest()->first();
         $now = Carbon::now()->format('d-m-y');
         $ThreeDaysearly = Carbon::now()->addDays(3)->format('d-m-y');
-        return view('contratos_marco.index',compact('CM','now','ThreeDaysearly'));
+        $objeto = ObjetoCM::all();
+        $organismos = Organismo::all();
+        $links = false;
+        return view('contratos_marco.index',compact('CM','now','ThreeDaysearly','objeto','organismos','links'));
     }
 
     /**

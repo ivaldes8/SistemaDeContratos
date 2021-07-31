@@ -14,18 +14,17 @@ class CreateContratoEspecificosTable extends Migration
     public function up()
     {
         Schema::create('contrato_especificos', function (Blueprint $table) {
-            $table->id();
+            $table->id('idCEspecifico');
             $table->string('idCM')->required();
-            $table->string('idArea')->required();
+            $table->string('idAreaCE')->required();
             $table->bigInteger('noContratoEspecifico')->required();
             $table->string('estado')->required();
-            $table->string('fechaIni')->required();
-            $table->string('fechaEnd')->nullable();
+            $table->string('fechaIniCE')->required();
+            $table->string('fechaEndCE')->nullable();
             $table->string('ejecutorName')->nullable();
             $table->string('clienteName')->nullable();
             $table->text('observaciones')->nullable();
-            $table->float('monto')->nullable();
-            $table->timestamps();
+            $table->text('monto')->required();
         });
     }
 

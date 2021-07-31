@@ -11,23 +11,152 @@
             <div class="card">
                 <div class="card-header">
                     <div class="row">
-                        <div class="col-11" style="font-size: 80%">
+                        <div class="col-8" style="font-size: 80%">
                             <p style="margin-bottom: 0px">Contrato No: {{$CM->noContrato}}</p>
                             <p style="margin-bottom: 0px">Objeto del Contrato: {{$CM->objeto}}</p>
                             <p style="margin-bottom: 0px">Organismo: {{$CM->organismos->nombreO}}</p>
-                            <p>Cliente: {{$CM->cliente->nombre}}</p>
-                            
+                            <p>Cliente: {{$CM->cliente->nombre}}</p>  
                         </div>
-                        <div class="col-1">
-                            <a href="{{url('contratos_especificos/create/' .$CM->id)}}" class="btn btn-primary mt-3"><svg  style="width: 30%;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- Font Awesome Free 5.15.3 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"/></svg></a>
+                        <div class="col-4">
+                            <a href="{{url('contratos_especificos/create/' .$CM->id)}}" class="btn btn-primary mt-3">Crear Contrato Específico</a>
                         </div>
                         <hr/>
                     </div>
-                    <div class="row">
-                        <div class="col-10">
-                            Filtros<svg xmlns="http://www.w3.org/2000/svg" style="width: 2%;" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.3 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+                    <form action="{{ url('CESearch') }}"  method="GET">
+                        <div class="row">
+                            <div class="col-5">
+                                <div class="row mb-2">
+                                    <div class="col-5">
+                                        No. Contrato Específico:
+                                    </div>
+                                    <div class="col-7">
+                                        <input type="text" class="form-control form-control-sm" name="noCE"/>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        Cod. Interno:
+                                    </div>
+                                    <div class="col-9">
+                                        <input type="text" class="form-control form-control-sm" name="codInt"/>
+                                    </div>
+                                </div>
+                                 <div class="row mb-2">
+                                    <div class="col-3">
+                                        Organismo:
+                                    </div>
+                                    <div class="col-9">
+                                        <select id="organismo" name="organismo" class="col-8 form-control form-control-sm">
+                                            @foreach ( $organismos as $item )
+                                            <option value="{{$item->id}}">{{$item->nombreO}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div> 
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        Grupo:
+                                    </div>
+                                    <div class="col-9">
+                                        <select name="grupo" id="grupo" class="col-8 form-control form-control-sm">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        Cliente:
+                                    </div>
+                                    <div class="col-9">
+                                        <select name="cliente" id="client" class="col-8 form-control form-control-sm">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-5">
+                                        Cod. Servicio:
+                                    </div>
+                                    <div class="col-7">
+                                        <input type='text' class="form-control form-control-sm"  name="codServicio" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-5">
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        No. Contrato:
+                                    </div>
+                                    <div class="col-9">
+                                        <input type="text" class="form-control form-control-sm" name="noCM"/>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        Cod. REEUP:
+                                    </div>
+                                    <div class="col-9">
+                                        <input type="text" class="form-control form-control-sm" name="codReu"/>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                       Área:
+                                    </div>
+                                    <div class="col-9">
+                                        <select name="area" class="col-8 form-control form-control-sm">
+                                            <option value="@">Ningún área seleccionada</option>
+                                             @foreach ( $area as $item )
+                                            <option value="{{$item->idarea}}">{{$item->Expr4}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-5">
+                                        Estado:
+                                    </div>
+                                    <div class="col-7">
+                                        <select name="estado" class="col-8 form-control form-control-sm">
+                                            <option value="@">Ningún estado seleccionado</option>
+                                                <option>Sin Comenzar</option>
+                                                <option>En Proceso</option>
+                                                <option>Terminado</option>
+                                                <option>Cancelado</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-5">
+                                        Fecha de firma Desde:
+                                    </div>
+                                    <div class="col-7">
+                                        <input type='text' class="form-control form-control-sm" id="datepicker"  name="FfechaIni" />
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-5">
+                                        Hasta:
+                                    </div>
+                                    <div class="col-6">
+                                        <input type='text' class="form-control form-control-sm" id="datepicker2"  name="FfechaEnd" />
+                                    </div>
+                                    <div class="col-1">
+                                        <input style="display: none" value="1" type='text' class="form-control form-control-sm"  name="url" />
+                                    </div>
+                                </div>
+                                
                         </div>
-                    </div>
+                        <div class="col-1">
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <button class="btn btn-primary" type="submit">Buscar</button>
+                        </div>
+                    </form>
                 </div>
 
                 <div class="card-body">
@@ -59,7 +188,7 @@
                             <td>{{$item->CMs->objeto}}</td>
                             <td>
                                 @foreach ($servicios as $servicio)
-                                    @if ($servicio->idContratoEspecifico == $item->id)
+                                    @if ($servicio->idContratoEspecifico == $item->idCEspecifico)
                                         /{{$servicio->servicios->Expr3}}
                                     @endif
                                 @endforeach
@@ -68,13 +197,13 @@
                             <td>{{$item->estado}}</td>
                             <td>{{$item->ejecutorName}}</td>
                             <td>{{$item->clienteName}}</td>
-                            <td>{{$item->fechaIni}}</td>
-                            <td>{{$item->fechaEnd}}</td>
+                            <td>{{$item->fechaIniCE}}</td>
+                            <td>{{$item->fechaEndCE}}</td>
                             <td>{{$item->observaciones}}</td>
                             <td>{{$item->monto}}</td>
                             <td>Suplementos</td>
                             <td>
-                                <form action="{{url('contratos_especificos/'.$item->id)}}" method="POST">
+                                <form action="{{url('contratos_especificos/'.$item->idCEspecifico)}}" method="POST">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
