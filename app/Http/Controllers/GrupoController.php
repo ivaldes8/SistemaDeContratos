@@ -16,9 +16,10 @@ class GrupoController extends Controller
      */
     public function index()
     {
-        $grupo = Grupo::all();
+        $grupo = Grupo::paginate(50);
         $organismo = Organismo::all();
-        return view('grupo.index',compact('grupo','organismo'));
+        $links = true;
+        return view('grupo.index',compact('grupo','organismo','links'));
     }
 
     /**

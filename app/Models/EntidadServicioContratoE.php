@@ -14,4 +14,10 @@ class EntidadServicioContratoE extends Model
         'idServicio',
         'idContratoEspecifico'
     ];
+    public function servicios(){
+        return $this->belongsTo(Servicio::class, 'idServicio', 'idservicio');
+    }
+    public function CE(){
+        return $this->belongsTo(Servicio::class, 'idContratoEspecifico', 'id');
+    }
 }

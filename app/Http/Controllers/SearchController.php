@@ -1,13 +1,21 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Models\Area;
 use App\Models\ClienteProveedor;
 use App\Models\ContratoMarco;
+use App\Models\EntidadAreaServico;
 use App\Models\EntidadCP;
 use App\Models\EntidadGO;
 use App\Models\Grupo;
+use App\Models\ObjetoCM;
 use App\Models\Organismo;
+use App\Models\Servicio;
 use Carbon\Carbon;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 use Illuminate\Http\Request;
 
@@ -128,8 +136,8 @@ class SearchController extends Controller
             $cliente_proveedor = $aux;
         }
         //dd($cliente_proveedor);
-
-        return view('cliente_proveedor.index', compact('cliente_proveedor', 'CP','GO','organismos','grupos'));
+        $links = false;
+        return view('cliente_proveedor.index', compact('cliente_proveedor', 'CP','GO','organismos','grupos','links'));
     }
 
     public function organismoSearch(Request $request){
@@ -188,7 +196,8 @@ class SearchController extends Controller
         }
         //dd($activo);
         //$organismo = Organismo::all();
-        return view('organismo.index',compact('organismo'));
+        $links = false;
+        return view('organismo.index',compact('organismo','links'));
     }
 
     public function grupoSearch(Request $request){
@@ -251,6 +260,305 @@ class SearchController extends Controller
         //dd($activo);
         //$organismo = Organismo::all();
         //$grupo = Grupo::all();
-        return view('grupo.index',compact('grupo','organismo'));
+        $links = false;
+        return view('grupo.index',compact('grupo','organismo','links'));
+    }
+
+    public function servicioSearch(Request $request){
+        $cod = $request->cod;
+        $serv = $request->serv;
+        $area = $request->area;
+        $none = "";
+        if($area == "@"){
+            $area = null;
+        }
+
+        $BaseQuery = Servicio::query()
+            ->join("entidad_area_servicios",'entidad_area_servicios.idServicioS', '=', 'idservicio')
+            ->get();
+
+        $BaseQuery2 = Area::all();
+
+        for ($i=0; $i < count($BaseQuery); $i++) { 
+            for ($j=0; $j < count($BaseQuery2); $j++) { 
+            if($BaseQuery[$i]->idAreaA == $BaseQuery2[$j]->idarea){
+                $BaseQuery[$i]->Expr4 = $BaseQuery2[$j]->Expr4;
+            }
+            }
+        }
+
+        for ($i=0; $i < count($BaseQuery); $i++) { 
+            if($BaseQuery[$i]->Expr4 < 10){
+                $BaseQuery[$i]->Expr4 = $none;
+            }
+        }
+
+            $service = collect([]);
+            for ($i=0; $i < count($BaseQuery); $i++) {
+                $service->push($BaseQuery[$i]);
+            }
+
+        if ($cod != null) {
+            $aux = collect([]);
+            for ($i=0; $i < count($service); $i++) {
+                if(strstr( $service[$i]->codigo, $cod )){
+                    $aux->push($service[$i]);
+                }
+            }
+            $service = $aux;
+        }
+
+        if ($serv != null) {
+            $aux = collect([]);
+            for ($i=0; $i < count($service); $i++) {
+                if(strstr( $service[$i]->Descripcion, $serv )){
+                    $aux->push($service[$i]);
+                }
+            }
+            $service = $aux;
+        }
+
+        if ($area != null) {
+            $aux = collect([]);
+            for ($i=0; $i < count($service); $i++) {
+                if(strstr( $service[$i]->idAreaA, $area )){
+                    $aux->push($service[$i]);
+                }
+            }
+            $service = $aux;
+        }
+
+        $servicios = $service;
+        //dd($servicios);
+        $entidadAS = EntidadAreaServico::all();
+        $area = Area::all();
+        $links = false;
+        //dd($service);
+        //$organismo = Organismo::all();
+        return view('servicio_area.index',compact('servicios','entidadAS','area','links'));
+    }
+
+    public function objetoCMSearch(Request $request){
+        $obj = $request->input('obj');
+        $BaseQuery = ObjetoCM::all();
+
+        $objeto = collect([]);
+
+        for ($i=0; $i < count($BaseQuery); $i++) {
+            $objeto->push($BaseQuery[$i]);
+        }
+
+        if ($obj != null) {
+            $aux = collect([]);
+            for ($i=0; $i < count($objeto); $i++) {
+                if(strstr( $objeto[$i]->nombre, $obj )){
+                    $aux->push($objeto[$i]);
+                }
+            }
+            $objeto = $aux;
+        }
+        $links = false;
+        return view('objeto_CM.index',compact('objeto','links'));
+    }
+
+    public function CMSearch(Request $request){
+        $objeto = $request->input('objeto');
+        if($objeto == "@"){
+            $objeto = null;
+        }
+        $organismo = $request->input('organismo');
+        if($organismo == "1"){
+            $organismo = null;
+        }
+        $grupo = $request->input('grupo');
+        if($grupo == "1"){
+            $grupo = null;
+        }
+        $estado = $request->input('estado');
+        if($estado == "@"){
+            $estado = null;
+        }
+        $noCM = $request->input('noCM');
+        $cliente = $request->input('cliente');
+        $codInt = $request->input('codInt');
+        $codReu = $request->input('codReu');
+        $FfechaIni = $request->input('FfechaIni');
+        $FfechaEnd = $request->input('FfechaEnd');
+        $VfechaIni = $request->input('VfechaIni');
+        $VfechaEnd = $request->input('VfechaEnd');
+
+        if($FfechaIni == null){
+            $FfechaEnd = null;
+        }
+
+        if($VfechaIni == null){
+            $VfechaEnd = null;
+        }
+
+        //dd($request);
+        $BaseQuery = ContratoMarco::query()
+        ->join("grupos",'grupos.id', '=', 'grupo')
+        ->join("organismos", 'organismos.id', '=', 'organismo')
+        ->join("ClientsView", 'ClientsView.identidad', "=", 'idClient')
+        ->get();
+
+        $CM = collect([]);
+        for ($i=0; $i < count($BaseQuery); $i++) {
+            $CM->push($BaseQuery[$i]);
+        }
+        //dd($CM);
+        if ($objeto!= null) {
+            $aux = collect([]);
+            for ($i=0; $i < count($CM); $i++) {
+                if(strstr( $CM[$i]->objeto, $objeto )){
+                    $aux->push($CM[$i]);
+                }
+            }
+            $CM = $aux;
+        }
+
+        if ($organismo!= null) {
+            $aux = collect([]);
+            for ($i=0; $i < count($CM); $i++) {
+                if(strstr( $CM[$i]->organismo, $organismo )){
+                    $aux->push($CM[$i]);
+                }
+            }
+            $CM = $aux;
+        }
+
+        if ($grupo!= null) {
+            $aux = collect([]);
+            for ($i=0; $i < count($CM); $i++) {
+                if(strstr( $CM[$i]->grupo, $grupo )){
+                    $aux->push($CM[$i]);
+                }
+            }
+            $CM = $aux;
+        }
+
+        if ($estado!= null) {
+            $aux = collect([]);
+            for ($i=0; $i < count($CM); $i++) {
+                if(strstr( $CM[$i]->estado, $estado )){
+                    $aux->push($CM[$i]);
+                }
+            }
+            $CM = $aux;
+        }
+
+        if ($noCM!= null) {
+            $aux = collect([]);
+            for ($i=0; $i < count($CM); $i++) {
+                if(strstr( $CM[$i]->noContrato, $noCM )){
+                    $aux->push($CM[$i]);
+                }
+            }
+            $CM = $aux;
+        }
+
+        if ($cliente!= null) {
+            $aux = collect([]);
+            for ($i=0; $i < count($CM); $i++) {
+                if(strstr( $CM[$i]->idClient, $cliente )){
+                    $aux->push($CM[$i]);
+                }
+            }
+            $CM = $aux;
+        }
+
+        if ($codInt!= null) {
+            $aux = collect([]);
+            for ($i=0; $i < count($CM); $i++) {
+                if(strstr( $CM[$i]->codigo, $codInt )){
+                    $aux->push($CM[$i]);
+                }
+            }
+            $CM = $aux;
+        }
+
+        if ($codReu!= null) {
+            $aux = collect([]);
+            for ($i=0; $i < count($CM); $i++) {
+                if(strstr( $CM[$i]->codigoreu, $codReu )){
+                    $aux->push($CM[$i]);
+                }
+            }
+            $CM = $aux;
+        }
+
+        if ($codReu!= null) {
+            $aux = collect([]);
+            for ($i=0; $i < count($CM); $i++) {
+                if(strstr( $CM[$i]->codigoreu, $codReu )){
+                    $aux->push($CM[$i]);
+                }
+            }
+            $CM = $aux;
+        }
+        if($FfechaIni != null && $FfechaEnd != null){
+            $initialDate = Carbon::parse($FfechaIni)->format('d-m-y');
+            $endDate = Carbon::parse($FfechaEnd)->format('d-m-y');
+            $FfechaIni = Carbon::createFromFormat('d-m-y', $initialDate);
+            $FfechaEnd = Carbon::createFromFormat('d-m-y', $endDate);
+            $aux = collect([]);
+            for ($i=0; $i < count($CM); $i++) {
+                $ini = Carbon::parse($CM[$i]->fechaIni)->format('d-m-y');
+                $fechaIni = Carbon::createFromFormat('d-m-y',$ini);
+                if($fechaIni->gte($FfechaIni) && $fechaIni->lte($FfechaEnd)){
+                    $aux->push($CM[$i]);
+                }
+            }
+            $CM = $aux;
+        }
+        if($FfechaIni != null && $FfechaEnd == null){
+           $initialDate = Carbon::parse($FfechaIni)->format('d-m-y');
+           $FfechaIni = Carbon::createFromFormat('d-m-y', $initialDate);
+            $aux = collect([]);
+            for ($i=0; $i < count($CM); $i++) {
+                $ini = Carbon::parse($CM[$i]->fechaIni)->format('d-m-y');
+                $fechaIni = Carbon::createFromFormat('d-m-y',$ini);
+                if($fechaIni->gte($FfechaIni)){
+                    $aux->push($CM[$i]);
+                }
+            }
+            $CM = $aux;
+        }
+
+        if($VfechaIni != null && $VfechaEnd != null){  
+            $initialDate = Carbon::parse($VfechaIni)->format('d-m-y');
+            $endDate = Carbon::parse($VfechaEnd)->format('d-m-y');
+            $VfechaIni = Carbon::createFromFormat('d-m-y', $initialDate);
+            $VfechaEnd = Carbon::createFromFormat('d-m-y', $endDate);
+            $aux = collect([]);
+            for ($i=0; $i < count($CM); $i++) {
+                $ini = Carbon::parse($CM[$i]->fechaEnd)->format('d-m-y');
+                $fechaEnd = Carbon::createFromFormat('d-m-y',$ini);
+                if($fechaEnd->gte($VfechaIni) && $fechaEnd->lte($VfechaEnd)){
+                    $aux->push($CM[$i]);
+                }
+            }
+            $CM = $aux;
+        }
+        if($VfechaIni != null && $VfechaEnd == null){
+           $initialDate = Carbon::parse($VfechaIni)->format('d-m-y');
+           $VfechaIni = Carbon::createFromFormat('d-m-y', $initialDate);
+            $aux = collect([]);
+            for ($i=0; $i < count($CM); $i++) {
+                $ini = Carbon::parse($CM[$i]->fechaEnd)->format('d-m-y');
+                $fechaEnd = Carbon::createFromFormat('d-m-y',$ini);
+                if($fechaEnd->gte($VfechaIni)){
+                    $aux->push($CM[$i]);
+                }
+            }
+            $CM = $aux;
+        }
+
+        $now = Carbon::now()->format('d-m-y');
+        $ThreeDaysearly = Carbon::now()->addDays(3)->format('d-m-y');
+        $organismos = Organismo::all();
+        $objeto = ObjetoCM::all();
+        $links = false;
+        return view('contratos_marco.index',compact('CM','now','ThreeDaysearly','organismos','objeto','links','now','ThreeDaysearly'));
     }
 }

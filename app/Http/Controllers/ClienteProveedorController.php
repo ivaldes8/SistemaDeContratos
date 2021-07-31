@@ -29,7 +29,8 @@ class ClienteProveedorController extends Controller
         $grupos = Grupo::all();
         $organismos = Organismo::all();
         //dd($CP);
-        return view('cliente_proveedor.index', compact('cliente_proveedor', 'CP','GO','organismos','grupos'));
+        $links = true;
+        return view('cliente_proveedor.index', compact('cliente_proveedor', 'CP','GO','organismos','grupos','links'));
     }
 
     /**

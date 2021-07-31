@@ -10,10 +10,32 @@
         @endif
             <div class="card">
                 <div class="card-header">
-                    Tipos de Contratos
-                    <a href="{{url('objeto_CM/create')}}" class="btn btn-primary float-end">
-                        Añadir Tipo de Contrato
-                    </a>
+
+                    <div class="row">
+                        <div class="col-12">
+                            Tipos de Contratos
+                            <a href="{{url('objeto_CM/create')}}" class="btn btn-primary float-end">
+                                Añadir Tipo de Contrato
+                            </a>
+                        </div>
+                    </div>
+                    <br/>
+                    <form action="{{ url('objetoCMSearch') }}"  method="GET">
+                        <div class="row">
+                            <div class="col-3">
+                                Nombre:<input type="text" class="form-control" name="obj"/>
+                            </div>
+                            <div class="col-3">
+                            </div>
+                            <div class="col-3">
+                            </div>
+                            <div class="col-2">
+                            </div>
+                            <div class="col-1">
+                                <button class="btn btn-primary mt-4" type="submit">Buscar</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
 
                 <div class="card-body">
@@ -46,7 +68,9 @@
                         @endforeach
                         </tbody>
                     </table>
-
+                    @if ($links)
+                    {{$objeto->links()}}   
+                    @endif
                 </div>
             </div>
         </div>

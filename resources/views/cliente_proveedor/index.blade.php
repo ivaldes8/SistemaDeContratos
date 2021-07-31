@@ -132,7 +132,9 @@
                     @endforeach
                 </tbody>
             </table>
-
+            @if ($links)
+                {{$cliente_proveedor->links()}}   
+            @endif
         </div>
     </div>
     </div>

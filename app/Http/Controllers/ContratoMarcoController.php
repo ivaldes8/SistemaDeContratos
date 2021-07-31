@@ -25,7 +25,10 @@ class ContratoMarcoController extends Controller
         //$last = ContratoMarco::latest()->first();
         $now = Carbon::now()->format('d-m-y');
         $ThreeDaysearly = Carbon::now()->addDays(3)->format('d-m-y');
-        return view('contratos_marco.index',compact('CM','now','ThreeDaysearly'));
+        $organismos = Organismo::all();
+        $objeto = ObjetoCM::all();
+        $links = true;
+        return view('contratos_marco.index',compact('CM','now','ThreeDaysearly','organismos','objeto','links'));
     }
 
     /**

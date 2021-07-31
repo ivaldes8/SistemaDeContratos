@@ -87,7 +87,9 @@
                         @endforeach
                         </tbody>
                     </table>
-
+                    @if ($links)
+                    {{$grupo->links()}}   
+                    @endif
                 </div>
             </div>
         </div>

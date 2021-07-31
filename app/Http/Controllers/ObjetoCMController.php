@@ -14,8 +14,9 @@ class ObjetoCMController extends Controller
      */
     public function index()
     {
-        $objeto =ObjetoCM::all();
-        return view('objeto_CM.index',compact('objeto'));
+        $objeto =ObjetoCM::paginate(50);
+        $links = true;
+        return view('objeto_CM.index',compact('objeto','links'));
     }
 
     /**

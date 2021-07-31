@@ -52,10 +52,13 @@ background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(194,209,254,1) 
                                 Contratos Marco
                             </a>
                             <a class="dropdown-item" href="{{ route('logout') }}">
-                                Contrato Proveedores
+                                Contratos Marco Proveedores
                             </a>
                             <a class="dropdown-item" href="{{ route('logout') }}">
-                                Consulta de Suplementos
+                                Contratos Marco Clientes
+                            </a>
+                            <a class="dropdown-item" href="{{ url('contratos_especificos') }}">
+                                Consulta de Contratos Específicos
                             </a>
                             <a class="dropdown-item" href="{{ route('logout') }}">
                                 Contratos Marco por Vencer

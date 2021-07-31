@@ -18,7 +18,9 @@ class ServicioAreaController extends Controller
     {
         $servicios= Servicio::paginate(50);
         $entidadAS = EntidadAreaServico::all();
-        return view('servicio_area.index', compact('servicios','entidadAS'));
+        $area = Area::all();
+        $links = true;
+        return view('servicio_area.index', compact('servicios','entidadAS','area','links'));
     }
 
     /**
@@ -62,7 +64,7 @@ class ServicioAreaController extends Controller
     public function edit($id)
     {
         $servicio = Servicio::where('idservicio', $id)->get();
-        $entidadAS = EntidadAreaServico::where('idServicio', $id)->get();
+        $entidadAS = EntidadAreaServico::where('idServicioS', $id)->get();
         $area = Area::all();
         //dd($Organismo);
         return view('servicio_area.edit', compact('servicio','entidadAS','area'));
@@ -79,17 +81,17 @@ class ServicioAreaController extends Controller
     {
         $idArea= $request->input('idArea');
         $idServicio = $id;
-        $entidadAS = EntidadAreaServico::where('idServicio', $id)->get();
+        $entidadAS = EntidadAreaServico::where('idServicioS', $id)->get();
         if(count($entidadAS) > 0){
-            $entidadAS[0]->idArea = $idArea;
-            $entidadAS[0]->idServicio = $idServicio;
+            $entidadAS[0]->idAreaA = $idArea;
+            $entidadAS[0]->idServicioS = $idServicio;
             $entidadAS[0]->update();
             return redirect()->back()->with('status', 'Servicio editado satisfactoriamente');
         }
         else{
             $newEntidadAS = new EntidadAreaServico();
-            $newEntidadAS->idArea = $idArea;
-            $newEntidadAS->idServicio = $idServicio;
+            $newEntidadAS->idAreaA = $idArea;
+            $newEntidadAS->idServicioS = $idServicio;
             $newEntidadAS->save();
             return redirect()->back()->with('status', 'Servicio añadido satisfactoriamente');
         }

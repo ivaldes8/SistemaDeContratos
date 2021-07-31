@@ -8,16 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class EntidadAreaServico extends Model
 {
     use HasFactory;
-    protected $table = "entidad_area_servicos";
+    protected $table = "entidad_area_servicios";
     protected $fillable = [
         'id',
-        'idServicio',
-        'idArea',
+        'idServicioS',
+        'idAreaA',
     ];
     public function servicios(){
-        return $this->belongsTo(Servicio::class, 'idServicio', 'idservicio');
+        return $this->belongsTo(Servicio::class, 'idServicioS', 'idservicio');
     }
     public function areas(){
-        return $this->belongsTo(Area::class, 'idArea', 'idarea');
+        return $this->belongsTo(Area::class, 'idAreaA', 'idarea');
     }
 }

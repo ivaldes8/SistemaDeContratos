@@ -13,10 +13,10 @@ class CreateEntidadAreaServicosTable extends Migration
      */
     public function up()
     {
-        Schema::create('entidad_area_servicos', function (Blueprint $table) {
+        Schema::create('entidad_area_servicios', function (Blueprint $table) {
             $table->id();
-            $table->integer('idServicio')->required();
-            $table->integer('idArea')->nullable();
+            $table->integer('idServicioS')->required();
+            $table->integer('idAreaA')->nullable();
             $table->timestamps();
         });
     }

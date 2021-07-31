@@ -2,24 +2,146 @@
 
 @section('content')
 
-<div class="mt-3 ml-3 mr-3">
+<div class="mt-3" style="margin-left: 2%; margin-right: 2%">
     <div class="row justify-content-center">
         <div class="col-md-12">
         @if (session('status'))
             <div class="alert alert-success">{{session('status')}}</div>
         @endif
             <div class="card">
-                <div class="card-header">
-                    <div class="row">
-                        <div class="col-10">
-                            Filtros<svg xmlns="http://www.w3.org/2000/svg" style="width: 2%;" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.3 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-12">
+                                Contratos Marco
+                                <a href="{{url('contratos_marco/create')}}" class="btn btn-primary float-end">Añadir Contrato Marco</a>
+                            </div>
                         </div>
-                        <div class="col-2">
-                            <a href="{{url('contratos_marco/create')}}" class="btn btn-primary"><svg  style="width: 10%;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- Font Awesome Free 5.15.3 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"/></svg></a>
-                        </div>
+                    
+                        <br/>
+                        <form action="{{ url('CMSearch') }}"  method="GET">
+                            <div class="row">
+                                <div class="col-5">
+                                    <div class="row mb-2">
+                                        <div class="col-3">
+                                            No. Contrato:
+                                        </div>
+                                        <div class="col-9">
+                                            <input type="text" class="form-control form-control-sm" name="noCM"/>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="col-4">
+                                            Objeto del Contrato:
+                                        </div>
+                                        <div class="col-8">
+                                            <select name="objeto" class="col-8 form-control form-control-sm">
+                                                <option value="@">Ningún objeto seleccionado</option>
+                                                @foreach ( $objeto as $item )
+                                                <option value="{{$item->id}}">{{$item->nombre}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                     <div class="row mb-2">
+                                        <div class="col-3">
+                                            Organismo:
+                                        </div>
+                                        <div class="col-9">
+                                            <select id="organismo" name="organismo" class="col-8 form-control form-control-sm">
+                                                @foreach ( $organismos as $item )
+                                                <option value="{{$item->id}}">{{$item->nombreO}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div> 
+                                    <div class="row mb-2">
+                                        <div class="col-3">
+                                            Grupo:
+                                        </div>
+                                        <div class="col-9">
+                                            <select name="grupo" id="grupo" class="col-8 form-control form-control-sm">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="col-3">
+                                            Cliente:
+                                        </div>
+                                        <div class="col-9">
+                                            <select name="cliente" id="client" class="col-8 form-control form-control-sm">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="col-5">
+                                            Fecha de firma Desde:
+                                        </div>
+                                        <div class="col-7">
+                                            <input type='text' class="form-control form-control-sm" id="datepicker"  name="FfechaIni" />
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="col-5">
+                                            Hasta:
+                                        </div>
+                                        <div class="col-7">
+                                            <input type='text' class="form-control form-control-sm" id="datepicker2"  name="FfechaEnd" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-5">
+                                    <div class="row mb-2">
+                                        <div class="col-3">
+                                            Cod. Interno:
+                                        </div>
+                                        <div class="col-9">
+                                            <input type="text" class="form-control form-control-sm" name="codInt"/>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="col-3">
+                                            Cod. REEUP:
+                                        </div>
+                                        <div class="col-9">
+                                            <input type="text" class="form-control form-control-sm" name="codReu"/>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="col-5">
+                                            Estado:
+                                        </div>
+                                        <div class="col-7">
+                                            <select name="estado" class="col-8 form-control form-control-sm">
+                                                <option value="@">Ningún estado seleccionado</option>
+                                                <option value="Vigente">Vigente</option>
+                                                <option value="Vencido">Vencido</option>
+                                                <option value="Cancelado">Cancelado</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="col-5">
+                                            Fecha de venc. Desde:
+                                        </div>
+                                        <div class="col-7">
+                                            <input type='text' class="form-control form-control-sm" id="datepicker3"  name="VfechaIni" />
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="col-5">
+                                            Hasta:
+                                        </div>
+                                        <div class="col-7">
+                                            <input type='text' class="form-control form-control-sm" id="datepicker4"  name="VfechaEnd" />
+                                        </div>
+                                    </div>
+                                    <div class="col-1">
+                                        <button class="btn btn-primary" type="submit">Buscar</button>
+                                    </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
-
                 <div class="card-body">
                     <table class="table table-bordered table-sm table-striped">
                         <thead>
@@ -56,15 +178,99 @@
                                 <td>{{$item->fechaEnd}}</td>
                                 <td>{{$item->observaciones}}</td>
                                 <td><a href="http://127.0.0.1/Sistema%20de%20Contratos/storage/app/public/{{$item->idFile}}"><svg xmlns="http://www.w3.org/2000/svg" style="width: 15%;" viewBox="0 0 384 512"><!-- Font Awesome Free 5.15.3 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M369.9 97.9L286 14C277 5 264.8-.1 252.1-.1H48C21.5 0 0 21.5 0 48v416c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48V131.9c0-12.7-5.1-25-14.1-34zM332.1 128H256V51.9l76.1 76.1zM48 464V48h160v104c0 13.3 10.7 24 24 24h104v288H48z"/></svg></a></td>
-                                <td>LOL</td>
+                                <td><a href="{{url('contratos_especificos/'.$item->id)}}">CE</a></td>
                                 <td>LOL</td>
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
+                    @if ($links)
+                    {{$CM->links()}}   
+                    @endif
                 </div>
             </div>
         </div>
     </div>
 </div>
+    <script src="{{ asset('frontend/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('frontend/js/moment.min.js') }}"></script>
+    <script src="{{ asset('frontend/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('frontend/js/bootstrap-datetimepicker.min.js') }}"></script>
+    <script type="text/javascript">
+        $('#datepicker').datepicker({
+            autoclose: true,
+            format: 'dd-mm-yyyy'
+        });
+    </script>
+        <script type="text/javascript">
+        $('#datepicker2').datepicker({
+            autoclose: true,
+            format: 'dd-mm-yyyy'
+        });
+    </script>
+    <script type="text/javascript">
+        $('#datepicker3').datepicker({
+            autoclose: true,
+            format: 'dd-mm-yyyy'
+        });
+    </script>
+        <script type="text/javascript">
+        $('#datepicker4').datepicker({
+            autoclose: true,
+            format: 'dd-mm-yyyy'
+        });
+    </script>
+    <script type=text/javascript>
+        organismo = 1;
+        $('#organismo').change(function(){
+        var organismoID = $(this).val();
+        organismo = organismoID;
+        if(organismoID){
+            $.ajax({
+                type:"GET",
+                url:"{{url('getGrupoEntidad')}}?organismo_id="+organismoID,
+                success:function(res){
+                    if(res){
+                        $("#grupo").empty();
+                        $("#client").empty();
+                        $("#grupo").append('<option>Seleccione un grupo</option>');
+                        $.each(res,function(key,value){
+                            $("#grupo").append('<option value="'+key+'">'+value+'</option>');
+                        });
+
+                    }else{
+                        $("#grupo").empty();
+                    }
+                }
+            });
+        }else{
+            $("#grupo").empty();
+            $("#client").empty();
+        }
+        });
+        $('#grupo').on('change',function(){
+        var grupoID = $(this).val();
+        if(grupoID){
+            $.ajax({
+                type:"GET",
+                url:"{{url('getClientEntidad')}}/"+grupoID+'/org/'+ organismo,
+                 success:function(res){
+                    if(res){
+                        $("#client").empty();
+                        $("#client").append('<option>Seleccione un Cliente</option>');
+                        $.each(res,function(key,value){
+                        $("#client").append('<option value="'+key+'">'+value+'</option>');
+                        });
+
+                    }else{
+                        $("#client").empty();
+                    }
+                }
+            });
+        }else{
+            $("#client").empty();
+        }
+
+        });
+    </script>
 @endsection

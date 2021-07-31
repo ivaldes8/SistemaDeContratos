@@ -85,7 +85,9 @@
                         @endforeach
                         </tbody>
                     </table>
-
+                    @if ($links)
+                    {{$organismo->links()}}   
+                    @endif
                 </div>
             </div>
         </div>

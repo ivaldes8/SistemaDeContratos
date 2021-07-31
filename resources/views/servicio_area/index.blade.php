@@ -19,13 +19,19 @@
                     <form action="{{ url('servicioAreaSearch') }}"  method="GET">
                         <div class="row">
                             <div class="col-3">
-                                Código:<input type="text" class="form-control" name="codigo"/>
+                                Código:<input type="text" class="form-control" name="cod"/>
                             </div>
                             <div class="col-3">
-                                Servicio:<input type="text" class="form-control" name="servicio"/>
+                                Servicio:<input type="text" class="form-control" name="serv"/>
                             </div>
                             <div class="col-3">
-                                Área:<input type="text" class="form-control" name="area"/>
+                                Área:
+                                <select name="area" class="col-8 form-control">
+                                    <option value="@">Ningún Área seleccionada</option>
+                                    @foreach ( $area as $item )
+                                    <option value="{{$item->idarea}}">{{$item->Expr4}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="col-1">
                                 <button class="btn btn-primary mt-4" type="submit">Buscar</button>
@@ -50,7 +56,7 @@
                                 <td><a href="{{url('servicio_area/'.$item->idservicio.'/edit')}}">{{$item->codigo}}</a></td>
                                 <td>{{$item->Expr3}}</td>
                                 @foreach ($entidadAS as $item2)
-                                    @if ($item->idservicio == $item2->idServicio)
+                                    @if ($item->idservicio == $item2->idServicioS)
                                         @if ($item2->areas)
                                             <td>{{$item2->areas->Expr4}}</td>
                                         @endif
@@ -60,7 +66,9 @@
                         @endforeach
                         </tbody>
                     </table>
-
+                    @if ($links)
+                    {{$servicios->links()}}   
+                    @endif
                 </div>
             </div>
         </div>

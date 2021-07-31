@@ -25,7 +25,7 @@ Route::get('getGrupo',[DropdownController::class, 'getGrupo'])->name('getGrupo')
 Route::get('getGrupoEntidad',[DropdownController::class, 'getGrupoEntidad'])->name('getGrupoEntidad');
 Route::get('getClient',[DropdownController::class, 'getClient'])->name('getClient');
 Route::get('getClientEntidad/{grupoID}/org/{organismoID}',[DropdownController::class, 'getClientEntidad'])->name('getClient');
-
+Route::get('filterService/{cod}/serv/{serv}/area/{area}',[DropdownController::class, 'getServices'])->name('getServices');
 
 Route::middleware(['auth','isAdmin'])->group(function () {
     Route::resource('user', 'UserController');
@@ -38,8 +38,15 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('contratos_marco', 'ContratoMarcoController');
     Route::resource('objeto_CM', 'ObjetoCMController');
     Route::resource('servicio_area','ServicioAreaController');
+    Route::resource('contratos_especificos', 'ContratoEspecificoController');
+    Route::get('contratos_especificos/create/{id}', 'ContratoEspecificoController@create');
+
     Route::get('entidadSearch',[SearchController::class, 'entidadSearch']);
     Route::get('organismoSearch',[SearchController::class, 'organismoSearch']);
     Route::get('grupoSearch',[SearchController::class, 'grupoSearch']);
+    Route::get('servicioAreaSearch',[SearchController::class, 'servicioSearch']);
+    Route::get('objetoCMSearch',[SearchController::class, 'objetoCMSearch']);
+    Route::get('CMSearch',[SearchController::class, 'CMSearch']);
+    Route::get('CESearch',[SearchController::class, 'CESearch']);
 });
 

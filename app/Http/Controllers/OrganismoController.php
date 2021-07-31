@@ -14,8 +14,9 @@ class OrganismoController extends Controller
      */
     public function index()
     {
-        $organismo = Organismo::all();
-        return view('organismo.index',compact('organismo'));
+        $organismo = Organismo::paginate(50);
+        $links = true;
+        return view('organismo.index',compact('organismo','links'));
     }
 
     /**

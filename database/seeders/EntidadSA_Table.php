@@ -18,7 +18,7 @@ class EntidadSA_Table extends Seeder
         $a=Servicio::all();
         foreach ($a as $item) {
             EntidadAreaServico::create([
-                'idServicio'=>$item->idservicio
+                'idServicioS'=>$item->idservicio
             ]);
         }
     }
