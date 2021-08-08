@@ -10,10 +10,16 @@ use App\Models\EntidadAreaServico;
 use App\Models\EntidadCP;
 use App\Models\EntidadGO;
 use App\Models\EntidadServicioContratoE;
+use App\Models\EntidadSuplementoObjCE;
+use App\Models\EntidadSuplementoObjCM;
 use App\Models\Grupo;
 use App\Models\ObjetoCM;
+use App\Models\ObjetoSuplementoCE;
+use App\Models\ObjetoSuplementoCM;
 use App\Models\Organismo;
 use App\Models\Servicio;
+use App\Models\SuplementoCE;
+use App\Models\SuplementoCM;
 use Carbon\Carbon;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
@@ -556,8 +562,12 @@ class SearchController extends Controller
             $CM = $aux;
         }
 
-        $now = Carbon::now()->format('d-m-y');
-        $ThreeDaysearly = Carbon::now()->addDays(3)->format('d-m-y');
+        $now2 = Carbon::now()->format('d-m-y');
+        $now = Carbon::createFromFormat('d-m-y',$now2);
+
+        $ThreeDaysearly2 = Carbon::now()->addMonth(3)->format('d-m-y');
+        $ThreeDaysearly = Carbon::createFromFormat('d-m-y',$ThreeDaysearly2);
+
         $organismos = Organismo::all();
         $objeto = ObjetoCM::all();
         $links = false;
@@ -762,8 +772,12 @@ class SearchController extends Controller
             $CE->unique('idCEspecifico');
         }
         
-        $now = Carbon::now()->format('d-m-y');
-        $ThreeDaysearly = Carbon::now()->addDays(3)->format('d-m-y');
+        $now2 = Carbon::now()->format('d-m-y');
+        $now = Carbon::createFromFormat('d-m-y',$now2);
+
+        $ThreeDaysearly2 = Carbon::now()->addMonth(3)->format('d-m-y');
+        $ThreeDaysearly = Carbon::createFromFormat('d-m-y',$ThreeDaysearly2);
+
         $servicios = EntidadServicioContratoE::all();
         $organismos = Organismo::all();
         $area = Area::all();
@@ -771,5 +785,263 @@ class SearchController extends Controller
         if($url = "1"){
             return view('contratos_especificos.index', compact('CE','now','ThreeDaysearly','servicios','organismos','area','links'));
         }    
+    }
+
+    public function SupCMSearch(Request $request){
+        $noSup = $request->input('noSup');
+        $FfechaIni = $request->input('FfechaIni');
+        $FfechaEnd = $request->input('FfechaEnd');
+        $VfechaIni = $request->input('VfechaIni');
+        $VfechaEnd = $request->input('VfechaEnd');
+
+        if($FfechaIni == null){
+            $FfechaEnd = null;
+        }
+
+        if($VfechaIni == null){
+            $VfechaEnd = null;
+        }
+
+        $BaseQuery = SuplementoCM::query()
+        ->get();
+
+        $Sup = collect([]);
+        for ($i=0; $i < count($BaseQuery); $i++) {
+            $Sup->push($BaseQuery[$i]);
+        }
+
+
+        if ($noSup!= null) {
+            $aux = collect([]);
+            for ($i=0; $i < count($Sup); $i++) {
+                if(strstr( $Sup[$i]->noSupCM, $noSup )){
+                    $aux->push($Sup[$i]);
+                }
+            }
+            $Sup = $aux;
+        }
+
+        if($FfechaIni != null && $FfechaEnd != null){
+            $initialDate = Carbon::parse($FfechaIni)->format('d-m-y');
+            $endDate = Carbon::parse($FfechaEnd)->format('d-m-y');
+            $FfechaIni = Carbon::createFromFormat('d-m-y', $initialDate);
+            $FfechaEnd = Carbon::createFromFormat('d-m-y', $endDate);
+            $aux = collect([]);
+            for ($i=0; $i < count($Sup); $i++) {
+                $ini = Carbon::parse($Sup[$i]->fechaIniSup)->format('d-m-y');
+                $fechaIni = Carbon::createFromFormat('d-m-y',$ini);
+                if($fechaIni->gte($FfechaIni) && $fechaIni->lte($FfechaEnd)){
+                    $aux->push($Sup[$i]);
+                }
+            }
+            $Sup = $aux;
+        }
+        if($FfechaIni != null && $FfechaEnd == null){
+           $initialDate = Carbon::parse($FfechaIni)->format('d-m-y');
+           $FfechaIni = Carbon::createFromFormat('d-m-y', $initialDate);
+            $aux = collect([]);
+            for ($i=0; $i < count($Sup); $i++) {
+                $ini = Carbon::parse($Sup[$i]->fechaIniSup)->format('d-m-y');
+                $fechaIni = Carbon::createFromFormat('d-m-y',$ini);
+                if($fechaIni->gte($FfechaIni)){
+                    $aux->push($Sup[$i]);
+                }
+            }
+            $Sup = $aux;
+        }
+
+        if($VfechaIni != null && $VfechaEnd != null){  
+            $initialDate = Carbon::parse($VfechaIni)->format('d-m-y');
+            $endDate = Carbon::parse($VfechaEnd)->format('d-m-y');
+            $VfechaIni = Carbon::createFromFormat('d-m-y', $initialDate);
+            $VfechaEnd = Carbon::createFromFormat('d-m-y', $endDate);
+            $aux = collect([]);
+            for ($i=0; $i < count($Sup); $i++) {
+                $ini = Carbon::parse($Sup[$i]->fechaEndSup)->format('d-m-y');
+                $fechaEnd = Carbon::createFromFormat('d-m-y',$ini);
+                if($fechaEnd->gte($VfechaIni) && $fechaEnd->lte($VfechaEnd)){
+                    $aux->push($Sup[$i]);
+                }
+            }
+            $Sup = $aux;
+        }
+        if($VfechaIni != null && $VfechaEnd == null){
+           $initialDate = Carbon::parse($VfechaIni)->format('d-m-y');
+           $VfechaIni = Carbon::createFromFormat('d-m-y', $initialDate);
+            $aux = collect([]);
+            for ($i=0; $i < count($Sup); $i++) {
+                $ini = Carbon::parse($Sup[$i]->fechaEndSup)->format('d-m-y');
+                $fechaEnd = Carbon::createFromFormat('d-m-y',$ini);
+                if($fechaEnd->gte($VfechaIni)){
+                    $aux->push($Sup[$i]);
+                }
+            }
+            $Sup = $aux;
+        }
+
+        //$Sup = SuplementoCM::paginate(50);
+        $now2 = Carbon::now()->format('d-m-y');
+        $now = Carbon::createFromFormat('d-m-y',$now2);
+
+        $ThreeDaysearly2 = Carbon::now()->addMonth(3)->format('d-m-y');
+        $ThreeDaysearly = Carbon::createFromFormat('d-m-y',$ThreeDaysearly2);
+
+        $objetos = EntidadSuplementoObjCM::all();
+        $links = false;
+        return view('suplemento_CM.index', compact('Sup','links','objetos'));
+    }
+
+    public function SupCESearch(Request $request){
+        $noSup = $request->input('noSup');
+        $FfechaIni = $request->input('FfechaIni');
+        $FfechaEnd = $request->input('FfechaEnd');
+        $VfechaIni = $request->input('VfechaIni');
+        $VfechaEnd = $request->input('VfechaEnd');
+
+        if($FfechaIni == null){
+            $FfechaEnd = null;
+        }
+
+        if($VfechaIni == null){
+            $VfechaEnd = null;
+        }
+
+        $BaseQuery = SuplementoCE::query()
+        ->get();
+
+        $Sup = collect([]);
+        for ($i=0; $i < count($BaseQuery); $i++) {
+            $Sup->push($BaseQuery[$i]);
+        }
+
+
+        if ($noSup!= null) {
+            $aux = collect([]);
+            for ($i=0; $i < count($Sup); $i++) {
+                if(strstr( $Sup[$i]->noSupCM, $noSup )){
+                    $aux->push($Sup[$i]);
+                }
+            }
+            $Sup = $aux;
+        }
+
+        if($FfechaIni != null && $FfechaEnd != null){
+            $initialDate = Carbon::parse($FfechaIni)->format('d-m-y');
+            $endDate = Carbon::parse($FfechaEnd)->format('d-m-y');
+            $FfechaIni = Carbon::createFromFormat('d-m-y', $initialDate);
+            $FfechaEnd = Carbon::createFromFormat('d-m-y', $endDate);
+            $aux = collect([]);
+            for ($i=0; $i < count($Sup); $i++) {
+                $ini = Carbon::parse($Sup[$i]->fechaIniSup)->format('d-m-y');
+                $fechaIni = Carbon::createFromFormat('d-m-y',$ini);
+                if($fechaIni->gte($FfechaIni) && $fechaIni->lte($FfechaEnd)){
+                    $aux->push($Sup[$i]);
+                }
+            }
+            $Sup = $aux;
+        }
+        if($FfechaIni != null && $FfechaEnd == null){
+           $initialDate = Carbon::parse($FfechaIni)->format('d-m-y');
+           $FfechaIni = Carbon::createFromFormat('d-m-y', $initialDate);
+            $aux = collect([]);
+            for ($i=0; $i < count($Sup); $i++) {
+                $ini = Carbon::parse($Sup[$i]->fechaIniSup)->format('d-m-y');
+                $fechaIni = Carbon::createFromFormat('d-m-y',$ini);
+                if($fechaIni->gte($FfechaIni)){
+                    $aux->push($Sup[$i]);
+                }
+            }
+            $Sup = $aux;
+        }
+
+        if($VfechaIni != null && $VfechaEnd != null){  
+            $initialDate = Carbon::parse($VfechaIni)->format('d-m-y');
+            $endDate = Carbon::parse($VfechaEnd)->format('d-m-y');
+            $VfechaIni = Carbon::createFromFormat('d-m-y', $initialDate);
+            $VfechaEnd = Carbon::createFromFormat('d-m-y', $endDate);
+            $aux = collect([]);
+            for ($i=0; $i < count($Sup); $i++) {
+                $ini = Carbon::parse($Sup[$i]->fechaEndSup)->format('d-m-y');
+                $fechaEnd = Carbon::createFromFormat('d-m-y',$ini);
+                if($fechaEnd->gte($VfechaIni) && $fechaEnd->lte($VfechaEnd)){
+                    $aux->push($Sup[$i]);
+                }
+            }
+            $Sup = $aux;
+        }
+        if($VfechaIni != null && $VfechaEnd == null){
+           $initialDate = Carbon::parse($VfechaIni)->format('d-m-y');
+           $VfechaIni = Carbon::createFromFormat('d-m-y', $initialDate);
+            $aux = collect([]);
+            for ($i=0; $i < count($Sup); $i++) {
+                $ini = Carbon::parse($Sup[$i]->fechaEndSup)->format('d-m-y');
+                $fechaEnd = Carbon::createFromFormat('d-m-y',$ini);
+                if($fechaEnd->gte($VfechaIni)){
+                    $aux->push($Sup[$i]);
+                }
+            }
+            $Sup = $aux;
+        }
+
+        //$Sup = SuplementoCM::paginate(50);
+        $now2 = Carbon::now()->format('d-m-y');
+        $now = Carbon::createFromFormat('d-m-y',$now2);
+
+        $ThreeDaysearly2 = Carbon::now()->addMonth(3)->format('d-m-y');
+        $ThreeDaysearly = Carbon::createFromFormat('d-m-y',$ThreeDaysearly2);
+        
+        $objetos = EntidadSuplementoObjCE::all();
+        $links = false;
+        return view('suplemento_CE.index', compact('Sup','links','objetos'));
+    }
+
+    public function ObjSupCMSearch(Request $request){
+        $objeto = $request->input('objeto');
+
+        $BaseQuery = ObjetoSuplementoCM::query()->get();
+
+        $obj = collect([]);
+        for ($i=0; $i < count($BaseQuery); $i++) {
+            $obj->push($BaseQuery[$i]);
+        }
+
+        //dd($EServicios);
+
+        if ($objeto!= null) {
+            $aux = collect([]);
+            for ($i=0; $i < count($obj); $i++) {
+                if(strstr( $obj[$i]->ObjetoSuplementoCM, $objeto )){
+                    $aux->push($obj[$i]);
+                }
+            }
+            $obj = $aux;
+        }
+        $links = false;
+        return view('objSupCM.index', compact('obj','links'));
+    }
+
+    public function ObjSupCESearch(Request $request){
+        $objeto = $request->input('objeto');
+
+        $BaseQuery = ObjetoSuplementoCE::query()->get();
+
+        $obj = collect([]);
+        for ($i=0; $i < count($BaseQuery); $i++) {
+            $obj->push($BaseQuery[$i]);
+        }
+
+        //dd($EServicios);
+
+        if ($objeto!= null) {
+            $aux = collect([]);
+            for ($i=0; $i < count($obj); $i++) {
+                if(strstr( $obj[$i]->objeto, $objeto )){
+                    $aux->push($obj[$i]);
+                }
+            }
+            $obj = $aux;
+        }
+        $links = false;
+        return view('objSupCE.index', compact('obj','links'));
     }
 }

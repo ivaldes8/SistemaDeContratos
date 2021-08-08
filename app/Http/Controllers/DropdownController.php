@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Area;
 use App\Models\EntidadGO;
+use App\Models\ObjetoSuplementoCE;
+use App\Models\ObjetoSuplementoCM;
 use App\Models\Servicio;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -111,4 +113,52 @@ class DropdownController extends Controller
 
     return response()->json($service);
  }
+
+ public function getObjetos(Request $request){
+   $obj = $request->obj;
+
+   $BaseQuery = ObjetoSuplementoCM::query()
+       ->get();
+
+       $objeto = collect([]);
+       for ($i=0; $i < count($BaseQuery); $i++) {
+         $objeto->push($BaseQuery[$i]);
+       }
+
+     if ($obj != '@') {
+        $aux = collect([]);
+        for ($i=0; $i < count($objeto); $i++) {
+            if(strstr( $objeto[$i]->ObjetoSuplementoCM, $obj )){
+                $aux->push($objeto[$i]);
+            }
+        }
+        $objeto = $aux;
+     }
+
+   return response()->json($objeto);
+   }
+
+   public function getObjetos2(Request $request){
+      $obj = $request->obj;
+   
+      $BaseQuery = ObjetoSuplementoCE::query()
+          ->get();
+   
+          $objeto = collect([]);
+          for ($i=0; $i < count($BaseQuery); $i++) {
+            $objeto->push($BaseQuery[$i]);
+          }
+   
+        if ($obj != '@') {
+           $aux = collect([]);
+           for ($i=0; $i < count($objeto); $i++) {
+               if(strstr( $objeto[$i]->ObjetoSuplementoCE, $obj )){
+                   $aux->push($objeto[$i]);
+               }
+           }
+           $objeto = $aux;
+        }
+   
+      return response()->json($objeto);
+      }
 }

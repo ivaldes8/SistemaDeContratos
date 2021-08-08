@@ -181,10 +181,13 @@
                         </thead>
                         <tbody>
                         @foreach ($CE as $item)
-                            <tr style="font-size: 70%; {{$item->fechaEnd <= $now ? 'background-color: red' : ''}}"
-                            class = "{{$item->fechaEnd <= $ThreeDaysearly && $item->fechaEnd > $now ? 'bg-warning' : ''}}">
+                        <tr style="font-size: 70%; {{$item->estado == 'Terminado' ? 'background-color: red' : ''}}"
+                            class = "{{ \Carbon\Carbon::createFromFormat('d-m-y', \Carbon\Carbon::parse($item->fechaEndCE)->format('d-m-y'))->gte($now) 
+                                        &&
+                                    \Carbon\Carbon::createFromFormat('d-m-y', \Carbon\Carbon::parse($item->fechaEndCE)->format('d-m-y'))->lte($ThreeDaysearly) 
+                                        ? 'bg-warning' : ''}}">
                             <td>{{$item->CMs->noContrato}}</td>
-                            <td><a href="{{url('contratos_especificos/'.$item->id.'/edit')}}">{{$item->noContratoEspecifico}}</a></td>
+                            <td><a href="{{url('contratos_especificos/'.$item->idCEspecifico.'/edit')}}">{{$item->noContratoEspecifico}}</a></td>
                             <td>{{$item->CMs->objeto}}</td>
                             <td>
                                 @foreach ($servicios as $servicio)
@@ -201,7 +204,7 @@
                             <td>{{$item->fechaEndCE}}</td>
                             <td>{{$item->observaciones}}</td>
                             <td>{{$item->monto}}</td>
-                            <td>Suplementos</td>
+                            <td><a href="{{url('suplementoce/'.$item->idCEspecifico)}}">Sup</a></td>
                             <td>
                                 <form action="{{url('contratos_especificos/'.$item->idCEspecifico)}}" method="POST">
                                     @csrf

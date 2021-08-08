@@ -38,6 +38,12 @@ background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(194,209,254,1) 
                             <a class="dropdown-item" href="{{ url('servicio_area') }}">
                                 Servicios
                             </a>
+                            <a class="dropdown-item" href="{{ url('obj_sup_cm') }}">
+                                Objeto de Contratos Marcos
+                            </a>
+                            <a class="dropdown-item" href="{{ url('obj_sup_ce') }}">
+                                Objeto de Contratos Específicos
+                            </a>
                             <a class="dropdown-item" href="{{url('user')}}">
                                 Usuarios
                             </a>
@@ -59,6 +65,12 @@ background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(194,209,254,1) 
                             </a>
                             <a class="dropdown-item" href="{{ url('contratos_especificos') }}">
                                 Consulta de Contratos Específicos
+                            </a>
+                            <a class="dropdown-item" href="{{ url('suplementocm') }}">
+                                Consulta de Suplementos de Contratos Marco
+                            </a>
+                            <a class="dropdown-item" href="{{ url('suplementoce') }}">
+                                Consulta de Suplementos de Contratos Específicos
                             </a>
                             <a class="dropdown-item" href="{{ route('logout') }}">
                                 Contratos Marco por Vencer

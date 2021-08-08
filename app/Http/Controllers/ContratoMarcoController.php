@@ -22,9 +22,31 @@ class ContratoMarcoController extends Controller
     public function index()
     {
         $CM = ContratoMarco::paginate(50);
+        $CMS = ContratoMarco::all();
+
         //$last = ContratoMarco::latest()->first();
-        $now = Carbon::now()->format('d-m-y');
-        $ThreeDaysearly = Carbon::now()->addDays(3)->format('d-m-y');
+        $now2 = Carbon::now()->format('d-m-y');
+        $now = Carbon::createFromFormat('d-m-y',$now2);
+
+        $ThreeDaysearly2 = Carbon::now()->addMonth(3)->format('d-m-y');
+        $ThreeDaysearly = Carbon::createFromFormat('d-m-y',$ThreeDaysearly2);
+
+        for ($i=0; $i < count($CMS); $i++) { 
+            $endDate = Carbon::parse($CMS[$i]->fechaEnd)->format('d-m-y');
+            $fechaEnd = Carbon::createFromFormat('d-m-y', $endDate);
+
+            $actual = Carbon::now()->format('d-m-y');
+            $RightNow = Carbon::createFromFormat('d-m-y',$actual);
+            //dd($RightNow);
+            //dd($fechaEnd);
+            //dd($RightNow->gte($fechaEnd));
+            if($fechaEnd->lte($RightNow)){
+                $contrato = ContratoMarco::find($CMS[$i]->id);
+                $contrato->estado = 'Vencido';
+                $contrato->update();
+            }
+         }
+        
         $organismos = Organismo::all();
         $objeto = ObjetoCM::all();
         $links = true;
@@ -60,7 +82,6 @@ class ContratoMarcoController extends Controller
             'emailContacto' => 'required',
             'elaboradoPor' => 'required',
             'fechaIni' => 'required',
-            'fechaEnd' => 'required'
         ],[
             'objeto.required' => "Tiene que seleccioanr un objeto",
             'organismo.required' => "Tiene que seleccionar un organismo",
@@ -70,7 +91,6 @@ class ContratoMarcoController extends Controller
             'emailContacto.required' => 'Tiene que introducir el email del contacto',
             'elaboradoPor.required' => 'Tiene que espesificar por quién fue elaborado',
             'fechaIni.required' => 'Tiene que seleccioanr una fecha de firma',
-            'fechaEnd.required' => 'Tiene que seleccioanr una fecha de vencimiento'
         ]);
 
         $last = ContratoMarco::latest()->first();
@@ -88,6 +108,17 @@ class ContratoMarcoController extends Controller
         }
         //dd($noContract);
 
+        $fechaFinal = $request->input('fechaEnd');
+        if($fechaFinal == null){
+            $fechaEnd = Carbon::parse($request->input('fechaIni'))->format('d-m-YY');
+            $fechaEnd2 = Carbon::createFromFormat('d-m-YY',$fechaEnd);
+            $fechaEnd3 = $fechaEnd2->addYear(5)->format('d-m-Y');
+           // dd($fechaEnd3);
+        }
+        else{
+            $fechaEnd3 = $request->input('fechaEnd');
+        }
+
         //$paymentDate = '05/06/2021';
         $CM = new ContratoMarco();
         $CM->noContrato = $noContract;
@@ -97,7 +128,7 @@ class ContratoMarcoController extends Controller
         $CM->idClient = $request->input('cliente');
         $CM->estado = $request->input('estado');
         $CM->fechaIni = $request->input('fechaIni');
-        $CM->fechaEnd = $request->input('fechaEnd');
+        $CM->fechaEnd = $fechaEnd3;
         $CM->nombreContacto = $request->input('nombreContacto');
         $CM->emailContacto = $request->input('emailContacto');
         $CM->elaboradoPor = $request->input('elaboradoPor');

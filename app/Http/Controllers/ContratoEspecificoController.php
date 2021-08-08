@@ -21,9 +21,32 @@ class ContratoEspecificoController extends Controller
      */
     public function index()
     {
+        $now2 = Carbon::now()->format('d-m-y');
+        $now = Carbon::createFromFormat('d-m-y',$now2);
+
+        $ThreeDaysearly2 = Carbon::now()->addMonth(3)->format('d-m-y');
+        $ThreeDaysearly = Carbon::createFromFormat('d-m-y',$ThreeDaysearly2);
+
+        $CES = ContratoEspecifico::all();
+        for ($i=0; $i < count($CES); $i++) { 
+            $endDate = Carbon::parse($CES[$i]->fechaEndCE)->format('d-m-y');
+            $fechaEnd = Carbon::createFromFormat('d-m-y', $endDate);
+
+            $actual = Carbon::now()->format('d-m-y');
+            $RightNow = Carbon::createFromFormat('d-m-y',$actual);
+            //dd($RightNow);
+            //dd($fechaEnd);
+            //dd($RightNow->gte($fechaEnd));
+            if($fechaEnd->lte($RightNow)){
+                $contrato = ContratoEspecifico::where('idCEspecifico', $CES[$i]->idCEspecifico);
+                if($contrato){
+                    //$contrato[0]->estado = 'Terminado';
+                    //$contrato[0]->update();
+                    $contrato->update(['estado' => 'Terminado']);
+                }
+            }
+         }
         $CE = ContratoEspecifico::paginate(50);
-        $now = Carbon::now()->format('d-m-y');
-        $ThreeDaysearly = Carbon::now()->addDays(3)->format('d-m-y');
         $servicios = EntidadServicioContratoE::all();
         $organismos = Organismo::all();
         $area = Area::all();
@@ -56,20 +79,28 @@ class ContratoEspecificoController extends Controller
     {
         $validatedData = $request->validate([
             'fechaIni' => 'required',
-            'fechaEnd' => 'required',
             'ejecutorName' => 'required',
             'clienteName' => 'required',
             'area' => 'required',
             'services' => 'required'
         ],[
             'fechaIni.required' => 'Tiene que introducir una fecha de inicio',
-            'fechaEnd.required' => 'Tiene que introducir una fecha final',
             'ejecutorName.required' => 'Tiene que introducir el nombre del prestador',
             'clienteName.required' => 'Tiene que introducir el nombre del cliente',
             'area.required' => 'Tiene que seleccionar un área',
             'services.required' => 'Tiene que seleccionar uno o más servicios'
         ]);
-        
+
+        $fechaFinal = $request->input('fechaEnd');
+        if($fechaFinal == null){
+            $fechaEnd = Carbon::parse($request->input('fechaIni'))->format('d-m-YY');
+            $fechaEnd2 = Carbon::createFromFormat('d-m-YY',$fechaEnd);
+            $fechaEnd3 = $fechaEnd2->addYear(1)->format('d-m-Y');
+           // dd($fechaEnd3);
+        }
+        else{
+            $fechaEnd3 = $request->input('fechaEnd');
+        }
 
         $noCE = count(ContratoEspecifico::where('idCM', $request->input('noContrato'))->get());
 
@@ -79,7 +110,7 @@ class ContratoEspecificoController extends Controller
         $CE->noContratoEspecifico = $noCE + 1;
         $CE->estado = $request->input('estado');
         $CE->fechaIniCE = $request->input('fechaIni');
-        $CE->fechaEndCE = $request->input('fechaEnd');
+        $CE->fechaEndCE = $fechaEnd3;
         $CE->ejecutorname = $request->input('ejecutorName');
         $CE->clienteName = $request->input('clienteName');
         $CE->observaciones = $request->input('observaciones');
@@ -110,8 +141,13 @@ class ContratoEspecificoController extends Controller
     {
         $CM = ContratoMarco::find($id);
         $CE = ContratoEspecifico::where('idCM', $id)->get();
-        $now = Carbon::now()->format('d-m-y');
-        $ThreeDaysearly = Carbon::now()->addDays(3)->format('d-m-y');
+        
+        $now2 = Carbon::now()->format('d-m-y');
+        $now = Carbon::createFromFormat('d-m-y',$now2);
+
+        $ThreeDaysearly2 = Carbon::now()->addMonth(3)->format('d-m-y');
+        $ThreeDaysearly = Carbon::createFromFormat('d-m-y',$ThreeDaysearly2);
+
         $servicios = EntidadServicioContratoE::all();
         $organismos = Organismo::all();
         $area = Area::all();
