@@ -65,7 +65,7 @@
                                     </div>
                                     <div class="row mb-2">
                                         <div class="col-3">
-                                            Cliente:
+                                            Cliente-Proveedor:
                                         </div>
                                         <div class="col-9">
                                             <select name="cliente" id="client" class="col-8 form-control form-control-sm">
@@ -133,6 +133,20 @@
                                         </div>
                                         <div class="col-7">
                                             <input type='text' class="form-control form-control-sm" id="datepicker4"  name="VfechaEnd" />
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="col-2">
+                                            Cliente:
+                                        </div>
+                                        <div class="col-3">
+                                            <input  type="checkbox" name="client"></p>
+                                        </div>
+                                        <div class="col-3">
+                                            Proveedor:
+                                        </div>
+                                        <div class="col-3">
+                                            <input  type="checkbox" name="proveedor"></p>
                                         </div>
                                     </div>
                                     <div class="col-1">

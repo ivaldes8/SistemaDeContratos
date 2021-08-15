@@ -57,12 +57,6 @@ background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(194,209,254,1) 
                             <a class="dropdown-item" href="{{ url('contratos_marco') }}">
                                 Contratos Marco
                             </a>
-                            <a class="dropdown-item" href="{{ route('logout') }}">
-                                Contratos Marco Proveedores
-                            </a>
-                            <a class="dropdown-item" href="{{ route('logout') }}">
-                                Contratos Marco Clientes
-                            </a>
                             <a class="dropdown-item" href="{{ url('contratos_especificos') }}">
                                 Consulta de Contratos Específicos
                             </a>

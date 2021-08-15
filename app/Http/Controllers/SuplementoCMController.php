@@ -54,13 +54,16 @@ class SuplementoCMController extends Controller
     {
         //dd($request);
         $validatedData = $request->validate([
-            'fecha' => 'required',
-            'fechaEnd' => 'required',
+            'fecha' => 'required|date|before:fechaEnd',
+            'fechaEnd' => 'required|date|after:fecha|before:fechaEndCM',
             'ejecutor' => 'required',
             'objs' => 'required'
         ],[
             'fechaEnd.required' => 'Tiene que introducir una fecha final',
             'fecha.required' => 'Tiene que introducir una fecha de inicio',
+            'fechaEnd.after' => 'La fecha de vencimiento tiene que ser mayor que la fecha de inicio',
+            'fechaEnd.before' =>  'La fecha de vencimiento del Suplemento no puede ser mayor que la fecha de vencimiento del Contrato Marco',
+            'fecha.before' => 'La fecha de inicio tiene que ser menor que la fecha de vencimiento',
             'ejecutor.required' => 'Tiene que introducir el nombre del ejecutor',
             'objs.required' => 'Tiene que seleccionar uno o más objetos de suplementos'
         ]);
@@ -121,10 +124,11 @@ class SuplementoCMController extends Controller
     public function edit($id)
     {
         $Sup = SuplementoCM::where('id',$id)->get();
+        $CM = ContratoMarco::find($Sup[0]->idCMSuplemto);
         $selectedObjs = EntidadSuplementoObjCM::where('idSupCM',$id)->get();
         $obj = ObjetoSuplementoCM::all();
         //dd($selectedServ);
-        return view('suplemento_CM.edit', compact('Sup','selectedObjs','obj'));
+        return view('suplemento_CM.edit', compact('CM','Sup','selectedObjs','obj'));
     }
 
     /**
@@ -137,13 +141,16 @@ class SuplementoCMController extends Controller
     public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
-            'fecha' => 'required',
-            'fechaEnd' => 'required',
+            'fecha' => 'required|date|before:fechaEnd',
+            'fechaEnd' => 'required|date|after:fecha|before:fechaEndCM',
             'ejecutor' => 'required',
             'objs' => 'required'
         ],[
             'fechaEnd.required' => 'Tiene que introducir una fecha final',
             'fecha.required' => 'Tiene que introducir una fecha de inicio',
+            'fechaEnd.after' => 'La fecha de vencimiento tiene que ser mayor que la fecha de inicio',
+            'fechaEnd.before' =>  'La fecha de vencimiento del Suplemento no puede ser mayor que la fecha de vencimiento del Contrato Marco',
+            'fecha.before' => 'La fecha de inicio tiene que ser menor que la fecha de vencimiento',
             'ejecutor.required' => 'Tiene que introducir el nombre del ejecutor',
             'objs.required' => 'Tiene que seleccionar uno o más objetos de suplementos'
         ]);

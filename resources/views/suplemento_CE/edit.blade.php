@@ -47,9 +47,21 @@
                                             <p>No.Suplemento: Autogenerable</p>
                                         </div>
                                         <div class="form-group mb-3">
+                                            <label>Fecha de firma del Contrato Específico:</label>
+                                            <div class='input-group'>
+                                                <input type='text' class="form-control" readonly value="{{$CE[0]->fechaIniCE}}"  name="fechaIniCE" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-3">
                                             <label>Fecha de firma:</label>
                                             <div class='input-group'>
                                                 <input type='text' class="@error('fecha') is-invalid @enderror form-control" id="datepicker" value="{{ $Sup[0]->fechaIniSup }}" name="fecha" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label>Fecha de vencimiento del Contrato Específico:</label>
+                                            <div class='input-group'>
+                                                <input type='text' class="form-control" readonly value="{{$CE[0]->fechaEndCE}}"  name="fechaEndCE" />
                                             </div>
                                         </div>
                                         <div class="form-group mb-3">

@@ -52,11 +52,11 @@
                             <select name="grupo" id="grupo" class="col-8">
                             </select>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group mt-2">
                             <label for="client">Cliente:</label>
                             <select name="cliente" id="client" class="col-8"></select>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group mt-2">
                             <label for="estado">Estado:</label>
                             <select name="estado" id="estado" class="col-8">
                                 <option value="Vigente">Vigente</option>
@@ -111,12 +111,17 @@
                             autoclose: true,
                             format: 'dd-mm-yyyy'
                         });
+                        $('#datepicker').change(function(){
+                          let aux = $(this).val().split('-')
+                          let aux2 = Number(aux[2]) + 5
+                          $('#datepicker2').datepicker('setDate', aux[0]+ '-' + aux[1] + '-' + aux2);
+                        });
                     </script>
                      <script type="text/javascript">
                         $('#datepicker2').datepicker({
                             autoclose: true,
-                            format: 'dd-mm-yyyy'
-                        });
+                            format: 'dd-mm-yyyy',
+                        });       
                     </script>
                     <script type=text/javascript>
                         organismo = 1;

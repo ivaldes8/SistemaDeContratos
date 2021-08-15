@@ -394,6 +394,15 @@ class SearchController extends Controller
         $FfechaEnd = $request->input('FfechaEnd');
         $VfechaIni = $request->input('VfechaIni');
         $VfechaEnd = $request->input('VfechaEnd');
+        
+        $client = $request->input('client');
+        $proveedor = $request->input('proveedor');
+        if ($client == 'on') {
+            $client = 1;
+        }
+        if ($proveedor == 'on') {
+            $proveedor = 1;
+        }
 
         if($FfechaIni == null){
             $FfechaEnd = null;
@@ -403,12 +412,19 @@ class SearchController extends Controller
             $VfechaEnd = null;
         }
 
-        //dd($request);
+        //dd($client);
         $BaseQuery = ContratoMarco::query()
         ->join("grupos",'grupos.id', '=', 'grupo')
         ->join("organismos", 'organismos.id', '=', 'organismo')
         ->join("ClientsView", 'ClientsView.identidad', "=", 'idClient')
         ->get();
+        //dd($BaseQuery);
+
+        $BaseQuery2 = EntidadCP::all();
+        $EntidadCP = collect([]);
+        for ($i=0; $i < count($BaseQuery2); $i++) { 
+            $EntidadCP->push($BaseQuery2[$i]);
+        }
 
         $CM = collect([]);
         for ($i=0; $i < count($BaseQuery); $i++) {
@@ -494,16 +510,32 @@ class SearchController extends Controller
             }
             $CM = $aux;
         }
-
-        if ($codReu!= null) {
+        
+        //dd($CM);
+        if ($client!= 0) {
             $aux = collect([]);
-            for ($i=0; $i < count($CM); $i++) {
-                if(strstr( $CM[$i]->codigoreu, $codReu )){
-                    $aux->push($CM[$i]);
+            for ($i=0; $i < count($CM); $i++) { 
+                for ($j=0; $j < count($EntidadCP); $j++) { 
+                    if ($CM[$i]->identidad == $EntidadCP[$j]->idClientCP && $EntidadCP[$j]->cliente == 1){
+                        $aux->push($CM[$i]);
+                    }
                 }
             }
             $CM = $aux;
         }
+
+        if ($proveedor!= 0) {
+            $aux = collect([]);
+            for ($i=0; $i < count($CM); $i++) { 
+                for ($j=0; $j < count($EntidadCP); $j++) { 
+                    if ($CM[$i]->identidad == $EntidadCP[$j]->idClientCP && $EntidadCP[$j]->proveedor == 1){
+                        $aux->push($CM[$i]);
+                    }
+                }
+            }
+            $CM = $aux;
+        }
+
         if($FfechaIni != null && $FfechaEnd != null){
             $initialDate = Carbon::parse($FfechaIni)->format('d-m-y');
             $endDate = Carbon::parse($FfechaEnd)->format('d-m-y');
@@ -567,7 +599,7 @@ class SearchController extends Controller
 
         $ThreeDaysearly2 = Carbon::now()->addMonth(3)->format('d-m-y');
         $ThreeDaysearly = Carbon::createFromFormat('d-m-y',$ThreeDaysearly2);
-
+        //dd($CM);
         $organismos = Organismo::all();
         $objeto = ObjetoCM::all();
         $links = false;

@@ -54,13 +54,16 @@ class SuplementoCEController extends Controller
     {
          //dd($request);
          $validatedData = $request->validate([
-            'fecha' => 'required',
-            'fechaEnd' => 'required',
+            'fecha' => 'required|date|before:fechaEnd',
+            'fechaEnd' => 'required|date|after:fecha|before:fechaEndCE',
             'ejecutor' => 'required',
             'objs' => 'required'
         ],[
             'fechaEnd.required' => 'Tiene que introducir una fecha final',
             'fecha.required' => 'Tiene que introducir una fecha de inicio',
+            'fechaEnd.after' => 'La fecha de vencimiento tiene que ser mayor que la fecha de inicio',
+            'fechaEnd.before' =>  'La fecha de vencimiento del Suplemento no puede ser mayor que la fecha de vencimiento del Contrato Específico',
+            'fecha.before' => 'La fecha de inicio tiene que ser menor que la fecha de vencimiento',
             'ejecutor.required' => 'Tiene que introducir el nombre del ejecutor',
             'objs.required' => 'Tiene que seleccionar uno o más objetos de suplementos'
         ]);
@@ -120,10 +123,11 @@ class SuplementoCEController extends Controller
     public function edit($id)
     {
         $Sup = SuplementoCE::where('id',$id)->get();
+        $CE = ContratoEspecifico::where('idCEspecifico',$Sup[0]->idCESuplemto)->get();
         $selectedObjs = EntidadSuplementoObjCE::where('idSupCE',$id)->get();
         $obj = ObjetoSuplementoCE::all();
         //dd($selectedServ);
-        return view('suplemento_CE.edit', compact('Sup','selectedObjs','obj'));
+        return view('suplemento_CE.edit', compact('CE','Sup','selectedObjs','obj'));
     }
 
     /**
@@ -136,13 +140,16 @@ class SuplementoCEController extends Controller
     public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
-            'fecha' => 'required',
-            'fechaEnd' => 'required',
+            'fecha' => 'required|date|before:fechaEnd',
+            'fechaEnd' => 'required|date|after:fecha|before:fechaEndCE',
             'ejecutor' => 'required',
             'objs' => 'required'
         ],[
             'fechaEnd.required' => 'Tiene que introducir una fecha final',
             'fecha.required' => 'Tiene que introducir una fecha de inicio',
+            'fechaEnd.after' => 'La fecha de vencimiento tiene que ser mayor que la fecha de inicio',
+            'fechaEnd.before' =>  'La fecha de vencimiento del Suplemento no puede ser mayor que la fecha de vencimiento del Contrato Específico',
+            'fecha.before' => 'La fecha de inicio tiene que ser menor que la fecha de vencimiento',
             'ejecutor.required' => 'Tiene que introducir el nombre del ejecutor',
             'objs.required' => 'Tiene que seleccionar uno o más objetos de suplementos'
         ]);

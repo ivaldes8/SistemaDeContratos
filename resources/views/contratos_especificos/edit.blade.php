@@ -54,9 +54,21 @@
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group mb-3">
+                                            <label>Fecha de firma del Contrato Marco:</label>
+                                            <div class='input-group'>
+                                                <input type='text' class="form-control" readonly value="{{$CM->fechaIni}}"  name="fechaIniCM" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-3">
                                             <label>Fecha de firma:</label>
                                             <div class='input-group'>
                                                 <input type='text' class="@error('fechaIni') is-invalid @enderror form-control" id="datepicker" value="{{$contratoE[0]->fechaIniCE}}"  name="fechaIni" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label>Fecha de vencimiento del Contrato Marco:</label>
+                                            <div class='input-group'>
+                                                <input type='text' class="form-control" readonly  value="{{$CM->fechaEnd}}" name="fechaEndCM" />
                                             </div>
                                         </div>
                                         <div class="form-group mb-3">
@@ -185,6 +197,11 @@
                        $('#datepicker').datepicker({
                             autoclose: true,
                             format: 'dd-mm-yyyy'
+                        });
+                        $('#datepicker').change(function(){
+                          let aux = $(this).val().split('-')
+                          let aux2 = Number(aux[2]) + 1
+                          $('#datepicker2').datepicker('setDate', aux[0]+ '-' + aux[1] + '-' + aux2);
                         });
                     </script>
                      <script type="text/javascript">

@@ -132,6 +132,11 @@
                             autoclose: true,
                             format: 'dd-mm-yyyy'
                         });
+                        $('#datepicker').change(function(){
+                          let aux = $(this).val().split('-')
+                          let aux2 = Number(aux[2]) + 5
+                          $('#datepicker2').datepicker('setDate', aux[0]+ '-' + aux[1] + '-' + aux2);
+                        });
                     </script>
                      <script type="text/javascript">
                         $('#datepicker2').datepicker({

@@ -78,13 +78,19 @@ class ContratoEspecificoController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'fechaIni' => 'required',
+            'fechaEndCM'=>'date',
+            'fechaIni' => 'required|date|before:fechaEnd',
+            'fechaEnd' => 'required|date|after:fechaIni|before:fechaEndCM',
             'ejecutorName' => 'required',
             'clienteName' => 'required',
             'area' => 'required',
             'services' => 'required'
         ],[
-            'fechaIni.required' => 'Tiene que introducir una fecha de inicio',
+            'fechaIni.required' => 'Tiene que seleccioanr una fecha de firma',
+            'fechaEnd.required' => 'Tiene que seleccioanr una fecha de vencimiento',
+            'fechaIni.before' => 'La fecha de inicio tiene que ser menor que la fecha de vencimiento',
+            'fechaEnd.after' => 'La fecha de vencimiento tiene que ser mayor que la fecha de inicio',
+            'fechaEnd.before' => 'La fecha de vencimiento del Contrato Específico no puede ser mayor que la fecha de vencimiento del Contrato Marco',
             'ejecutorName.required' => 'Tiene que introducir el nombre del prestador',
             'clienteName.required' => 'Tiene que introducir el nombre del cliente',
             'area.required' => 'Tiene que seleccionar un área',
@@ -163,12 +169,13 @@ class ContratoEspecificoController extends Controller
     public function edit($id)
     {
         $contratoE = ContratoEspecifico::where('idCEspecifico',$id)->get();
+        $CM = ContratoMarco::find($contratoE[0]->idCM);
         $selectedServ = EntidadServicioContratoE::where('idContratoEspecifico',$id)->get();
         $area = Area::all();
         $servicios= Servicio::all();
         $entidadAS = EntidadAreaServico::all();
         //dd($selectedServ);
-        return view('contratos_especificos.edit', compact('contratoE','selectedServ','area','servicios','entidadAS'));
+        return view('contratos_especificos.edit', compact('CM','contratoE','selectedServ','area','servicios','entidadAS'));
     }
 
     /**
@@ -182,15 +189,18 @@ class ContratoEspecificoController extends Controller
     {
        // dd($request);
         $validatedData = $request->validate([
-            'fechaIni' => 'required',
-            'fechaEnd' => 'required',
+            'fechaIni' => 'required|date|before:fechaEnd',
+            'fechaEnd' => 'required|date|after:fechaIni|before:fechaEndCM',
             'ejecutorName' => 'required',
             'clienteName' => 'required',
             'area' => 'required',
             'services' => 'required'
         ],[
-            'fechaIni.required' => 'Tiene que introducir una fecha de inicio',
-            'fechaEnd.required' => 'Tiene que introducir una fecha final',
+            'fechaIni.required' => 'Tiene que seleccioanr una fecha de firma',
+            'fechaEnd.required' => 'Tiene que seleccioanr una fecha de vencimiento',
+            'fechaIni.before' => 'La fecha de inicio tiene que ser menor que la fecha de vencimiento',
+            'fechaEnd.after' => 'La fecha de vencimiento tiene que ser mayor que la fecha de inicio',
+            'fechaEnd.before' => 'La fecha de vencimiento del Contrato Específico no puede ser mayor que la fecha de vencimiento del Contrato Marco',
             'ejecutorName.required' => 'Tiene que introducir el nombre del prestador',
             'clienteName.required' => 'Tiene que introducir el nombre del cliente',
             'area.required' => 'Tiene que seleccionar un área',

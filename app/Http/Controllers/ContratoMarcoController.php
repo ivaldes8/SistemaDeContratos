@@ -81,7 +81,8 @@ class ContratoMarcoController extends Controller
             'nombreContacto' => 'required',
             'emailContacto' => 'required',
             'elaboradoPor' => 'required',
-            'fechaIni' => 'required',
+            'fechaIni' => 'required|date|before:fechaEnd',
+            'fechaEnd' => 'required|date|after:fechaIni'
         ],[
             'objeto.required' => "Tiene que seleccioanr un objeto",
             'organismo.required' => "Tiene que seleccionar un organismo",
@@ -91,6 +92,9 @@ class ContratoMarcoController extends Controller
             'emailContacto.required' => 'Tiene que introducir el email del contacto',
             'elaboradoPor.required' => 'Tiene que espesificar por quién fue elaborado',
             'fechaIni.required' => 'Tiene que seleccioanr una fecha de firma',
+            'fechaEnd.required' => 'Tiene que seleccioanr una fecha de vencimiento',
+            'fechaIni.before' => 'La fecha de inicio tiene que ser menor que la fecha de vencimiento',
+            'fechaEnd.after' => 'La fecha de vencimiento tiene que ser mayor que la fecha de inicio',
         ]);
 
         $last = ContratoMarco::latest()->first();
@@ -184,8 +188,8 @@ class ContratoMarcoController extends Controller
             'nombreContacto' => 'required',
             'emailContacto' => 'required',
             'elaboradoPor' => 'required',
-            'fechaIni' => 'required',
-            'fechaEnd' => 'required'
+            'fechaIni' => 'required|date|before:fechaEnd',
+            'fechaEnd' => 'required|date|after:fechaIni'
         ],[
             'objeto.required' => "Tiene que seleccioanr un objeto",
             'organismo.required' => "Tiene que seleccionar un organismo",
@@ -195,7 +199,9 @@ class ContratoMarcoController extends Controller
             'emailContacto.required' => 'Tiene que introducir el email del contacto',
             'elaboradoPor.required' => 'Tiene que espesificar por quién fue elaborado',
             'fechaIni.required' => 'Tiene que seleccioanr una fecha de firma',
-            'fechaEnd.required' => 'Tiene que seleccioanr una fecha de vencimiento'
+            'fechaEnd.required' => 'Tiene que seleccioanr una fecha de vencimiento',
+            'fechaIni.before' => 'La fecha de inicio tiene que ser menor que la fecha de vencimiento',
+            'fechaEnd.after' => 'La fecha de vencimiento tiene que ser mayor que la fecha de inicio',
         ]);
 
 
