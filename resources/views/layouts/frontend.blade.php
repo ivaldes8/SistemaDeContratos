@@ -16,6 +16,8 @@
         <script src="{{ asset('frontend/js/ajaxpropper.js') }}"></script>
         <script src="{{asset('frontend/js/bootstrap5.bundle.js')}}"></script>
         <script src="{{ asset('js/moment.min.js') }}"></script>
+        <script src="{{ asset('js/xlsx.full.min.js') }}"></script>
+        <script src="{{ asset('js/FileSaver.min.js') }}"></script>
         <style>
             body {
                 font-family: 'Nunito', sans-serif;
@@ -27,5 +29,18 @@
                 @include('layouts.inc.navbar')
                 @yield('content')
             </div>
+            <script>
+                var wb = XLSX.utils.table_to_book(document.getElementById('mytable'), {sheet:"Sistema de Contratos",dateNF:'dd/mm/yyyy;@',cellDates:true, raw: true});
+                var wbout = XLSX.write(wb, {bookType:'xlsx', bookSST:false, type: 'binary'});
+                function s2ab(s) {
+                                var buf = new ArrayBuffer(s.length);
+                                var view = new Uint8Array(buf);
+                                for (var i=0; i<s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
+                                return buf;
+                }
+                $("#button-a").click(function(){
+                saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), 'DISAIC Casa Consultora.xlsx');
+                });
+            </script>
     </body>
 </html>

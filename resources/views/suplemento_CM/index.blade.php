@@ -57,19 +57,20 @@
                                 </div>
                                 
                         </div>
-                        <div class="col-1">
+                        <div class="col-2">
                             <br>
                             <br>
                             <br>
                             <br>    
                             <button class="btn btn-primary" type="submit">Buscar</button>
+                            <a class="btn btn-primary" id="button-a">Excel</a>
                         </div>
                     </form>
                 </div>
                 </div>
 
                 <div class="card-body">
-                    <table class="table table-bordered table-sm table-striped">
+                    <table class="table table-bordered table-sm table-striped" id="mytable">
                         <thead>
                             <tr style="font-size: 70%;">
                                 <th style="width: 20px;">No.ContratoMarco</th>

@@ -33,7 +33,7 @@
                     </div>
                     <br/>
                     <div class="row">
-                        <div class="col-5">
+                        <div class="col-4">
                             <label for="state">Organismo:</label>
                             <select id="organismo" name="organismo_id" class="col-8">
                                 @foreach($organismos as $organismo)
@@ -47,8 +47,9 @@
                                 <option value = '{{$grupos[0]->id}}'>{{$grupos[0]->nombreG}}</option>
                             </select>
                         </div>
-                        <div class="col-1">
+                        <div class="col-2">
                             <button class="btn btn-primary" type="submit">Buscar</button>
+                            <a class="btn btn-primary" id="button-a">Excel</a>
                         </div>
                     </div>
                 </form>
@@ -79,7 +80,7 @@
                 </script>
         </div>
         <div class="card-body">
-            <table class="table table-bordered table-sm table-striped">
+            <table class="table table-bordered table-sm table-striped" id="mytable">
                 <thead>
                     <tr style="font-size: 70%;">
                         <th style="width: 60px;">Cod.interno</th>
