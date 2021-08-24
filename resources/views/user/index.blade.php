@@ -40,8 +40,10 @@
                                 <td>
                                     @if ($item->role_as == 1)
                                         Admin
+                                    @elseif ($item->role_as == 3)
+                                        Facturador
                                     @else
-                                        User
+                                        Usuario
                                     @endif
                                 </td>
                                 <td>

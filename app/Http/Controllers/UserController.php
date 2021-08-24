@@ -42,7 +42,7 @@ class UserController extends Controller
         $user->userName = $request->input('userName');
         $user->email = $request->input('email');
         $user->password = Hash::make($request->input('password'));
-        $user->role_as = $request->input('role_as') == true ? '1':'0';
+        $user->role_as = $request->input('role_as');
         $user->save();
         return redirect('/user')->with('status','Usuario creado satisfactoriamente');
     }
@@ -83,7 +83,7 @@ class UserController extends Controller
         $user->name = $request->input('name');
         $user->userName = $request->input('userName');
         $user->email = $request->input('email');
-        $user->role_as = $request->input('role_as') == true ? '1':'0';
+        $user->role_as = $request->input('role_as');
 
         $user->update();
         return redirect('/user')->with('status','Usuario Editado satisfactoriamente');

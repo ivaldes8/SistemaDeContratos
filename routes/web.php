@@ -1,8 +1,20 @@
 <?php
 
+use App\Http\Controllers\ClienteProveedorController;
+use App\Http\Controllers\ContratoEspecificoController;
+use App\Http\Controllers\ContratoMarcoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DropdownController;
+use App\Http\Controllers\GrupoController;
+use App\Http\Controllers\ObjetoCMController;
+use App\Http\Controllers\ObjetoSupCMController;
+use App\Http\Controllers\OrganismoController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\ServicioAreaController;
+use App\Http\Controllers\SuplementoCEController;
+use App\Http\Controllers\SuplementoCMController;
+use App\Models\ObjetoSuplementoCE;
+use App\Models\ObjetoSuplementoCM;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,9 +43,6 @@ Route::get('filterObj2/{obj}',[DropdownController::class, 'getObjetos2'])->name(
 
 Route::middleware(['auth','isAdmin'])->group(function () {
     Route::resource('user', 'UserController');
-});
-
-Route::middleware(['auth'])->group(function () {
     Route::resource('organismos', 'OrganismoController');
     Route::resource('grupos', 'GrupoController');
     Route::resource('clientes_proveedores', 'ClienteProveedorController');
@@ -48,6 +57,40 @@ Route::middleware(['auth'])->group(function () {
     Route::get('suplementocm/create/{id}', 'SuplementoCMController@create');
     Route::resource('obj_sup_cm', 'ObjetoSupCMController');
     Route::resource('obj_sup_ce', 'ObjetoSupCEController');
+});
+
+Route::middleware(['auth','isFacturador'])->group(function () {
+    Route::resource('organismos', 'OrganismoController');
+    Route::resource('grupos', 'GrupoController');
+    Route::resource('clientes_proveedores', 'ClienteProveedorController');
+    Route::resource('contratos_marco', 'ContratoMarcoController');
+    Route::resource('objeto_CM', 'ObjetoCMController');
+    Route::resource('servicio_area','ServicioAreaController');
+    Route::resource('contratos_especificos', 'ContratoEspecificoController');
+    Route::get('contratos_especificos/create/{id}', 'ContratoEspecificoController@create');
+    Route::resource('suplementoce', 'SuplementoCEController');
+    Route::get('suplementoce/create/{id}', 'SuplementoCEController@create');
+    Route::resource('suplementocm', 'SuplementoCMController');
+    Route::get('suplementocm/create/{id}', 'SuplementoCMController@create');
+    Route::resource('obj_sup_cm', 'ObjetoSupCMController');
+    Route::resource('obj_sup_ce', 'ObjetoSupCEController');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('organismos',[OrganismoController::class, 'index']);
+    Route::get('grupos',[GrupoController::class, 'index']);
+    Route::get('clientes_proveedores',[ClienteProveedorController::class, 'index']);
+    Route::get('contratos_marco',[ContratoMarcoController::class, 'index']);
+    Route::get('objeto_CM',[ObjetoCMController::class, 'index']);
+    Route::get('servicio_area',[ServicioAreaController::class, 'index']);
+    Route::get('contratos_especificos',[ContratoEspecificoController::class, 'index']);
+    Route::get('contratos_especificos/create/{id}', 'ContratoEspecificoController@create');
+    Route::get('suplementoce',[SuplementoCEController::class, 'index']);
+    Route::get('suplementoce/create/{id}', 'SuplementoCEController@create');
+    Route::get('suplementocm',[SuplementoCMController::class, 'index']);
+    Route::get('suplementocm/create/{id}', 'SuplementoCMController@create');
+    Route::get('obj_sup_cm',[ObjetoSupCMController::class, 'index']);
+    Route::get('obj_sup_ce',[ObjetoSupCEController::class, 'index']);
 
     Route::get('entidadSearch',[SearchController::class, 'entidadSearch']);
     Route::get('organismoSearch',[SearchController::class, 'organismoSearch']);

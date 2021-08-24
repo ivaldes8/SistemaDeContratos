@@ -35,8 +35,12 @@
                             <input type="text" name="email" class="form-control" value="{{ $user->email }}">
                         </div>
                         <div class="form-group mb-3">
-                            <label for="">Rol</label>
-                            <input type="checkbox" name="role_as"  {!! $user->role_as == 1 ? 'checked' : '' !!}>0-user, 1-admin
+                            <label for="">Rol:</label>
+                            <select name="role_as" class="col-8 form-control">
+                                <option value="1">Administrador</option>
+                                <option value="2">Facturador</option>
+                                <option value="3">Usuario</option>
+                            </select>
                         </div>
                         <div class="form-group mb-3">
                             <button class="btn btn-primary" type="submit">Aceptar</button>

@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AdminMiddleware
+class FacturadorMiddleware
 {
     /**
      * Handle an incoming request.
@@ -19,7 +19,7 @@ class AdminMiddleware
     {
         //return $next($request);
         if(Auth::check()){
-            if(Auth::user()->role_as == '1'){
+            if(Auth::user()->role_as == '2'){
                 return $next($request);
             }
             else{
