@@ -9,6 +9,7 @@ class EntidadServicioContratoE extends Model
 {
     use HasFactory;
     protected $table = 'entidad_servicio_contrato_e_s';
+    public $timestamps = FALSE;
     protected $fillable = [
         'id',
         'idServicioS',

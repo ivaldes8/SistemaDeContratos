@@ -10,6 +10,7 @@ class ClienteProveedor extends Model
 {
     use HasFactory;
     protected $table = 'dbo.ClientsView';
+    public $timestamps = FALSE;
     protected $fillable = [
         'identidad',
         'codigo',

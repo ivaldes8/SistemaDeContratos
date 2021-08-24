@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Servicio extends Model
 {
     use HasFactory;
+    public $timestamps = FALSE;
     protected $table = 'dbo.ServicesView';
     protected $fillable = [
         'idservicio',

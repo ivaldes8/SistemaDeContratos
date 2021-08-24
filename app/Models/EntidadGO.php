@@ -9,6 +9,7 @@ class EntidadGO extends Model
 {
     use HasFactory;
     protected $table = 'entidad_g_o_s';
+    public $timestamps = FALSE;
     protected $fillable = [
         'id',
         'idClientGO',

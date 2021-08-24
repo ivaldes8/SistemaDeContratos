@@ -17,7 +17,6 @@ class CreateEntidadServicioContratoESTable extends Migration
             $table->id();
             $table->string('idServicioS')->required();
             $table->string('idContratoEspecifico')->required();
-            $table->timestamps();
         });
     }
 

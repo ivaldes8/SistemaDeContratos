@@ -28,7 +28,6 @@ class CreateContratoMarcosTable extends Migration
             $table->string('elaboradoPor')->required();
             $table->text('observaciones')->nullable();
             $table->string('idFile')->nullable();
-            $table->timestamps();
         });
     }
 

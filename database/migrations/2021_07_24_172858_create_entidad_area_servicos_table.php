@@ -17,7 +17,6 @@ class CreateEntidadAreaServicosTable extends Migration
             $table->id();
             $table->integer('idServicioS')->required();
             $table->integer('idAreaA')->nullable();
-            $table->timestamps();
         });
     }
 

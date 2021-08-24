@@ -16,7 +16,6 @@ class CreateObjetoSuplementoCMSTable extends Migration
         Schema::create('objeto_suplemento_c_m_s', function (Blueprint $table) {
             $table->id();
             $table->text('ObjetoSuplementoCM')->required();
-            $table->timestamps();
         });
     }
 

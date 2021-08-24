@@ -21,7 +21,6 @@ class CreateSuplementoCESTable extends Migration
             $table->string('fechaEndSup')->required();
             $table->string('ejecutorSup')->required();
             $table->string('observacionesSup')->nullable();
-            $table->timestamps();
             
         });
     }

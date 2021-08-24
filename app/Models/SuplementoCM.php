@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class SuplementoCM extends Model
 {
     use HasFactory;
+    public $timestamps = FALSE;
     protected $table = 'suplemento_c_m_s';
     protected $fillable = [
         'id',

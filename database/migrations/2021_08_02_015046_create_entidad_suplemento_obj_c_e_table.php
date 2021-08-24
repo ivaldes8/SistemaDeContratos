@@ -17,7 +17,6 @@ class CreateEntidadSuplementoObjCETable extends Migration
             $table->id();
             $table->integer('idSupCE')->required();
             $table->integer('idObjCE')->required();
-            $table->timestamps();
         });
     }
 

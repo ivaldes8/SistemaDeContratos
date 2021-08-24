@@ -18,7 +18,6 @@ class CreateEntidadGOSTable extends Migration
             $table->integer('idClientGO')->require();
             $table->integer('idOrganismo')->required();
             $table->integer('idGrupo')->nullable();
-            $table->timestamps();
         });
     }
 

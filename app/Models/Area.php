@@ -9,6 +9,7 @@ class Area extends Model
 {
     use HasFactory;
     protected $table = 'dbo.areasView';
+    public $timestamps = FALSE;
     protected $fillable = [
         'idarea',
         'Expr4',

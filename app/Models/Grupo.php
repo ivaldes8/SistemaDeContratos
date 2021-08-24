@@ -9,6 +9,7 @@ class Grupo extends Model
 {
     use HasFactory;
     protected $table = 'grupos';
+    public $timestamps = FALSE;
     protected $fillable = [
         'id',
         'codigoG',

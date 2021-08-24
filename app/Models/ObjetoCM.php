@@ -9,6 +9,7 @@ class ObjetoCM extends Model
 {
     use HasFactory;
     protected $table = 'objeto_c_m_s';
+    public $timestamps = FALSE;
     protected $fillable = [
         'id',
         'nombre'

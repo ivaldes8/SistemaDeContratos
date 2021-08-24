@@ -20,7 +20,6 @@ class CreateGruposTable extends Migration
             $table->string('siglasG')->nullable();
             $table->tinyInteger('activoG')->default('1')->nullable();
             $table->integer('id_Organismo')->nullable();
-            $table->timestamps();
         });
     }
 

@@ -21,7 +21,6 @@ class CreateCMfilesTable extends Migration
             $table->string('file3')->nullable();
             $table->string('file4')->nullable();
             $table->string('path')->nullable();
-            $table->timestamps();
         });
     }
 

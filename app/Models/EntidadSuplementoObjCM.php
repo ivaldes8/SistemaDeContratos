@@ -9,7 +9,7 @@ class EntidadSuplementoObjCM extends Model
 {
     use HasFactory;
     protected $table = 'entidad_suplemento_obj_c_m';
-    
+    public $timestamps = FALSE;
     protected $fillable = [
         'id',
         'idSupCM',

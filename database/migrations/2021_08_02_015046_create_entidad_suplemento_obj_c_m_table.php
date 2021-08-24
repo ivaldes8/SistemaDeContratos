@@ -17,7 +17,6 @@ class CreateEntidadSuplementoObjCMTable extends Migration
             $table->id();
             $table->integer('idSupCM')->required();
             $table->integer('idObjCM')->required();
-            $table->timestamps();
         });
     }
 

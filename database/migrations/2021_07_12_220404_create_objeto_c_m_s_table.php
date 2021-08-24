@@ -16,7 +16,6 @@ class CreateObjetoCMSTable extends Migration
         Schema::create('objeto_c_m_s', function (Blueprint $table) {
             $table->id();
             $table->string('nombre')->required();
-            $table->timestamps();
         });
     }
 

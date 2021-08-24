@@ -18,7 +18,6 @@ class CreateEntidadCPSTable extends Migration
             $table->boolean('cliente')->default('false');
             $table->boolean('proveedor')->default('false');
             $table->integer('idClientCP');
-            $table->timestamps();
         });
     }
 

@@ -9,6 +9,7 @@ class CMfile extends Model
 {
     use HasFactory;
     protected $table = 'cm_files';
+    public $timestamps = FALSE;
     protected $fillable = [
         'id',
         'id_CM',

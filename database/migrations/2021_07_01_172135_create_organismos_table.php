@@ -19,7 +19,6 @@ class CreateOrganismosTable extends Migration
             $table->string('nombreO')->required();
             $table->string('siglasO')->required();
             $table->tinyInteger('activoO')->default('1')->nullable();
-            $table->timestamps();
         });
     }
 
