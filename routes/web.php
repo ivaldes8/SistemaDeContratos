@@ -43,6 +43,7 @@ Route::get('filterObj2/{obj}',[DropdownController::class, 'getObjetos2'])->name(
 
 Route::middleware(['auth','isAdmin'])->group(function () {
     Route::resource('user', 'UserController');
+    
     Route::resource('organismos', 'OrganismoController');
     Route::resource('grupos', 'GrupoController');
     Route::resource('clientes_proveedores', 'ClienteProveedorController');
@@ -57,6 +58,7 @@ Route::middleware(['auth','isAdmin'])->group(function () {
     Route::get('suplementocm/create/{id}', 'SuplementoCMController@create');
     Route::resource('obj_sup_cm', 'ObjetoSupCMController');
     Route::resource('obj_sup_ce', 'ObjetoSupCEController');
+   
 });
 
 Route::middleware(['auth','isFacturador'])->group(function () {

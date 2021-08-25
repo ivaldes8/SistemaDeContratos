@@ -42,7 +42,7 @@
                             <select name="role_as" class="col-8 form-control">
                                 <option value="1">Administrador</option>
                                 <option value="2">Facturador</option>
-                                <option value="3">Usuario</option>
+                                <option value="3">Consultor</option>
                             </select>
                         </div>
                         <div class="form-group mb-3">

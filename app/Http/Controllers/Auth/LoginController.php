@@ -35,12 +35,12 @@ class LoginController extends Controller
         if(Auth::user()->role_as == '1'){
             return redirect('/home')->with('status', 'Bienvenido administrador');
         }
-        elseif(Auth::user()->role_as == '3'){
-            return redirect('/home')->with('status', 'Usted se ha autenticado satisfactoriamente');
-        }
         elseif(Auth::user()->role_as == '2'){
             return redirect('/home')->with('status', 'Bienvenido Facturador');
         }
+        elseif(Auth::user()->role_as == '3'){
+            return redirect('/home')->with('status', 'Bienvenido Consultor');
+        }   
     }
 
 
