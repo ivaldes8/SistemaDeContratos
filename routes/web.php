@@ -8,6 +8,7 @@ use App\Http\Controllers\DropdownController;
 use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\ObjetoCMController;
 use App\Http\Controllers\ObjetoSupCMController;
+use App\Http\Controllers\ObjetoSupCEController;
 use App\Http\Controllers\OrganismoController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\ServicioAreaController;

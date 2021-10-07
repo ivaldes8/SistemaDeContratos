@@ -97,7 +97,7 @@ class ContratoMarcoController extends Controller
             'fechaEnd.after' => 'La fecha de vencimiento tiene que ser mayor que la fecha de inicio',
         ]);
 
-        $last = ContratoMarco::latest()->first();
+        $last = ContratoMarco::latest('id')->first();
         if($last != null){
             $aux = $last->noContrato;
             $lastArr = explode("/",$aux);
@@ -215,7 +215,7 @@ class ContratoMarcoController extends Controller
                 $file1 = $request->file('file1');
                 $destinationPath = 'ContratosMarco/' . $year[1] . '/' .  $year[0] . '-' . $year[1];//'1-' . $CM->noContrato .
                 $file1Name= '1-' . $year[0] . '-' . $year[1] . "." . $file1->getClientOriginalExtension();
-                $file1->move(public_path('storage/' . $destinationPath), $file1Name);
+                $file1->move(storage_path('app/public/' . $destinationPath), $file1Name);
                 $CMF->id_CM = $CM->id;
                 $CMF->file1 = $file1;
             }
@@ -223,7 +223,7 @@ class ContratoMarcoController extends Controller
                 $file2 = $request->file('file2');
                 $destinationPath = 'ContratosMarco/' . $year[1] . '/' .  $year[0] . '-' . $year[1];//'1-' . $CM->noContrato .
                 $file2Name= '2-' . $year[0] . '-' . $year[1] . "." . $file2->getClientOriginalExtension();
-                $file2->move(public_path('storage/' . $destinationPath), $file2Name);
+                $file2->move(storage_path('app/public/' . $destinationPath), $file2Name);
                 $CMF->id_CM = $CM->id;
                 $CMF->file2 = $file2;
             }
@@ -231,7 +231,7 @@ class ContratoMarcoController extends Controller
                 $file3 = $request->file('file3');
                 $destinationPath = 'ContratosMarco/' . $year[1] . '/' .  $year[0] . '-' . $year[1];//'1-' . $CM->noContrato .
                 $file3Name= '3-' . $year[0] . '-' . $year[1] . "." . $file3->getClientOriginalExtension();
-                $file3->move(public_path('storage/' . $destinationPath), $file3Name);
+                $file3->move(storage_path('app/public/' . $destinationPath), $file3Name);
                 $CMF->id_CM = $CM->id;
                 $CMF->file3 = $file3;
             }
@@ -239,7 +239,7 @@ class ContratoMarcoController extends Controller
                 $file4 = $request->file('file4');
                 $destinationPath = 'ContratosMarco/' . $year[1] . '/' .  $year[0] . '-' . $year[1];//'1-' . $CM->noContrato .
                 $file4Name= '4-' . $year[0] . '-' . $year[1] . "." . $file4->getClientOriginalExtension();
-                $file4->move(public_path('storage/' . $destinationPath), $file4Name);
+                $file4->move(storage_path('app/public/' . $destinationPath), $file4Name);
                 $CMF->id_CM = $CM->id;
                 $CMF->file4 = $file4;
             }
@@ -254,7 +254,7 @@ class ContratoMarcoController extends Controller
                 $file1 = $request->file('file1');
                 $destinationPath = 'ContratosMarco/' . $year[1] . '/' .  $year[0] . '-' . $year[1];
                 $file1Name= '1-' . $year[0] . '-' . $year[1] . "." . $file1->getClientOriginalExtension();
-                $file1->move(public_path('storage/' . $destinationPath), $file1Name);
+                $file1->move(storage_path('app/public/' . $destinationPath), $file1Name);
                 $CMF[0]->id_CM = $CM->id;
                 $CMF[0]->file1 = $file1;
             }
@@ -262,7 +262,7 @@ class ContratoMarcoController extends Controller
                 $file2 = $request->file('file2');
                 $destinationPath = 'ContratosMarco/' . $year[1] . '/' .  $year[0] . '-' . $year[1];//'1-' . $CM->noContrato .
                 $file2Name= '2-' . $year[0] . '-' . $year[1] . "." . $file2->getClientOriginalExtension();
-                $file2->move(public_path('storage/' . $destinationPath), $file2Name);
+                $file2->move(storage_path('app/public/' . $destinationPath), $file2Name);
                 $CMF[0]->id_CM = $CM->id;
                 $CMF[0]->file2 = $file2;
             }
@@ -270,7 +270,7 @@ class ContratoMarcoController extends Controller
                 $file3 = $request->file('file3');
                 $destinationPath = 'ContratosMarco/' . $year[1] . '/' .  $year[0] . '-' . $year[1];//'1-' . $CM->noContrato .
                 $file3Name= '3-' . $year[0] . '-' . $year[1] . "." . $file3->getClientOriginalExtension();
-                $file3->move(public_path('storage/' . $destinationPath), $file3Name);
+                $file3->move(storage_path('app/public/' . $destinationPath), $file3Name);
                 $CMF[0]->id_CM = $CM->id;
                 $CMF[0]->file3 = $file3;
             }
@@ -278,7 +278,7 @@ class ContratoMarcoController extends Controller
                 $file4 = $request->file('file4');
                 $destinationPath = 'ContratosMarco/' . $year[1] . '/' .  $year[0] . '-' . $year[1];//'1-' . $CM->noContrato .
                 $file4Name= '4-' . $year[0] . '-' . $year[1] . "." . $file4->getClientOriginalExtension();
-                $file4->move(public_path('storage/' . $destinationPath), $file4Name);
+                $file4->move(storage_path('app/public/' . $destinationPath), $file4Name);
                 $CMF[0]->id_CM = $CM->id;
                 $CMF[0]->file4 = $file4;
             }
