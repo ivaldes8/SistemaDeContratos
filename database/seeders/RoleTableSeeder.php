@@ -23,6 +23,14 @@ class RoleTableSeeder extends Seeder
         $role->description = 'Puede acceder a todo menos a los usuarios';
         $role->save();
         $role = new Role();
+        $role->name = 'Comercial de Clientes';
+        $role->description = 'Puede acceder a todo lo referente a los clientes';
+        $role->save();
+        $role = new Role();
+        $role->name = 'Comercial de Proveedores';
+        $role->description = 'Puede acceder a todo lo referente a los proveedores';
+        $role->save();
+        $role = new Role();
         $role->name = 'Usuario';
         $role->description = 'Solo puede ver informacion y realizar consultas';
         $role->save();

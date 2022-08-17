@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateOsdesTable extends Migration
+class CreateGruposTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,14 @@ class CreateOsdesTable extends Migration
      */
     public function up()
     {
-        Schema::create('osdes', function (Blueprint $table) {
+        Schema::create('grupos', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->required();
-            $table->string('siglas')->nullable();
             $table->string('codigo')->required();
+            $table->string('nombre')->required();
+            $table->string('siglas');
+            $table->boolean('activo')->default(true);
+            $table->unsignedBigInteger('org_id')->unsigned()->nullable();
+            $table->foreign('org_id')->references('id')->on('organismos')->nullOnDelete();
             $table->timestamps();
         });
     }
@@ -29,6 +32,6 @@ class CreateOsdesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('osdes');
+        Schema::dropIfExists('grupos');
     }
 }

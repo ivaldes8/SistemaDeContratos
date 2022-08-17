@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCpcusTable extends Migration
+class CreateOrganismosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreateCpcusTable extends Migration
      */
     public function up()
     {
-        Schema::create('cpcus', function (Blueprint $table) {
+        Schema::create('organismos', function (Blueprint $table) {
             $table->id();
             $table->string('codigo')->required();
-            $table->text('desc')->required();
-            $table->string('checked')->default('')->nullable();
+            $table->string('nombre')->required();
+            $table->string('siglas');
+            $table->boolean('activo')->default(true);
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ class CreateCpcusTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cpcus');
+        Schema::dropIfExists('organismos');
     }
 }

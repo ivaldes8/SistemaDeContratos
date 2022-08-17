@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateIndicadorsTable extends Migration
+class CreateEstadoCMSTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateIndicadorsTable extends Migration
      */
     public function up()
     {
-        Schema::create('indicadors', function (Blueprint $table) {
+        Schema::create('estado_c_m_s', function (Blueprint $table) {
             $table->id();
-            $table->text('codigo')->required();
-            $table->text('desc')->required();
+            $table->string('nombre')->required();
+            $table->boolean('activo')->required();
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateIndicadorsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('indicadors');
+        Schema::dropIfExists('estado_c_m_s');
     }
 }

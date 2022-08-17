@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSaclapsTable extends Migration
+class CreateEntidadClientProvidersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateSaclapsTable extends Migration
      */
     public function up()
     {
-        Schema::create('saclaps', function (Blueprint $table) {
+        Schema::create('entidad_client_providers', function (Blueprint $table) {
             $table->id();
-            $table->string('codigo')->required();
-            $table->text('desc')->required();
-            $table->string('checked')->default('')->nullable();
+            $table->boolean('isClient')->required()->default(false);;
+            $table->boolean('isProvider')->required()->default(false);
+            $table->unsignedBigInteger('entidad_id')->unsigned()->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateSaclapsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('saclaps');
+        Schema::dropIfExists('entidad_client_providers');
     }
 }
