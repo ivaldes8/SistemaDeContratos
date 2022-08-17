@@ -1,0 +1,107 @@
+
+/* CSS */
+::-webkit-scrollbar {
+    width: 5px;
+  }
+
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 3px rgb(128, 128, 128);
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(90deg, rgba(0,164,255,1) 0%, rgba(29,229,253,1) 50%);
+    border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    transition: 0.5s;
+    background:  linear-gradient(90deg, rgba(29,229,253,1) 50%, rgba(0,164,255,1) 100%);
+}
+.card{
+    border-radius: 10px;
+}
+
+.card-header{
+    font-weight: 600;
+    font-size: 115%;
+}
+.main-nav{
+    background: rgb(255,255,255);
+    background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(194,209,254,1) 36%, rgba(203,215,254,1) 76%, rgba(255,255,255,1) 100%);
+}
+.disaicBrand {
+    background: rgb(255,255,255);
+    background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(29,86,253,1) 96%, rgba(69,73,252,1) 100%);
+}
+.disaicLogo{
+    width: 20%;
+}
+@media screen and (min-device-width: 0px) and  (max-width: 900px) {
+    .disaicLogo{
+        width: 40%;
+    }
+  }
+
+.navbar{
+    font-weight: 600;
+    font-size: 100%;
+}
+
+.navbar-brand{
+    font-weight: 600;
+    font-size: 130%;
+}
+
+.btn {
+  border-radius: 100px;
+  box-shadow: rgba(171, 173, 172, 0.2) 0 -25px 18px -14px inset,rgba(148, 150, 148, 0.15) 0 1px 2px,rgba(145, 148, 146, 0.15) 0 2px 4px,rgba(147, 151, 149, 0.15) 0 4px 8px,rgba(149, 151, 150, 0.15) 0 8px 16px,rgba(140, 141, 140, 0.15) 0 16px 32px;
+  cursor: pointer;
+  display: inline-block;
+  font-family: CerebriSans-Regular,-apple-system,system-ui,Roboto,sans-serif;
+  padding: 7px 20px;
+  text-align: center;
+  text-decoration: none;
+  transition: all 250ms;
+  border: 0;
+  font-size: 16px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.btn:hover {
+  box-shadow: rgba(143, 143, 143, 0.35) 0 -25px 18px -14px inset,rgba(155, 155, 155, 0.25) 0 1px 2px,rgba(145, 145, 145, 0.25) 0 2px 4px,rgba(161, 161, 161, 0.25) 0 4px 8px,rgba(146, 146, 146, 0.25) 0 8px 16px,rgba(150, 149, 149, 0.25) 0 16px 32px;
+  transform: scale(1.05) rotate(-1deg);
+}
+
+.btn-sm {
+    border-radius: 100px;
+    box-shadow: rgba(171, 173, 172, 0.2) 0 -25px 18px -14px inset,rgba(148, 150, 148, 0.15) 0 1px 2px,rgba(145, 148, 146, 0.15) 0 2px 4px,rgba(147, 151, 149, 0.15) 0 4px 8px,rgba(149, 151, 150, 0.15) 0 8px 16px,rgba(140, 141, 140, 0.15) 0 16px 32px;
+    cursor: pointer;
+    display: inline-block;
+    font-family: CerebriSans-Regular,-apple-system,system-ui,Roboto,sans-serif;
+    padding: 3px 10px;
+    text-align: center;
+    text-decoration: none;
+    transition: all 250ms;
+    border: 0;
+    font-size: 16px;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+  }
+
+  .btn-sm:hover {
+    box-shadow: rgba(143, 143, 143, 0.35) 0 -25px 18px -14px inset,rgba(155, 155, 155, 0.25) 0 1px 2px,rgba(145, 145, 145, 0.25) 0 2px 4px,rgba(161, 161, 161, 0.25) 0 4px 8px,rgba(146, 146, 146, 0.25) 0 8px 16px,rgba(150, 149, 149, 0.25) 0 16px 32px;
+    transform: scale(1.05) rotate(-1deg);
+  }
+
+  .active {
+      font-size: 105%;
+      border-radius: 10px;
+      box-shadow: rgba(143, 143, 143, 0.35) 0 -25px 18px -14px inset,rgba(155, 155, 155, 0.25) 0 1px 2px,rgba(145, 145, 145, 0.25) 0 2px 4px,rgba(161, 161, 161, 0.25) 0 4px 8px,rgba(146, 146, 146, 0.25) 0 8px 16px,rgba(150, 149, 149, 0.25) 0 16px 32px;
+  }
