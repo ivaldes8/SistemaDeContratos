@@ -4,111 +4,65 @@
     <div class="container mt-3">
         <div class="row justify-content-center">
             <div class="col-12">
-            @if (session('status'))
-                <div class="alert alert-success">{{session('status')}}</div>
-            @endif
+                @if (session('status'))
+                    <div class="alert alert-success">{{ session('status') }}</div>
+                @endif
             </div>
         </div>
         <div class="card">
             <div class="card-header">
                 <div class="row">
                     <div class="col-6 mt-1 d-flex justify-content-start">
-                      {{$entidad === "none" ? 'Crear Entidad' : 'Editar Entidad'}}
+                        Editar Entidad
                     </div>
                     <div class="col-6 d-flex justify-content-end">
-                        <a href="{{url('entidad')}}" class="btn btn-success">Atrás</a>
+                        <a href="{{ url('entidad') }}" class="btn btn-success">Atrás</a>
                     </div>
                 </div>
             </div>
             <div class="card-body">
-            @if($entidad === "none")
-                <form action="{{url('entidad')}}" method="POST">
-            @else
-                <form action="{{url('entidad/'.$entidad->id)}}" method="POST">
+                <form action="{{ url('entidad/' . $entidad->identidad) }}" method="POST">
                     @method('PUT')
-            @endif
                     @csrf
                     <div class="form-group mb-3">
                         <label for="">Código REU:</label>
-                        <input type="text" name="codREU" class="form-control" value="{{ $entidad !== 'none' ? $entidad->codREU : '' }}">
-                        @if ($errors->has('codREU'))
-                            <span class="text-danger">{{ $errors->first('codREU') }}</span>
-                        @endif
+                        <input type="text" class="form-control form-control-sm"
+                            value="{{ $entidad->codigoreu ? $entidad->codigoreu : '---' }}" disabled>
                     </div>
 
                     <div class="form-group mb-3">
                         <label for="">Código NIT:</label>
-                        <input type="text" name="codNIT" class="form-control" value="{{ $entidad !== 'none' ? $entidad->codNIT : '' }}">
-                        @if ($errors->has('codNIT'))
-                            <span class="text-danger">{{ $errors->first('codNIT') }}</span>
-                        @endif
+                        <input type="text" class="form-control form-control-sm"
+                            value="{{ $entidad->NIT ? $entidad->NIT : '---' }}" disabled>
                     </div>
 
                     <div class="form-group mb-3">
                         <label for="">Nombre:</label>
-                        <input type="text" name="name" class="form-control" value="{{ $entidad !== 'none' ? $entidad->name : '' }}">
-                        @if ($errors->has('name'))
-                            <span class="text-danger">{{ $errors->first('name') }}</span>
-                        @endif
+                        <input type="text" class="form-control form-control-sm" value="{{ $entidad->nombre }}" disabled>
                     </div>
 
                     <div class="form-group mb-3">
                         <label for="">Siglas:</label>
-                        <input type="text" name="siglas" class="form-control" value="{{ $entidad !== 'none' ? $entidad->siglas : '' }}">
-                        @if ($errors->has('siglas'))
-                            <span class="text-danger">{{ $errors->first('siglas') }}</span>
-                        @endif
+                        <input type="text" class="form-control form-control-sm"
+                            value="{{ $entidad->abreviatura ? $entidad->abreviatura : '---' }}" disabled>
                     </div>
 
                     <div class="form-group mb-3">
-                        <label for="">Direccion:</label>
-                        <input type="text" name="direccion" class="form-control" value="{{ $entidad !== 'none' ? $entidad->direccion : '' }}">
-                        @if ($errors->has('direccion'))
-                            <span class="text-danger">{{ $errors->first('direccion') }}</span>
-                        @endif
+                        <label for="">Dirección:</label>
+                        <input type="text" class="form-control form-control-sm"
+                            value="{{ $entidad->direccion ? $entidad->direccion : '' }}" disabled>
                     </div>
 
-                    <div class="form-group mb-3">
-                        <label for="">DPA:</label>
-                        <input type="text" name="dpa" class="form-control" value="{{ $entidad !== 'none' ? $entidad->dpa : '' }}">
-                        @if ($errors->has('dpa'))
-                            <span class="text-danger">{{ $errors->first('dpa') }}</span>
-                        @endif
-                    </div>
 
-                    <div class="form-group mb-3">
-                        <label for="">Código de Forma Organizativa:</label>
-                        <input type="text" name="codFormOrg" class="form-control" value="{{ $entidad !== 'none' ? $entidad->codFormOrg : '' }}">
-                        @if ($errors->has('codFormOrg'))
-                            <span class="text-danger">{{ $errors->first('codFormOrg') }}</span>
-                        @endif
-                    </div>
-
-                    <div class="form-group mb-3">
-                        <label for="">Forma Organizativa:</label>
-                        <input type="text" name="formOrg" class="form-control" value="{{ $entidad !== 'none' ? $entidad->formOrg : '' }}">
-                        @if ($errors->has('formOrg'))
-                            <span class="text-danger">{{ $errors->first('formOrg') }}</span>
-                        @endif
-                    </div>
-
-                    <div class="form-group mb-3">
-                        <label for="">OSDE:</label>
-                        <select name="osde_id" class="form-select osdeSelect">
-                            @foreach ($osde as $osd)
-                                <option {{ $entidad !== 'none' && $osd->id == $entidad->osde_id ? 'selected' : '' }} value="{{$osd->id}}">{{$osd->name}}</option>
-                            @endforeach
-                        </select>
-                        @if ($errors->has('osde_id'))
-                            <span class="text-danger">{{ $errors->first('osde_id') }}</span>
-                        @endif
-                    </div>
-
-                    <div class="form-group mb-3">
-                        <label for="">Organismo:</label>
-                        <select name="org_id" class="form-select organismoSelect">
-                            @foreach ($organismo as $org)
-                                <option {{ $entidad !== 'none' && $org->id == $entidad->org_id ? 'selected' : '' }} value="{{$org->id}}">{{$org->name}}</option>
+                    <div class="input-group">
+                        <label class="mx-2" for="">Organismo:</label>
+                        <select name="org_id" class="form-control orgSelect" id="organismo">
+                            <option></option>
+                            @foreach ($organismos as $item)
+                                <option
+                                    {{ $entidad->GrupoOrgnanismo && $entidad->GrupoOrgnanismo->organismo && $item->id === $entidad->GrupoOrgnanismo->organismo->id ? 'selected' : '' }}
+                                    value="{{ $item->id }}">{{ $item->nombre }}-{{ $item->siglas }}
+                                </option>
                             @endforeach
                         </select>
                         @if ($errors->has('org_id'))
@@ -116,8 +70,40 @@
                         @endif
                     </div>
 
+                    <div class="input-group my-3">
+                        <label class="mx-2" for="">Grupo:</label>
+                        <select name="grupo_id" class="form-control grupoSelect" id="grupo">
+                            <option></option>
+                            @foreach ($grupos as $item)
+                                <option
+                                    {{ $entidad->GrupoOrgnanismo && $entidad->GrupoOrgnanismo->grupo && $item->id === $entidad->GrupoOrgnanismo->grupo->id ? 'selected' : '' }}
+                                    value="{{ $item->id }}">{{ $item->nombre }}-{{ $item->siglas }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @if ($errors->has('grupo_id'))
+                            <span class="text-danger">{{ $errors->first('grupo_id') }}</span>
+                        @endif
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="cliente"
+                            {{ $entidad->ClienteProveedor && $entidad->ClienteProveedor->isClient ? 'checked' : '' }}>
+                        <label class="form-check-label" for="disabledFieldsetCheck">
+                            Cliente
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="proveedor"
+                            {{ $entidad->ClienteProveedor && $entidad->ClienteProveedor->isProvider ? 'checked' : '' }}>
+                        <label class="form-check-label" for="disabledFieldsetCheck">
+                            Proveedor
+                        </label>
+                    </div>
+
                     <div class="form-group mb-3 d-flex justify-content-end">
-                        <button class="btn btn-primary" type="submit">{{$entidad === 'none' ? 'Crear' : 'Editar'}}</button>
+                        <button class="btn btn-primary" type="submit">Editar</button>
                     </div>
                 </form>
             </div>
@@ -125,11 +111,40 @@
     </div>
     <script>
         $(document).ready(function() {
-            $('.osdeSelect').select2();
+            $('.grupoSelect').select2({
+                placeholder: "Grupo",
+                allowClear: true
+            });
         });
         $(document).ready(function() {
-            $('.organismoSelect').select2();
+            $('.orgSelect').select2({
+                placeholder: "Organismo",
+                allowClear: true
+            });
+        });
+        $('#organismo').change(function() {
+            var organismoID = $(this).val();
+            if (organismoID) {
+                $.ajax({
+                    type: "GET",
+                    url: "{{ url('GrupoByOrganismo') }}?org_id=" + organismoID,
+                    success: function(res) {
+                        if (res) {
+                            $("#grupo").empty();
+                            $("#grupo").append('<option>Grupo no seleccionado</option>');
+                            $.each(res, function(key, value) {
+                                $("#grupo").append('<option value="' + key + '">' + value +
+                                    '</option>');
+                            });
+
+                        } else {
+                            $("#grupo").empty();
+                        }
+                    }
+                });
+            } else {
+                $("#grupo").empty();
+            }
         });
     </script>
 @endsection
-

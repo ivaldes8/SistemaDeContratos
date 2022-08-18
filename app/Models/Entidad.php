@@ -24,4 +24,14 @@ class Entidad extends Model
         'provincia',
         'pais'
     ];
+
+    public function ClienteProveedor()
+    {
+        return $this->hasOne(entidadClientProvider::class, 'entidad_id', 'identidad');
+    }
+
+    public function GrupoOrgnanismo()
+    {
+        return $this->hasOne(entidadGrupoOrganismo::class, 'entidad_id', 'identidad');
+    }
 }

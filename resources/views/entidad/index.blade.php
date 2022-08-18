@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container mt-3">
+    <div class="mx-5 mt-3">
         <div class="row justify-content-center">
             <div class="col-12">
                 @if (session('status'))
@@ -12,35 +12,30 @@
         <div class="card">
             <div class="card-header">
                 <div class="row">
-                    <div class="col-6 mt-1 d-flex justify-content-start">
+                    <div class="col-12 mt-1 d-flex justify-content-start">
                         Entidades
-                    </div>
-                    <div class="col-3 d-flex justify-content-end">
-                        <a href="{{ url('entidad-file-import') }}" class="btn btn-primary">Importar Entidades</a>
-                    </div>
-                    <div class="col-3 d-flex justify-content-end">
-                        <a href="{{ url('entidad/create') }}" class="btn btn-primary">Crear Entidad</a>
                     </div>
                 </div>
             </div>
             <div class="card-body">
                 <form action="{{ url('entidad') }}" method="get">
                     <div class="row">
+
                         <div class="col-3 mt-1 d-flex justify-content-start">
                             <div class="input-group ">
-                                <input name="name" class="form-control form-control-sm" placeholder="Nombre" />
+                                <input name="codigoreu" class="form-control form-control-sm" placeholder="Código REU" />
                             </div>
                         </div>
 
                         <div class="col-3 mt-1 d-flex justify-content-start">
                             <div class="input-group ">
-                                <input name="siglas" class="form-control form-control-sm" placeholder="Siglas" />
+                                <input name="nombre" class="form-control form-control-sm" placeholder="Nombre" />
                             </div>
                         </div>
 
                         <div class="col-3 mt-1 d-flex justify-content-start">
                             <div class="input-group ">
-                                <input name="dpa" class="form-control form-control-sm" placeholder="DPA" />
+                                <input name="abreviatura" class="form-control form-control-sm" placeholder="Siglas" />
                             </div>
                         </div>
 
@@ -52,55 +47,67 @@
 
                         <div class="col-3 mt-1 d-flex justify-content-start">
                             <div class="input-group ">
-                                <input name="codREU" class="form-control form-control-sm" placeholder="Código REU" />
+                                <input name="telefono" class="form-control form-control-sm" placeholder="Teléfono" />
                             </div>
                         </div>
 
                         <div class="col-3 mt-1 d-flex justify-content-start">
                             <div class="input-group ">
-                                <input name="codNIT" class="form-control form-control-sm" placeholder="Código NIT" />
+                                <input name="NIT" class="form-control form-control-sm" placeholder="NIT" />
                             </div>
                         </div>
 
                         <div class="col-3 mt-1 d-flex justify-content-start">
-                            <div class="input-group ">
-                                <input name="codFormOrg" class="form-control form-control-sm"
-                                    placeholder="Código de forma organizativa" />
-                            </div>
-                        </div>
-
-                        <div class="col-3 mt-1 d-flex justify-content-start">
-                            <div class="input-group ">
-                                <input name="formOrg" class="form-control form-control-sm"
-                                    placeholder="Forma organizativa" />
-                            </div>
-                        </div>
-
-                        <div class="col-5 mt-1 d-flex justify-content-start">
                             <div class="input-group">
-                                <select name="org_id" class="form-control form-control-sm orgSelect">
+                                <select name="org_id" class="form-control form-control-sm orgSelect" id="organismo">
                                     <option></option>
                                     @foreach ($organismos as $item)
-                                        <option value="{{ $item->id }}">{{ $item->name }}-{{ $item->siglas }}
+                                        <option value="{{ $item->id }}">{{ $item->nombre }}-{{ $item->siglas }}
                                         </option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
 
-                        <div class="col-6 mt-1 d-flex justify-content-start">
+                        <div class="col-3 mt-1 d-flex justify-content-start">
                             <div class="input-group">
-                                <select name="osde_id" class="form-control form-control-sm osdeSelect">
+                                <select name="grupo_id" class="form-control form-control-sm grupoSelect" id="grupo">
                                     <option></option>
-                                    @foreach ($osdes as $item)
-                                        <option value="{{ $item->id }}">{{ $item->name }}-{{ $item->siglas }}
+                                    @foreach ($grupos as $item)
+                                        <option value="{{ $item->id }}">{{ $item->nombre }}-{{ $item->siglas }}
                                         </option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
 
-                        <div class="col-1 d-flex justify-content-end my-1">
+                        <div class="col-3 mt-1 d-flex justify-content-start">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="activo">
+                                <label class="form-check-label">
+                                    Activo
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="col-3 mt-1 d-flex justify-content-start">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="cliente">
+                                <label class="form-check-label">
+                                    Cliente
+                                </label>
+                            </div>
+                            <div class="mx-2 form-check">
+                                <input class="form-check-input" type="checkbox" name="proveedor">
+                                <label class="form-check-label">
+                                    Proveedor
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="col-6 d-flex justify-content-end">
+                            <a href="{{ url('entidad') }}" class="btn btn-sm btn-primary"><i
+                                    class="bi bi-arrow-repeat"></i></a>
                             <button class="btn btn-sm btn-primary mx-1" type="submit">
                                 <i class="bi bi-search"></i>
                             </button>
@@ -113,19 +120,17 @@
                 <table class="table table-primary table-sm table-bordered table-striped">
                     <thead>
                         <tr style="font-size: 90%;">
-                            <th style="width: 20px;">ID</th>
-                            <th style="width: 100px;">Código REU</th>
-                            <th style="width: 80px;">Código NIT</th>
-                            <th style="width: 200px;">Nombre</th>
-                            <th style="width: 60px;">Siglas</th>
-                            <th style="width: 280px;">Dirección</th>
-                            <th style="width: 60px;">DPA</th>
-                            <th style="width: 180px;">OSDE</th>
-                            <th style="width: 120px;">Organismo</th>
-                            <th style="width: 120px;">Forma Organizativa</th>
-                            <th style="width: 20px;">Cod</th>
-                            <th style="width: 60px;">Edit</th>
-                            <th style="width: 60px;">Delete</th>
+                            <th style="width: 340px;">Nombre</th>
+                            <th style="width: 50px;">Código REU</th>
+                            <th style="width: 150px;">Siglas</th>
+                            <th style="width: 340px;">Dirección</th>
+                            <th style="width: 200px;">Teléfono</th>
+                            <th style="width: 100px;">NIT</th>
+                            <th style="width: 280px;">Organismo</th>
+                            <th style="width: 280px;">Grupo</th>
+                            <th style="width: 50px;">Cliente</th>
+                            <th style="width: 50px;">Proveedor</th>
+                            <th style="width: 20px;">Activo</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -135,28 +140,38 @@
                             </tr>
                         @else
                             @foreach ($entidad as $item)
-                                <tr style="font-size: 90%;">
-                                    <td>{{ $item->id }}</td>
-                                    <td>{{ $item->codREU }}</td>
-                                    <td>{{ $item->codNIT ? $item->codNIT : '---' }}</td>
-                                    <td>{{ $item->name }}</td>
-                                    <td>{{ $item->siglas ? $item->siglas : '---' }}</td>
-                                    <td>{{ $item->direccion ? $item->direccion : '---' }}</td>
-                                    <td>{{ $item->dpa ? $item->dpa : '---' }}</td>
-                                    <td>{{ $item->osde ? $item->osde->name : '---' }}</td>
-                                    <td>{{ $item->organismo ? $item->organismo->name : '---' }}</td>
-                                    <td>{{ $item->formOrg ? $item->formOrg : '---' }}</td>
-                                    <td>{{ $item->codFormOrg ? $item->codFormOrg : '---' }}</td>
+                                <tr style="font-size: 80%;">
                                     <td>
-                                        <a href="{{ url('entidad/' . $item->id . '/edit') }}"
-                                            class="btn-sm btn-primary"><i class="bi bi-pencil"></i></a>
+                                        <a style="font-weight: bold;"
+                                            href="{{ url('entidad/' . $item->identidad . '/edit') }}"><i
+                                                class="bi bi-pencil">{{ $item->nombre ? $item->nombre : '---' }}</i></a>
+                                    </td>
+                                    <td>{{ $item->codigoreu ? $item->codigoreu : '---' }}</td>
+                                    <td style="font-size: 80%;">{{ $item->abreviatura ? $item->abreviatura : '---' }}</td>
+                                    <td style="font-size: 70%;">{{ $item->direccion ? $item->direccion : '---' }}</td>
+                                    <td>{{ $item->telefono ? $item->telefono : '---' }}</td>
+                                    <td>{{ $item->NIT ? $item->NIT : '---' }}</td>
+                                    <td>{{ $item->GrupoOrgnanismo && $item->GrupoOrgnanismo->organismo ? $item->GrupoOrgnanismo->organismo->nombre : '---' }}
+                                    </td>
+                                    <td>{{ $item->GrupoOrgnanismo && $item->GrupoOrgnanismo->grupo ? $item->GrupoOrgnanismo->grupo->nombre : '---' }}
                                     </td>
                                     <td>
-                                        <button class="btn-sm btn-danger" data-toggle="modal" id="smallButton"
-                                            data-target="#smallModal" data-attr="{{ url('entidad/delete', $item->id) }}"
-                                            title="Delete Project">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
+                                        <input style="width: 15px; height: 15px;" class="form-check-input" type="checkbox"
+                                            {{ $item->ClienteProveedor && $item->ClienteProveedor->isClient ? 'checked' : '' }}
+                                            disabled>
+                                    </td>
+                                    <td>
+                                        <input style="width: 15px; height: 15px;" class="form-check-input"
+                                            type="checkbox"
+                                            {{ $item->ClienteProveedor && $item->ClienteProveedor->isProvider ? 'checked' : '' }}
+                                            disabled>
+                                    </td>
+                                    <td>
+                                        <div class="form-check form-switch">
+                                            <input style="width: 30px; height: 15px;" class="form-check-input"
+                                                type="checkbox" role="switch" {{ $item->activo ? 'checked' : '' }}
+                                                disabled>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach
@@ -188,37 +203,37 @@
         </div>
     </div>
     <script>
-        $(document).on('click', '#smallButton', function(event) {
-            event.preventDefault();
-            let href = $(this).attr('data-attr');
-            $.ajax({
-                url: href,
-                beforeSend: function() {
-                    $('#loader').show();
-                },
-                // return the result
-                success: function(result) {
-                    $('#smallModal').modal("show");
-                    $('#smallBody').html(result).show();
-                },
-                complete: function() {
-                    $('#loader').hide();
-                },
-                error: function(jqXHR, testStatus, error) {
-                    console.log(error);
-                    alert("Page " + href + " cannot open. Error:" + error);
-                    $('#loader').hide();
-                },
-                timeout: 8000
-            })
-        });
         $('.orgSelect').select2({
             placeholder: "Organismo",
             allowClear: true
         });
-        $('.osdeSelect').select2({
-            placeholder: "OSDE",
+        $('.grupoSelect').select2({
+            placeholder: "Grupo",
             allowClear: true
+        });
+        $('#organismo').change(function() {
+            var organismoID = $(this).val();
+            if (organismoID) {
+                $.ajax({
+                    type: "GET",
+                    url: "{{ url('GrupoByOrganismo') }}?org_id=" + organismoID,
+                    success: function(res) {
+                        if (res) {
+                            $("#grupo").empty();
+                            $("#grupo").append('<option>Grupo no seleccionado</option>');
+                            $.each(res, function(key, value) {
+                                $("#grupo").append('<option value="' + key + '">' + value +
+                                    '</option>');
+                            });
+
+                        } else {
+                            $("#grupo").empty();
+                        }
+                    }
+                });
+            } else {
+                $("#grupo").empty();
+            }
         });
     </script>
 @endsection

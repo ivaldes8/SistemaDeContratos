@@ -65,27 +65,12 @@
                         @else
                             <li class="nav-item dropdown mx-1">
                                 <a class="nav-link dropdown-toggle
-                                    {{ request()->is('organismo*') ||
-                                    request()->is('unidad*') ||
-                                    request()->is('osde*') ||
-                                    request()->is('entidad*') ||
-                                    request()->is('cpcu*') ||
-                                    request()->is('saclap*') ||
-                                    request()->is('actividad*') ||
-                                    request()->is('indicador*') ||
-                                    request()->is('producto*') ||
-                                    request()->is('user*')
+                                    {{ request()->is('organismo*') || request()->is('grupo*') || request()->is('entidad*') || request()->is('user*')
                                         ? 'active'
                                         : '' }}"
                                     id="navbarDropdown" role="button" data-bs-toggle="dropdown"
                                     aria-expanded="false">Nomencladores</a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li>
-                                        <a class="dropdown-item {{ request()->is('unidad*') ? 'active' : '' }}"
-                                            href="{{ url('unidad') }}">
-                                            Unidades de medida
-                                        </a>
-                                    </li>
                                     <li>
                                         <a class="dropdown-item {{ request()->is('organismo*') ? 'active' : '' }}"
                                             href="{{ url('organismo') }}">
@@ -93,45 +78,15 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item {{ request()->is('osde*') ? 'active' : '' }}"
-                                            href="{{ url('osde') }}">
-                                            Osdes
+                                        <a class="dropdown-item {{ request()->is('grupo*') ? 'active' : '' }}"
+                                            href="{{ url('grupo') }}">
+                                            Grupo
                                         </a>
                                     </li>
                                     <li>
                                         <a class="dropdown-item {{ request()->is('entidad*') ? 'active' : '' }}"
                                             href="{{ url('entidad') }}">
                                             Entidades
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item {{ request()->is('cpcu*') ? 'active' : '' }}"
-                                            href="{{ url('cpcu') }}">
-                                            CPCU
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item {{ request()->is('saclap*') ? 'active' : '' }}"
-                                            href="{{ url('saclap') }}">
-                                            SACLAP
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item {{ request()->is('actividad*') ? 'active' : '' }}"
-                                            href="{{ url('actividad') }}">
-                                            Actividades Industriales
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item {{ request()->is('indicador*') ? 'active' : '' }}"
-                                            href="{{ url('indicador') }}">
-                                            Indicadores
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item {{ request()->is('producto*') ? 'active' : '' }}"
-                                            href="{{ url('producto') }}">
-                                            Productos
                                         </a>
                                     </li>
                                     @if (Auth::user()->role === 'Administrador')
@@ -151,9 +106,7 @@
                             </li>
                             <li class="nav-item dropdown mx-1">
                                 <a class="nav-link dropdown-toggle
-                                {{ request()->is('cuotaDeMercado*') || request()->is('osde*')
-                                    ? 'active'
-                                    : '' }}"
+                                {{ request()->is('cuotaDeMercado*') || request()->is('osde*') ? 'active' : '' }}"
                                     id="navbarDropdown" role="button" data-bs-toggle="dropdown"
                                     aria-expanded="false">Reportes</a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -172,13 +125,13 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                        onclick="event.preventDefault();
                                                          document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                        class="d-none">
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
                                 </div>

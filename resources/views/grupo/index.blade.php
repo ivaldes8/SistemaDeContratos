@@ -13,36 +13,47 @@
             <div class="card-header">
                 <div class="row">
                     <div class="col-9 mt-1 d-flex justify-content-start">
-                        Organismos
+                        Grupos
                     </div>
                     <div class="col-3 d-flex justify-content-end">
-                        <a href="{{ url('organismo/create') }}" class="btn btn-primary"><i class="bi bi-plus-circle"></i></a>
+                        <a href="{{ url('grupo/create') }}" class="btn btn-primary"><i class="bi bi-plus-circle"></i></a>
                     </div>
                 </div>
             </div>
             <div class="card-body">
-                <form action="{{ url('organismo') }}" method="get">
+                <form action="{{ url('grupo') }}" method="get">
                     <div class="row">
-                        <div class="col-3 mt-1 d-flex justify-content-start">
+                        <div class="col-2 mt-1 d-flex justify-content-start">
                             <div class="input-group">
                                 <input id="nombre" name="nombre" type="text" class="form-control form-control-sm"
                                     placeholder="Nombre" aria-describedby="basic-addon1">
                             </div>
                         </div>
-                        <div class="col-3 mt-1 d-flex justify-content-start">
+                        <div class="col-2 mt-1 d-flex justify-content-start">
                             <div class="input-group">
                                 <input id="codigo" name="codigo" type="text" class="form-control form-control-sm"
                                     placeholder="Código" aria-describedby="basic-addon1">
                             </div>
                         </div>
-                        <div class="col-3 mt-1 d-flex justify-content-start">
+                        <div class="col-2 mt-1 d-flex justify-content-start">
                             <div class="input-group ">
                                 <input type="text" name="siglas" class="form-control form-control-sm" id="siglas"
                                     placeholder="Siglas">
                             </div>
                         </div>
-                        <div class="col-3 d-flex justify-content-end">
-                            <a href="{{ url('organismo') }}" class="btn btn-sm btn-primary"><i class="bi bi-arrow-repeat"></i></a>
+                        <div class="col-4 mt-1 d-flex justify-content-start">
+                            <div class="input-group ">
+                                <select name="org_id" class="form-control form-control-sm organismoSelect">
+                                    <option></option>
+                                    @foreach ($organismos as $item)
+                                        <option value="{{ $item->id }}">{{ $item->nombre }} / {{ $item->siglas }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-2 d-flex justify-content-end">
+                            <a href="{{ url('grupo') }}" class="btn btn-sm btn-primary"><i
+                                    class="bi bi-arrow-repeat"></i></a>
                             <button class="btn btn-sm btn-primary mx-1" type="submit"><i class="bi bi-search"></i></button>
                         </div>
                     </div>
@@ -52,24 +63,26 @@
                     <table class="table table-primary table-bordered table-striped">
                         <thead>
                             <tr>
-                                <th>Nombre</th>
-                                <th>Siglas</th>
-                                <th>Código</th>
-                                <th>Activo</th>
-                                <th>Acciones</th>
+                                <th style="width: 340px;">Nombre</th>
+                                <th style="width: 200px;">Siglas</th>
+                                <th style="width: 100px;">Código</th>
+                                <th style="width: 240px;">Organismo</th>
+                                <th style="width: 40px;">Activo</th>
+                                <th style="width: 100px;">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @if (count($organismo) < 1)
+                            @if (count($grupo) < 1)
                                 <tr>
-                                    <td class="text-center" colspan="7">No se encontraron organismos</td>
+                                    <td class="text-center" colspan="7">No se encontraron grupos</td>
                                 </tr>
                             @else
-                                @foreach ($organismo as $item)
+                                @foreach ($grupo as $item)
                                     <tr>
                                         <td>{{ $item->nombre }}</td>
                                         <td>{{ $item->siglas }}</td>
                                         <td>{{ $item->codigo }}</td>
+                                        <td>{{ $item->organismo->nombre }}</td>
                                         <td>
                                             <div class="form-check form-switch">
                                                 <input class="form-check-input" type="checkbox" role="switch"
@@ -78,11 +91,11 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <a href="{{ url('organismo/' . $item->id . '/edit') }}"
+                                            <a href="{{ url('grupo/' . $item->id . '/edit') }}"
                                                 class="btn-sm btn-primary"><i class="bi bi-pencil"></i></a>
                                             <button class="btn-sm btn-danger" data-toggle="modal" id="smallButton"
-                                                data-target="#smallModal"
-                                                data-attr="{{ url('organismo/delete', $item->id) }}" title="Delete Project">
+                                                data-target="#smallModal" data-attr="{{ url('grupo/delete', $item->id) }}"
+                                                title="Delete Project">
                                                 <i class="bi bi-trash"></i>
                                             </button>
                                         </td>
@@ -92,7 +105,7 @@
                         </tbody>
                     </table>
                     <div class="d-flex">
-                        {{ $organismo->withQueryString()->links() }}
+                        {{ $grupo->withQueryString()->links() }}
                     </div>
                 </div>
             </div>
@@ -104,7 +117,7 @@
         <div class="modal-dialog modal-md" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Eliminar Organismo</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Eliminar Grupo</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="smallBody">
@@ -116,6 +129,7 @@
         </div>
     </div>
     <script>
+        // display a modal (small modal)
         $(document).on('click', '#smallButton', function(event) {
             event.preventDefault();
             let href = $(this).attr('data-attr');
@@ -139,6 +153,12 @@
                 },
                 timeout: 8000
             })
+        });
+        $(document).ready(function() {
+            $('.organismoSelect').select2({
+                placeholder: "Organismos",
+                allowClear: true
+            });
         });
     </script>
 @endsection

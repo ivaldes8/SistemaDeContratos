@@ -3,7 +3,7 @@
         @csrf
         @method('DELETE')
         <h5 class="text-center">Seguro que desea eliminar este organismo ?</h5>
-        <h1 class="text-center">{{$organismo->name}}</h1>
+        <h1 class="text-center">{{$organismo->nombre}}</h1>
     </div>
     <div class="modal-footer">
     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>

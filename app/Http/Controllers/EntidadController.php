@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\EntidadExport;
-use App\Models\entidad;
-use App\Models\organismo;
-use App\Models\osde;
+use App\Models\Entidad;
+use App\Models\entidadClientProvider;
+use App\Models\entidadGrupoOrganismo;
+use App\Models\Grupo;
+use App\Models\Organismo;
 use Illuminate\Http\Request;
-use App\Imports\EntidadImport;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\OrganismoExport;
 
 class EntidadController extends Controller
 {
@@ -20,114 +18,68 @@ class EntidadController extends Controller
      */
     public function index()
     {
-        $query = entidad::query();
+        $query = Entidad::query();
 
-        $query->when(request()->input('name'), function($q) {
-            return $q->where('name', 'like', '%'.request()->input('name').'%');
+        $query->when(request()->input('codigoreu'), function ($q) {
+            return $q->where('codigoreu', 'like', '%' . request()->input('codigoreu') . '%');
         });
 
-        $query->when(request()->input('dpa'), function($q) {
-            return $q->where('dpa', 'like', '%'.request()->input('dpa').'%');
+        $query->when(request()->input('nombre'), function ($q) {
+            return $q->where('nombre', 'like', '%' . request()->input('nombre') . '%');
         });
 
-        $query->when(request()->input('siglas'), function($q) {
-            return $q->where('siglas', 'like', '%'.request()->input('siglas').'%');
+        $query->when(request()->input('abreviatura'), function ($q) {
+            return $q->where('abreviatura', 'like', '%' . request()->input('abreviatura') . '%');
         });
 
-        $query->when(request()->input('direccion'), function($q) {
-            return $q->where('direccion', 'like', '%'.request()->input('direccion').'%');
+        $query->when(request()->input('direccion'), function ($q) {
+            return $q->where('direccion', 'like', '%' . request()->input('direccion') . '%');
         });
 
-        $query->when(request()->input('codREU'), function($q) {
-            return $q->where('codREU', 'like', '%'.request()->input('codREU').'%');
+        $query->when(request()->input('telefono'), function ($q) {
+            return $q->where('telefono', 'like', '%' . request()->input('telefono') . '%');
         });
 
-        $query->when(request()->input('codNIT'), function($q) {
-            return $q->where('codNIT', 'like', '%'.request()->input('codNIT').'%');
+        $query->when(request()->input('NIT'), function ($q) {
+            return $q->where('NIT', 'like', '%' . request()->input('NIT') . '%');
         });
 
-        $query->when(request()->input('codFormOrg'), function($q) {
-            return $q->where('codFormOrg', 'like', '%'.request()->input('codFormOrg').'%');
+        $query->when(request()->input('org_id'), function ($q) {
+            $q->whereHas('GrupoOrgnanismo', function ($q) {
+                $q->whereHas('organismo', function ($q) {
+                    return $q->where('org_id', request()->input('org_id'));
+                });
+            });
         });
 
-        $query->when(request()->input('formOrg'), function($q) {
-            return $q->where('formOrg', 'like', '%'.request()->input('formOrg').'%');
+        $query->when(request()->input('grupo_id'), function ($q) {
+            $q->whereHas('GrupoOrgnanismo', function ($q) {
+                $q->whereHas('grupo', function ($q) {
+                    return $q->where('grupo_id', request()->input('grupo_id'));
+                });
+            });
         });
 
-        $query->when(request()->input('org_id'), function($q) {
-            return $q->where('org_id', request()->input('org_id'));
+        $query->when(request()->input('activo'), function ($q) {
+            return $q->where('activo', 1);
         });
 
-        $query->when(request()->input('osde_id'), function($q) {
-            return $q->where('osde_id', request()->input('osde_id'));
+        $query->when(request()->input('cliente'), function ($q) {
+            $q->whereHas('ClienteProveedor', function ($q) {
+                return $q->where('isClient', 1);
+            });
+        });
+
+        $query->when(request()->input('proveedor'), function ($q) {
+            $q->whereHas('ClienteProveedor', function ($q) {
+                return $q->where('isProvider', 1);
+            });
         });
 
         $entidad = $query->paginate(50);
-        $organismos = organismo::all();
-        $osdes = osde::all();
-        return view('entidad.index',compact('entidad','organismos', 'osdes'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        $entidad = 'none';
-        $osde = osde::all();
-        $organismo = organismo::all();
-        return view('entidad.edit', compact('entidad','osde','organismo'));
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        $validatedData = $request->validate([
-            'name' => 'required',
-            'codREU' => 'required|unique:entidads,codreu',
-            'codNIT' => 'required|unique:entidads,codnit',
-            'org_id' => 'required',
-            'osde_id' => 'required'
-        ], [
-            'name.required' => 'Este campo es requerido',
-            'codREU.required' => 'Este campo es requerido',
-            'codREU.unique' => 'El código reu :input ya se encuentra en la base de datos',
-            'codNIT.unique' => 'El código nit :input ya se encuentra en la base de datos',
-            'org_id.required' => 'Este campo es requerido',
-            'osde_id.required' => 'Este campo es requerido'
-        ]);
-
-        $entidad = new entidad();
-        $entidad->name = $request->input('name');
-        $entidad->codREU = $request->input('codREU');
-        $entidad->codNIT = $request->input('codNIT');
-        $entidad->codFormOrg = $request->input('codFormOrg');
-        $entidad->formOrg = $request->input('formOrg');
-        $entidad->org_id = $request->input('org_id');
-        $entidad->osde_id = $request->input('osde_id');
-        $entidad->dpa = $request->input('dpa');
-        $entidad->siglas = $request->input('siglas');
-        $entidad->direccion = $request->input('direccion');
-        $entidad->save($validatedData);
-        return redirect('/entidad')->with('status','Entidad creada satisfactoriamente');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        $organismos = Organismo::where('activo', 1)->get();
+        $grupos = Grupo::where('activo', 1)->get();
+        return view('entidad.index', compact('entidad', 'organismos', 'grupos'));
     }
 
     /**
@@ -138,10 +90,10 @@ class EntidadController extends Controller
      */
     public function edit($id)
     {
-        $entidad = entidad::find($id);
-        $osde = osde::all();
-        $organismo = organismo::all();
-        return view('entidad.edit', compact('entidad','osde','organismo'));
+        $entidad = Entidad::where("identidad", $id)->get()[0];
+        $grupos = Grupo::all();
+        $organismos = Organismo::all();
+        return view('entidad.edit', compact('entidad', 'grupos', 'organismos'));
     }
 
     /**
@@ -154,30 +106,37 @@ class EntidadController extends Controller
     public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
-            'name' => 'required',
-            'codREU' => 'required',
             'org_id' => 'required',
-            'osde_id' => 'required'
+            'grupo_id' => 'required'
         ], [
-            'name.required' => 'Este campo es requerido',
-            'codREU.required' => 'Este campo es requerido',
-            'org_id.required' => 'Este campo es requerido',
-            'osde_id.required' => 'Este campo es requerido'
+            'required' => 'Este campo es requerido'
         ]);
+        $orgGrupo = entidadGrupoOrganismo::where("entidad_id", $id)->get();
+        if(count($orgGrupo) > 0) {
+            $orgGrupo[0]->org_id = $request->input('org_id');
+            $orgGrupo[0]->grupo_id = $request->input('grupo_id') === "Grupo no seleccionado" ? null :$request->input('grupo_id');
+            $orgGrupo[0]->update();
+        } else {
+            $newOrgGrupo = new entidadGrupoOrganismo();
+            $newOrgGrupo->entidad_id = $id;
+            $newOrgGrupo->org_id = $request->input('org_id');
+            $newOrgGrupo->grupo_id = $request->input('grupo_id') === "Grupo no seleccionado" ? null :$request->input('grupo_id');
+            $newOrgGrupo->save();
+        }
 
-        $entidad = entidad::find($id);
-        $entidad->name = $request->input('name');
-        $entidad->codREU = $request->input('codREU');
-        $entidad->codNIT = $request->input('codNIT');
-        $entidad->codFormOrg = $request->input('codFormOrg');
-        $entidad->formOrg = $request->input('formOrg');
-        $entidad->org_id = $request->input('org_id');
-        $entidad->osde_id = $request->input('osde_id');
-        $entidad->dpa = $request->input('dpa');
-        $entidad->siglas = $request->input('siglas');
-        $entidad->direccion = $request->input('direccion');
-        $entidad->update($validatedData);
-        return redirect('/entidad')->with('status','Entidad Editada satisfactoriamente');
+        $clientProveedor = entidadClientProvider::where("entidad_id", $id)->get();
+        if(count($clientProveedor) > 0) {
+            $clientProveedor[0]->isClient = $request->input('cliente') ? 1 : 0;
+            $clientProveedor[0]->isProvider = $request->input('proveedor') ? 1 : 0;
+            $clientProveedor[0]->update();
+        } else {
+            $newClientProveedor = new entidadClientProvider();
+            $newClientProveedor->entidad_id = $id;
+            $newClientProveedor->isClient = $request->input('cliente') ? 1 : 0;
+            $newClientProveedor->isProvider = $request->input('proveedor') ? 1 : 0;
+            $newClientProveedor->save();
+        }
+        return redirect('/entidad')->with('status', 'Entidad Editada satisfactoriamente');
     }
 
     public function delete($id)
@@ -196,7 +155,7 @@ class EntidadController extends Controller
     {
         $entidad = entidad::find($id);
         $entidad->delete();
-        return redirect()->back()->with('status','Entidad eliminada Satisfactoriamente');
+        return redirect()->back()->with('status', 'Entidad eliminada Satisfactoriamente');
     }
 
     public function fileImportExport()
@@ -205,11 +164,11 @@ class EntidadController extends Controller
     }
 
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * @return \Illuminate\Support\Collection
+     */
     public function fileImport(Request $request)
     {
-        Excel::import(new EntidadImport,request()->file('file'));
+        Excel::import(new EntidadImport, request()->file('file'));
 
         return back()->with('success', 'User Imported Successfully.');
     }

@@ -13,24 +13,24 @@
             <div class="card-header">
                 <div class="row">
                     <div class="col-6 mt-1 d-flex justify-content-start">
-                      {{$organismo === "none" ? 'Crear organismo' : 'Editar organismo'}}
+                      {{$grupo === "none" ? 'Crear Grupo' : 'Editar Grupo'}}
                     </div>
                     <div class="col-6 d-flex justify-content-end">
-                        <a href="{{url('organismo')}}" class="btn btn-success">Atrás</a>
+                        <a href="{{url('grupo')}}" class="btn btn-success">Atrás</a>
                     </div>
                 </div>
             </div>
             <div class="card-body">
-            @if($organismo === "none")
-                <form action="{{url('organismo')}}" method="POST">
+            @if($grupo === "none")
+                <form action="{{url('grupo')}}" method="POST">
             @else
-                <form action="{{url('organismo/'.$organismo->id)}}" method="POST">
+                <form action="{{url('grupo/'.$grupo->id)}}" method="POST">
                     @method('PUT')
             @endif
                     @csrf
                     <div class="form-group mb-3">
                         <label for="">Código:</label>
-                        <input type="text" name="codigo" class="form-control" value="{{ $organismo !== 'none' ? $organismo->codigo : '' }}">
+                        <input type="text" name="codigo" class="form-control" value="{{ $grupo !== 'none' ? $grupo->codigo : '' }}">
                         @if ($errors->has('codigo'))
                             <span class="text-danger">{{ $errors->first('codigo') }}</span>
                         @endif
@@ -38,7 +38,7 @@
 
                     <div class="form-group mb-3">
                         <label for="">Nombre:</label>
-                        <input type="text" name="nombre" class="form-control" value="{{ $organismo !== 'none' ? $organismo->nombre : '' }}">
+                        <input type="text" name="nombre" class="form-control" value="{{ $grupo !== 'none' ? $grupo->nombre : '' }}">
                         @if ($errors->has('nombre'))
                             <span class="text-danger">{{ $errors->first('nombre') }}</span>
                         @endif
@@ -46,25 +46,46 @@
 
                     <div class="form-group mb-3">
                         <label for="">Siglas:</label>
-                        <input type="text" name="siglas" class="form-control" value="{{ $organismo !== 'none' ? $organismo->siglas : '' }}">
+                        <input type="text" name="siglas" class="form-control" value="{{ $grupo !== 'none' ? $grupo->siglas : '' }}">
                         @if ($errors->has('siglas'))
                             <span class="text-danger">{{ $errors->first('siglas') }}</span>
                         @endif
                     </div>
 
                     <div class="form-group mb-3">
+                        <label for="">Organismo:</label>
+                        <select name="org_id" class="form-select orgSelect">
+                            <option></option>
+                            @foreach ($organismos as $item)
+                                <option {{ $grupo !== 'none' && $item->id == $grupo->org_id ? 'selected' : '' }}
+                                    value="{{ $item->id }}">{{ $item->siglas }}/ {{ $item->nombre }}</option>
+                            @endforeach
+                        </select>
+                        @if ($errors->has('org_id'))
+                            <span class="text-danger">{{ $errors->first('org_id') }}</span>
+                        @endif
+                    </div>
+
+                    <div class="form-group mb-3">
                         <label for="">Activo:</label>
                         <div class="form-check form-switch">
-                            <input name="activo" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" {{ $organismo !== 'none' && $organismo->activo == 1 ? 'checked' : $organismo === 'none' ? 'checked' : '' }}>
+                            <input name="activo" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" {{ $grupo !== 'none' && $grupo->activo == 1 ? 'checked' : $grupo === 'none' ? 'checked' : '' }}>
                         </div>
                     </div>
 
                     <div class="form-group mb-3 d-flex justify-content-end">
-                        <button class="btn btn-primary" type="submit">{{$organismo === 'none' ? 'Crear' : 'Editar'}}</button>
+                        <button class="btn btn-primary" type="submit">{{$grupo === 'none' ? 'Crear' : 'Editar'}}</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+    <script>
+        $(document).ready(function() {
+            $('.orgSelect').select2({
+                placeholder: "Organismo",
+            });
+        });
+    </script>
 @endsection
 

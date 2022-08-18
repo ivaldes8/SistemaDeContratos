@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\organismo;
+use App\Models\Organismo;
 use Illuminate\Http\Request;
-use App\Imports\OrganismoImport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\OrganismoExport;
 
@@ -17,7 +16,22 @@ class OrganismoController extends Controller
      */
     public function index()
     {
-        $organismo = organismo::paginate(10);
+        $query = Organismo::query();
+
+        $query->when(request()->input('codigo'), function($q) {
+            return $q->where('codigo', 'like', '%'.request()->input('codigo').'%');
+        });
+
+        $query->when(request()->input('nombre'), function($q) {
+            return $q->where('nombre', 'like', '%'.request()->input('nombre').'%');
+        });
+
+        $query->when(request()->input('siglas'), function($q) {
+            return $q->where('siglas', 'like', '%'.request()->input('siglas').'%');
+        });
+
+        $organismo = $query->paginate(10);
+
         return view('organismo.index',compact('organismo'));
     }
 
@@ -41,17 +55,18 @@ class OrganismoController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => 'required',
-            'codigo' => 'required'
+            'nombre' => 'required',
+            'codigo' => 'required',
+            'siglas' => 'required',
         ], [
-            'name.required' => 'Este campo es requerido',
-            'codigo.required' => 'Este campo es requerido'
+            'required' => 'Este campo es requerido'
         ]);
 
-        $organismo = new organismo();
-        $organismo->name = $request->input('name');
+        $organismo = new Organismo();
+        $organismo->nombre = $request->input('nombre');
         $organismo->siglas = $request->input('siglas');
         $organismo->codigo = $request->input('codigo');
+        $organismo->activo = $request->input('activo') ? 1 : 0;
         $organismo->save($validatedData);
         return redirect('/organismo')->with('status','Organismo creado satisfactoriamente');
     }
@@ -89,24 +104,25 @@ class OrganismoController extends Controller
     public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
-            'name' => 'required',
+            'nombre' => 'required',
             'codigo' => 'required',
+            'siglas' => 'required',
         ], [
-            'name.required' => 'Este campo es requerido',
-            'codigo.required' => 'Este campo es requerido',
+            'required' => 'Este campo es requerido'
         ]);
 
-        $organismo = organismo::find($id);
-        $organismo->name = $request->input('name');
+        $organismo = Organismo::find($id);
+        $organismo->nombre = $request->input('nombre');
         $organismo->siglas = $request->input('siglas');
         $organismo->codigo = $request->input('codigo');
+        $organismo->activo = $request->input('activo') ? 1 : 0;
         $organismo->update($validatedData);
         return redirect('/organismo')->with('status','Orgnismo Editado satisfactoriamente');
     }
 
     public function delete($id)
     {
-        $organismo = organismo::find($id);
+        $organismo = Organismo::find($id);
         return view('organismo.delete', compact('organismo'));
     }
 
@@ -118,24 +134,9 @@ class OrganismoController extends Controller
      */
     public function destroy($id)
     {
-        $organismo = organismo::find($id);
+        $organismo = Organismo::find($id);
         $organismo->delete();
         return redirect()->back()->with('status','Organismo eliminado Satisfactoriamente');
-    }
-
-    public function fileImportExport()
-    {
-        return view('organismo.file-import');
-    }
-
-    /**
-    * @return \Illuminate\Support\Collection
-    */
-    public function fileImport(Request $request)
-    {
-        Excel::import(new OrganismoImport,request()->file('file'));
-
-        return back()->with('success', 'User Imported Successfully.');
     }
 
     public function export()
