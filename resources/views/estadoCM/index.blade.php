@@ -12,35 +12,34 @@
         <div class="card">
             <div class="card-header">
                 <div class="row">
-                    <div class="col-6 mt-1 d-flex justify-content-start">
-                        Códigos SACLAP
+                    <div class="col-9 mt-1 d-flex justify-content-start">
+                        Estados de Contratos Marco
                     </div>
                     <div class="col-3 d-flex justify-content-end">
-                        <a href="{{ url('saclap-file-import') }}" class="btn btn-primary">Importar SACLAP</a>
-                    </div>
-                    <div class="col-3 d-flex justify-content-end">
-                        <a href="{{ url('saclap/create') }}" class="btn btn-primary">Crear SACLAP</a>
+                        <a href="{{ url('estadocm/create') }}" class="btn btn-primary"><i class="bi bi-plus-circle"></i></a>
                     </div>
                 </div>
             </div>
             <div class="card-body">
-                <form action="{{ url('saclap') }}" method="get">
+                <form action="{{ url('estadocm') }}" method="get">
                     <div class="row">
-                        <div class="col-3 mt-1 d-flex justify-content-start">
+                        <div class="col-6 mt-1 d-flex justify-content-start">
                             <div class="input-group">
-                                <span class="btn bi-journal-text" id="basic-addon1"></span>
-                                <input id="codigo" name="codigo" type="text" class="form-control" placeholder="Código"
-                                    aria-describedby="basic-addon1">
+                                <input id="nombre" name="nombre" type="text" class="form-control form-control-sm"
+                                    placeholder="Nombre" aria-describedby="basic-addon1">
                             </div>
                         </div>
-                        <div class="col-3 d-flex justify-content-start">
-                            <div class="input-group ">
-                                <span class="btn bi bi-file-earmark-text" id="basic-addon1"></span>
-                                <input type="text" name="desc" class="form-control" id="desc" placeholder="Descripción">
+                        <div class="col-3 mt-1 d-flex justify-content-start">
+                            <div class="mx-2 form-check">
+                                <input class="form-check-input" type="checkbox" name="activo">
+                                <label class="form-check-label">
+                                    Activo
+                                </label>
                             </div>
                         </div>
-                        <div class="col-6 d-flex justify-content-end">
-                            <button class="btn btn-primary mx-1" type="submit">Buscar</button>
+                        <div class="col-3 d-flex justify-content-end">
+                            <a href="{{ url('estadocm') }}" class="btn btn-sm btn-primary"><i class="bi bi-arrow-repeat"></i></a>
+                            <button class="btn btn-sm btn-primary mx-1" type="submit"><i class="bi bi-search"></i></button>
                         </div>
                     </div>
                 </form>
@@ -49,32 +48,33 @@
                     <table class="table table-primary table-bordered table-striped">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Código</th>
-                                <th>Descripción</th>
-                                <th>Edit</th>
-                                <th>Delete</th>
+                                <th>Nombre</th>
+                                <th>Activo</th>
+                                <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @if (count($saclap) < 1)
+                            @if (count($estado) < 1)
                                 <tr>
-                                    <td class="text-center" colspan="7">No se encontraron saclaps</td>
+                                    <td class="text-center" colspan="7">No se encontraron estados</td>
                                 </tr>
                             @else
-                                @foreach ($saclap as $item)
+                                @foreach ($estado as $item)
                                     <tr>
-                                        <td>{{ $item->id }}</td>
-                                        <td>{{ $item->codigo }}</td>
-                                        <td>{{ $item->desc }}</td>
+                                        <td>{{ $item->nombre }}</td>
                                         <td>
-                                            <a href="{{ url('saclap/' . $item->id . '/edit') }}" class="btn-sm btn-primary"><i
-                                                    class="bi bi-pencil"></i></a>
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" role="switch"
+                                                    id="flexSwitchCheckChecked" {{ $item->activo ? 'checked' : '' }}
+                                                    disabled>
+                                            </div>
                                         </td>
                                         <td>
+                                            <a href="{{ url('estadocm/' . $item->id . '/edit') }}"
+                                                class="btn-sm btn-primary"><i class="bi bi-pencil"></i></a>
                                             <button class="btn-sm btn-danger" data-toggle="modal" id="smallButton"
                                                 data-target="#smallModal"
-                                                data-attr="{{ url('saclap/delete', $item->id) }}" title="Delete Project">
+                                                data-attr="{{ url('estadocm/delete', $item->id) }}" title="Delete Project">
                                                 <i class="bi bi-trash"></i>
                                             </button>
                                         </td>
@@ -84,7 +84,7 @@
                         </tbody>
                     </table>
                     <div class="d-flex">
-                        {{ $saclap->withQueryString()->links() }}
+                        {{ $estado->withQueryString()->links() }}
                     </div>
                 </div>
             </div>
@@ -96,7 +96,7 @@
         <div class="modal-dialog modal-md" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Eliminar SACLAP</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Eliminar estado</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="smallBody">

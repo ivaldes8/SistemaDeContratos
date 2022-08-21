@@ -91,23 +91,40 @@
                         </div>
 
                         <div class="col-3 mt-1 d-flex justify-content-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="cliente">
-                                <label class="form-check-label">
-                                    Cliente
-                                </label>
-                            </div>
-                            <div class="mx-2 form-check">
-                                <input class="form-check-input" type="checkbox" name="proveedor">
-                                <label class="form-check-label">
-                                    Proveedor
-                                </label>
-                            </div>
+                            @if (request()->is('entidad'))
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="cliente">
+                                    <label class="form-check-label">
+                                        Cliente
+                                    </label>
+                                </div>
+                            @endif
+
+                            @if (request()->is('entidad'))
+                                <div class="mx-2 form-check">
+                                    <input class="form-check-input" type="checkbox" name="proveedor">
+                                    <label class="form-check-label">
+                                        Proveedor
+                                    </label>
+                                </div>
+                            @endif
+
                         </div>
 
                         <div class="col-6 d-flex justify-content-end">
-                            <a href="{{ url('entidad') }}" class="btn btn-sm btn-primary"><i
-                                    class="bi bi-arrow-repeat"></i></a>
+                            @if (request()->is('entidad'))
+                                <a href="{{ url('entidad') }}" class="btn btn-sm btn-primary"><i
+                                        class="bi bi-arrow-repeat"></i></a>
+                            @endif
+                            @if (request()->is('cliente'))
+                                <a href="{{ url('cliente') }}" class="btn btn-sm btn-primary"><i
+                                        class="bi bi-arrow-repeat"></i></a>
+                            @endif
+                            @if (request()->is('proveedor'))
+                                <a href="{{ url('proveedor') }}" class="btn btn-sm btn-primary"><i
+                                        class="bi bi-arrow-repeat"></i></a>
+                            @endif
+
                             <button class="btn btn-sm btn-primary mx-1" type="submit">
                                 <i class="bi bi-search"></i>
                             </button>
@@ -128,8 +145,10 @@
                             <th style="width: 100px;">NIT</th>
                             <th style="width: 280px;">Organismo</th>
                             <th style="width: 280px;">Grupo</th>
-                            <th style="width: 50px;">Cliente</th>
-                            <th style="width: 50px;">Proveedor</th>
+                            @if (request()->is('entidad'))
+                                <th style="width: 50px;">Cliente</th>
+                                <th style="width: 50px;">Proveedor</th>
+                            @endif
                             <th style="width: 20px;">Activo</th>
                         </tr>
                     </thead>
@@ -155,17 +174,21 @@
                                     </td>
                                     <td>{{ $item->GrupoOrgnanismo && $item->GrupoOrgnanismo->grupo ? $item->GrupoOrgnanismo->grupo->nombre : '---' }}
                                     </td>
-                                    <td>
-                                        <input style="width: 15px; height: 15px;" class="form-check-input" type="checkbox"
-                                            {{ $item->ClienteProveedor && $item->ClienteProveedor->isClient ? 'checked' : '' }}
-                                            disabled>
-                                    </td>
-                                    <td>
-                                        <input style="width: 15px; height: 15px;" class="form-check-input"
-                                            type="checkbox"
-                                            {{ $item->ClienteProveedor && $item->ClienteProveedor->isProvider ? 'checked' : '' }}
-                                            disabled>
-                                    </td>
+                                    @if (request()->is('entidad'))
+                                        <td>
+                                            <input style="width: 15px; height: 15px;" class="form-check-input"
+                                                type="checkbox"
+                                                {{ $item->ClienteProveedor && $item->ClienteProveedor->isClient ? 'checked' : '' }}
+                                                disabled>
+                                        </td>
+                                        <td>
+                                            <input style="width: 15px; height: 15px;" class="form-check-input"
+                                                type="checkbox"
+                                                {{ $item->ClienteProveedor && $item->ClienteProveedor->isProvider ? 'checked' : '' }}
+                                                disabled>
+                                        </td>
+                                    @endif
+
                                     <td>
                                         <div class="form-check form-switch">
                                             <input style="width: 30px; height: 15px;" class="form-check-input"

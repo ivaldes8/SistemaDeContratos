@@ -13,39 +13,39 @@
             <div class="card-header">
                 <div class="row">
                     <div class="col-6 mt-1 d-flex justify-content-start">
-                      {{$cpcu === "none" ? 'Crear cpcu' : 'Editar cpcu'}}
+                      {{$tipo === "none" ? 'Crear tipo' : 'Editar tipo'}}
                     </div>
                     <div class="col-6 d-flex justify-content-end">
-                        <a href="{{url('cpcu')}}" class="btn btn-success">Atrás</a>
+                        <a href="{{url('tipocm')}}" class="btn btn-success">Atrás</a>
                     </div>
                 </div>
             </div>
             <div class="card-body">
-            @if($cpcu === "none")
-                <form action="{{url('cpcu')}}" method="POST">
+            @if($tipo === "none")
+                <form action="{{url('tipocm')}}" method="POST">
             @else
-                <form action="{{url('cpcu/'.$cpcu->id)}}" method="POST">
+                <form action="{{url('tipocm/'.$tipo->id)}}" method="POST">
                     @method('PUT')
             @endif
                     @csrf
+
                     <div class="form-group mb-3">
-                        <label for="">Código:</label>
-                        <input type="text" name="codigo" class="form-control" value="{{ $cpcu !== 'none' ? $cpcu->codigo : '' }}">
-                        @if ($errors->has('codigo'))
-                            <span class="text-danger">{{ $errors->first('codigo') }}</span>
+                        <label for="">Nombre:</label>
+                        <input type="text" name="nombre" class="form-control" value="{{ $tipo !== 'none' ? $tipo->nombre : '' }}">
+                        @if ($errors->has('nombre'))
+                            <span class="text-danger">{{ $errors->first('nombre') }}</span>
                         @endif
                     </div>
 
                     <div class="form-group mb-3">
-                        <label for="">Descripción:</label>
-                        <input type="text" name="desc" class="form-control" value="{{ $cpcu !== 'none' ? $cpcu->desc : '' }}">
-                        @if ($errors->has('desc'))
-                            <span class="text-danger">{{ $errors->first('desc') }}</span>
-                        @endif
+                        <label for="">Activo:</label>
+                        <div class="form-check form-switch">
+                            <input name="activo" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" {{ $tipo !== 'none' && $tipo->activo == 1 ? 'checked' : $tipo === 'none' ? 'checked' : '' }}>
+                        </div>
                     </div>
 
                     <div class="form-group mb-3 d-flex justify-content-end">
-                        <button class="btn btn-primary" type="submit">{{$cpcu === 'none' ? 'Crear' : 'Editar'}}</button>
+                        <button class="btn btn-primary" type="submit">{{$tipo === 'none' ? 'Crear' : 'Editar'}}</button>
                     </div>
                 </form>
             </div>

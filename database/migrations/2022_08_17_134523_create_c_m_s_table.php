@@ -18,10 +18,10 @@ class CreateCMSTable extends Migration
             $table->string('noContrato')->required();
             $table->date('fechaFirma')->required();
             $table->date('fechaVenc')->required();
-            $table->string('contacto')->required();
-            $table->string('email')->required();
             $table->string('recibidoPor')->required();
-            $table->string('observ')->required();
+            $table->string('contacto')->nullable();
+            $table->string('email')->nullable();
+            $table->string('observ')->nullable();
             $table->unsignedBigInteger('entidad_id')->unsigned()->nullable();
             $table->foreign('entidad_id')->references('id')->on('entidad_client_providers')->nullOnDelete();
             $table->unsignedBigInteger('tipo_id')->unsigned()->nullable();

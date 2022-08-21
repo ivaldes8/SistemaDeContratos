@@ -97,27 +97,113 @@
                                             </a>
                                         </li>
                                     @endif
-
                                 </ul>
                             </li>
-                            <li class="nav-item mx-1">
-                                <a class="nav-link {{ request()->is('informacion*') ? 'active' : '' }}"
-                                    href="{{ url('informacion') }}">Gestionar Información</a>
-                            </li>
+
                             <li class="nav-item dropdown mx-1">
                                 <a class="nav-link dropdown-toggle
-                                {{ request()->is('cuotaDeMercado*') || request()->is('osde*') ? 'active' : '' }}"
+                                    {{ request()->is('tipocm*') ||
+                                    request()->is('estadocm*') ||
+                                    request()->is('objsupcm*') ||
+                                    request()->is('estadoce*') ||
+                                    request()->is('objsupce*')
+                                        ? 'active'
+                                        : '' }}"
                                     id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-                                    aria-expanded="false">Reportes</a>
+                                    aria-expanded="false">Nomencladores de Clientes</a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <li>
-                                        <a class="dropdown-item {{ request()->is('unidad*') ? 'active' : '' }}"
-                                            href="{{ url('cuotaDeMercado') }}">
-                                            Grado de satisfacción de la demanda nacional
+                                        <a class="dropdown-item {{ request()->is('tipocm*') ? 'active' : '' }}"
+                                            href="{{ url('tipocm') }}">
+                                            Tipo de Contrato Marco
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item {{ request()->is('estadocm*') ? 'active' : '' }}"
+                                            href="{{ url('estadocm') }}">
+                                            Estado de Contrato Marco
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item {{ request()->is('objsupcm*') ? 'active' : '' }}"
+                                            href="{{ url('objsupcm') }}">
+                                            Objeto de suplemento de Contrato Marco
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item {{ request()->is('estadoce*') ? 'active' : '' }}"
+                                            href="{{ url('estadoce') }}">
+                                            Estado de Contrato Específico
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item {{ request()->is('objsupce*') ? 'active' : '' }}"
+                                            href="{{ url('objsupce') }}">
+                                            Objeto de suplemento de Contrato Específico
                                         </a>
                                     </li>
                                 </ul>
                             </li>
+
+                            <li class="nav-item dropdown mx-1">
+                                <a class="nav-link dropdown-toggle
+                                    {{ request()->is('cliente*') ||
+                                    request()->is('cm*') ||
+                                    request()->is('ce*') ||
+                                    request()->is('suplementocm*') ||
+                                    request()->is('suplementoce*')
+                                        ? 'active'
+                                        : '' }}"
+                                    id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">Clientes</a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li>
+                                        <a class="dropdown-item {{ request()->is('cliente*') ? 'active' : '' }}"
+                                            href="{{ url('cliente') }}">
+                                            Clientes
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item {{ request()->is('cm*') ? 'active' : '' }}"
+                                            href="{{ url('cm') }}">
+                                            Contratos Marco
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item {{ request()->is('objsupce*') ? 'active' : '' }}"
+                                            href="{{ url('objsupce') }}">
+                                            Consulta de Contratos Específicos
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="nav-item dropdown mx-1">
+                                <a class="nav-link dropdown-toggle
+                                    {{ request()->is('proveedor*') ||
+                                    request()->is('cp*') ||
+                                    request()->is('suplementocp*')
+                                        ? 'active'
+                                        : '' }}"
+                                    id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">Proveedores</a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li>
+                                        <a class="dropdown-item {{ request()->is('Proveedor*') ? 'active' : '' }}"
+                                            href="{{ url('proveedor') }}">
+                                            Proveedores
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item {{ request()->is('cm*') ? 'active' : '' }}"
+                                            href="{{ url('cm') }}">
+                                            Contratos
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+
                             <li class="nav-item dropdown mx-1">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -128,10 +214,11 @@
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                         onclick="event.preventDefault();
                                                          document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                        Salir
                                     </a>
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                        class="d-none">
                                         @csrf
                                     </form>
                                 </div>

@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\ActividadController;
+use App\Http\Controllers\CMController;
 use App\Http\Controllers\CPCUController;
 use App\Http\Controllers\CuotaMercadoController;
 use App\Http\Controllers\EntidadController;
+use App\Http\Controllers\EstadoCMController;
 use App\Http\Controllers\FamiliaController;
 use App\Http\Controllers\IndicadorController;
 use App\Http\Controllers\IndicadorProductoController;
@@ -15,6 +17,7 @@ use App\Http\Controllers\PlanController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ReportesController;
 use App\Http\Controllers\SACLAPController;
+use App\Http\Controllers\TipoCMController;
 use App\Http\Controllers\UnidadController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Mail;
@@ -50,6 +53,19 @@ Route::middleware(['auth','admin'])->group(function () {
     Route::get('grupo-file-export', [GrupoController::class, 'export']);
 
     Route::resource('entidad',EntidadController::class);
+    Route::get('cliente', [EntidadController::class, 'clientes']);
+    Route::get('proveedor', [EntidadController::class, 'proveedores']);
+
+    Route::resource('tipocm',TipoCMController::class);
+    Route::get('tipocm/delete/{id}', [TipoCMController::class, 'delete'])->name('delete');
+
+    Route::resource('estadocm',EstadoCMController::class);
+    Route::get('estadocm/delete/{id}', [EstadoCMController::class, 'delete'])->name('delete');
+
+    Route::resource('cm',CMController::class);
+    Route::get('cm/delete/{id}', [CMController::class, 'delete'])->name('delete');
+
+
 
     // Route::resource('cpcu',CPCUController::class);
     // Route::get('cpcu/delete/{id}', [CPCUController::class, 'delete'])->name('delete');
