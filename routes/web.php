@@ -13,10 +13,12 @@ use App\Http\Controllers\InformacionController;
 use App\Http\Controllers\NAEController;
 use App\Http\Controllers\OrganismoController;
 use App\Http\Controllers\GrupoController;
+use App\Http\Controllers\ObjSupCMController;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ReportesController;
 use App\Http\Controllers\SACLAPController;
+use App\Http\Controllers\SupCMController;
 use App\Http\Controllers\TipoCMController;
 use App\Http\Controllers\UnidadController;
 use Illuminate\Support\Facades\Route;
@@ -49,6 +51,7 @@ Route::middleware(['auth','admin'])->group(function () {
 
     Route::resource('grupo',GrupoController::class);
     Route::get('GrupoByOrganismo',[GrupoController::class, 'getGrupoByOrganismo']);
+    Route::get('ClienteByGrupo',[GrupoController::class, 'getClientByGrupo']);
     Route::get('grupo/delete/{id}', [GrupoController::class, 'delete'])->name('delete');
     Route::get('grupo-file-export', [GrupoController::class, 'export']);
 
@@ -61,6 +64,12 @@ Route::middleware(['auth','admin'])->group(function () {
 
     Route::resource('estadocm',EstadoCMController::class);
     Route::get('estadocm/delete/{id}', [EstadoCMController::class, 'delete'])->name('delete');
+
+    Route::resource('objsupcm',ObjSupCMController::class);
+    Route::get('objsupcm/delete/{id}', [ObjSupCMController::class, 'delete'])->name('delete');
+
+    Route::resource('supcm',SupCMController::class);
+    Route::get('supcm/delete/{id}', [SupCMController::class, 'delete'])->name('delete');
 
     Route::resource('cm',CMController::class);
     Route::get('cm/delete/{id}', [CMController::class, 'delete'])->name('delete');

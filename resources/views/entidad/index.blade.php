@@ -18,118 +18,126 @@
                 </div>
             </div>
             <div class="card-body">
-                <form action="{{ url('entidad') }}" method="get">
-                    <div class="row">
+                @if (request()->is('proveedor'))
+                    <form action="{{ url('proveedor') }}" method="get">
+                @endif
+                @if (request()->is('cliente'))
+                    <form action="{{ url('cliente') }}" method="get">
+                @endif
+                @if (request()->is('entidad'))
+                    <form action="{{ url('entidad') }}" method="get">
+                @endif
 
-                        <div class="col-3 mt-1 d-flex justify-content-start">
-                            <div class="input-group ">
-                                <input name="codigoreu" class="form-control form-control-sm" placeholder="Código REU" />
-                            </div>
-                        </div>
-
-                        <div class="col-3 mt-1 d-flex justify-content-start">
-                            <div class="input-group ">
-                                <input name="nombre" class="form-control form-control-sm" placeholder="Nombre" />
-                            </div>
-                        </div>
-
-                        <div class="col-3 mt-1 d-flex justify-content-start">
-                            <div class="input-group ">
-                                <input name="abreviatura" class="form-control form-control-sm" placeholder="Siglas" />
-                            </div>
-                        </div>
-
-                        <div class="col-3 mt-1 d-flex justify-content-start">
-                            <div class="input-group ">
-                                <input name="direccion" class="form-control form-control-sm" placeholder="Dirección" />
-                            </div>
-                        </div>
-
-                        <div class="col-3 mt-1 d-flex justify-content-start">
-                            <div class="input-group ">
-                                <input name="telefono" class="form-control form-control-sm" placeholder="Teléfono" />
-                            </div>
-                        </div>
-
-                        <div class="col-3 mt-1 d-flex justify-content-start">
-                            <div class="input-group ">
-                                <input name="NIT" class="form-control form-control-sm" placeholder="NIT" />
-                            </div>
-                        </div>
-
-                        <div class="col-3 mt-1 d-flex justify-content-start">
-                            <div class="input-group">
-                                <select name="org_id" class="form-control form-control-sm orgSelect" id="organismo">
-                                    <option></option>
-                                    @foreach ($organismos as $item)
-                                        <option value="{{ $item->id }}">{{ $item->nombre }}-{{ $item->siglas }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-3 mt-1 d-flex justify-content-start">
-                            <div class="input-group">
-                                <select name="grupo_id" class="form-control form-control-sm grupoSelect" id="grupo">
-                                    <option></option>
-                                    @foreach ($grupos as $item)
-                                        <option value="{{ $item->id }}">{{ $item->nombre }}-{{ $item->siglas }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-3 mt-1 d-flex justify-content-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="activo">
-                                <label class="form-check-label">
-                                    Activo
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="col-3 mt-1 d-flex justify-content-start">
-                            @if (request()->is('entidad'))
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="cliente">
-                                    <label class="form-check-label">
-                                        Cliente
-                                    </label>
-                                </div>
-                            @endif
-
-                            @if (request()->is('entidad'))
-                                <div class="mx-2 form-check">
-                                    <input class="form-check-input" type="checkbox" name="proveedor">
-                                    <label class="form-check-label">
-                                        Proveedor
-                                    </label>
-                                </div>
-                            @endif
-
-                        </div>
-
-                        <div class="col-6 d-flex justify-content-end">
-                            @if (request()->is('entidad'))
-                                <a href="{{ url('entidad') }}" class="btn btn-sm btn-primary"><i
-                                        class="bi bi-arrow-repeat"></i></a>
-                            @endif
-                            @if (request()->is('cliente'))
-                                <a href="{{ url('cliente') }}" class="btn btn-sm btn-primary"><i
-                                        class="bi bi-arrow-repeat"></i></a>
-                            @endif
-                            @if (request()->is('proveedor'))
-                                <a href="{{ url('proveedor') }}" class="btn btn-sm btn-primary"><i
-                                        class="bi bi-arrow-repeat"></i></a>
-                            @endif
-
-                            <button class="btn btn-sm btn-primary mx-1" type="submit">
-                                <i class="bi bi-search"></i>
-                            </button>
+                <div class="row">
+                    <div class="col-3 mt-1 d-flex justify-content-start">
+                        <div class="input-group ">
+                            <input name="codigoreu" class="form-control form-control-sm" placeholder="Código REU" />
                         </div>
                     </div>
+
+                    <div class="col-3 mt-1 d-flex justify-content-start">
+                        <div class="input-group ">
+                            <input name="nombre" class="form-control form-control-sm" placeholder="Nombre" />
+                        </div>
+                    </div>
+
+                    <div class="col-3 mt-1 d-flex justify-content-start">
+                        <div class="input-group ">
+                            <input name="abreviatura" class="form-control form-control-sm" placeholder="Siglas" />
+                        </div>
+                    </div>
+
+                    <div class="col-3 mt-1 d-flex justify-content-start">
+                        <div class="input-group ">
+                            <input name="direccion" class="form-control form-control-sm" placeholder="Dirección" />
+                        </div>
+                    </div>
+
+                    <div class="col-3 mt-1 d-flex justify-content-start">
+                        <div class="input-group ">
+                            <input name="telefono" class="form-control form-control-sm" placeholder="Teléfono" />
+                        </div>
+                    </div>
+
+                    <div class="col-3 mt-1 d-flex justify-content-start">
+                        <div class="input-group ">
+                            <input name="NIT" class="form-control form-control-sm" placeholder="NIT" />
+                        </div>
+                    </div>
+
+                    <div class="col-3 mt-1 d-flex justify-content-start">
+                        <div class="input-group">
+                            <select name="org_id" class="form-control form-control-sm orgSelect" id="organismo">
+                                <option></option>
+                                @foreach ($organismos as $item)
+                                    <option value="{{ $item->id }}">{{ $item->nombre }}-{{ $item->siglas }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-3 mt-1 d-flex justify-content-start">
+                        <div class="input-group">
+                            <select name="grupo_id" class="form-control form-control-sm grupoSelect" id="grupo">
+                                <option></option>
+                                @foreach ($grupos as $item)
+                                    <option value="{{ $item->id }}">{{ $item->nombre }}-{{ $item->siglas }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-3 mt-1 d-flex justify-content-start">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="activo">
+                            <label class="form-check-label">
+                                Activo
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="col-3 mt-1 d-flex justify-content-start">
+                        @if (request()->is('entidad'))
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="cliente">
+                                <label class="form-check-label">
+                                    Cliente
+                                </label>
+                            </div>
+                        @endif
+
+                        @if (request()->is('entidad'))
+                            <div class="mx-2 form-check">
+                                <input class="form-check-input" type="checkbox" name="proveedor">
+                                <label class="form-check-label">
+                                    Proveedor
+                                </label>
+                            </div>
+                        @endif
+
+                    </div>
+
+                    <div class="col-6 d-flex justify-content-end">
+                        @if (request()->is('entidad'))
+                            <a href="{{ url('entidad') }}" class="btn btn-sm btn-primary"><i
+                                    class="bi bi-arrow-repeat"></i></a>
+                        @endif
+                        @if (request()->is('cliente'))
+                            <a href="{{ url('cliente') }}" class="btn btn-sm btn-primary"><i
+                                    class="bi bi-arrow-repeat"></i></a>
+                        @endif
+                        @if (request()->is('proveedor'))
+                            <a href="{{ url('proveedor') }}" class="btn btn-sm btn-primary"><i
+                                    class="bi bi-arrow-repeat"></i></a>
+                        @endif
+
+                        <button class="btn btn-sm btn-primary mx-1" type="submit">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
             </form>
             <hr>
@@ -150,6 +158,9 @@
                                 <th style="width: 50px;">Proveedor</th>
                             @endif
                             <th style="width: 20px;">Activo</th>
+                            @if (!request()->is('entidad'))
+                                <th style="width: 20px;">Contratos</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -196,6 +207,22 @@
                                                 disabled>
                                         </div>
                                     </td>
+                                    @if (request()->is('cliente'))
+                                        <td>
+                                            <a style="font-weight: bold;font-size: 180%"
+                                                href="{{ url('cm/' . $item->identidad) }}">
+                                                <i class="bi bi-file-earmark-text"></i>
+                                            </a>
+                                        </td>
+                                    @endif
+                                    @if (request()->is('proveedor'))
+                                        <td>
+                                            <a style="font-weight: bold;font-size: 180%"
+                                                href="{{ url('cp/' . $item->identidad) }}">
+                                                <i class="bi bi-file-earmark-text"></i>
+                                            </a>
+                                        </td>
+                                    @endif
                                 </tr>
                             @endforeach
                         @endif
@@ -243,7 +270,7 @@
                     success: function(res) {
                         if (res) {
                             $("#grupo").empty();
-                            $("#grupo").append('<option>Grupo no seleccionado</option>');
+                            $("#grupo").append("<option value='@'>Grupo no seleccionado</option>");
                             $.each(res, function(key, value) {
                                 $("#grupo").append('<option value="' + key + '">' + value +
                                     '</option>');

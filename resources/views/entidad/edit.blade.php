@@ -16,7 +16,7 @@
                         Editar Entidad
                     </div>
                     <div class="col-6 d-flex justify-content-end">
-                        <a href="{{ url('entidad') }}" class="btn btn-success">Atrás</a>
+                        <a href="{{ url()->previous() }}" class="btn btn-success">Atrás</a>
                     </div>
                 </div>
             </div>

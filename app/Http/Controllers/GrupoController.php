@@ -6,6 +6,9 @@ use App\Models\Grupo;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\OSDEExport;
+use App\Models\Entidad;
+use App\Models\entidadClientProvider;
+use App\Models\entidadGrupoOrganismo;
 use App\Models\Organismo;
 
 class GrupoController extends Controller
@@ -43,9 +46,48 @@ class GrupoController extends Controller
 
     public function getGrupoByOrganismo(Request $request)
     {
-        $grupos = Grupo::where("org_id", $request->org_id)->pluck("nombre","id");
+        $grupos = Grupo::where("org_id", $request->org_id)->pluck("nombre", "id");
         return response()->json($grupos);
     }
+
+
+    public function getClientByGrupo(Request $request)
+    {
+        $query = Entidad::query();
+
+        $query->whereHas('ClienteProveedor', function ($q) {
+            return $q->where('isClient', 1);
+        });
+
+        $query->whereHas('GrupoOrgnanismo', function ($q) {
+            $q->whereHas('grupo', function ($q) {
+                return $q->where('grupo_id', request()->input('grupo_id'));
+            });
+        });
+
+        $clientes = $query->pluck("nombre", "identidad");
+        return response()->json($clientes);
+    }
+
+    public function getProviderByGrupo(Request $request)
+    {
+        $query = Entidad::query();
+
+        $query->whereHas('ClienteProveedor', function ($q) {
+            return $q->where('isProvider', 1);
+        });
+
+        $query->whereHas('GrupoOrgnanismo', function ($q) {
+            $q->whereHas('grupo', function ($q) {
+                return $q->where('grupo_id', request()->input('grupo_id'));
+            });
+        });
+
+        $clientes = $query->pluck("nombre", "identidad");
+        return response()->json($clientes);
+    }
+
+
 
     /**
      * Show the form for creating a new resource.

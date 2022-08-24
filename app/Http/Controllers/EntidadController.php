@@ -52,13 +52,15 @@ class EntidadController extends Controller
             });
         });
 
-        $query->when(request()->input('grupo_id'), function ($q) {
-            $q->whereHas('GrupoOrgnanismo', function ($q) {
-                $q->whereHas('grupo', function ($q) {
-                    return $q->where('grupo_id', request()->input('grupo_id'));
+        if (request()->input('grupo_id') && request()->input('grupo_id') !== '@') {
+            $query->when(request()->input('grupo_id'), function ($q) {
+                $q->whereHas('GrupoOrgnanismo', function ($q) {
+                    $q->whereHas('grupo', function ($q) {
+                        return $q->where('grupo_id', request()->input('grupo_id'));
+                    });
                 });
             });
-        });
+        }
 
         $query->when(request()->input('activo'), function ($q) {
             return $q->where('activo', 1);
@@ -118,14 +120,15 @@ class EntidadController extends Controller
                 });
             });
         });
-
-        $query->when(request()->input('grupo_id'), function ($q) {
-            $q->whereHas('GrupoOrgnanismo', function ($q) {
-                $q->whereHas('grupo', function ($q) {
-                    return $q->where('grupo_id', request()->input('grupo_id'));
+        if (request()->input('grupo_id') && request()->input('grupo_id') !== '@') {
+            $query->when(request()->input('grupo_id'), function ($q) {
+                $q->whereHas('GrupoOrgnanismo', function ($q) {
+                    $q->whereHas('grupo', function ($q) {
+                        return $q->where('grupo_id', request()->input('grupo_id'));
+                    });
                 });
             });
-        });
+        }
 
         $query->when(request()->input('activo'), function ($q) {
             return $q->where('activo', 1);
@@ -179,13 +182,15 @@ class EntidadController extends Controller
             });
         });
 
-        $query->when(request()->input('grupo_id'), function ($q) {
-            $q->whereHas('GrupoOrgnanismo', function ($q) {
-                $q->whereHas('grupo', function ($q) {
-                    return $q->where('grupo_id', request()->input('grupo_id'));
+        if (request()->input('grupo_id') && request()->input('grupo_id') !== '@') {
+            $query->when(request()->input('grupo_id'), function ($q) {
+                $q->whereHas('GrupoOrgnanismo', function ($q) {
+                    $q->whereHas('grupo', function ($q) {
+                        return $q->where('grupo_id', request()->input('grupo_id'));
+                    });
                 });
             });
-        });
+        }
 
         $query->when(request()->input('activo'), function ($q) {
             return $q->where('activo', 1);

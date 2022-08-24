@@ -150,8 +150,8 @@
                                     {{ request()->is('cliente*') ||
                                     request()->is('cm*') ||
                                     request()->is('ce*') ||
-                                    request()->is('suplementocm*') ||
-                                    request()->is('suplementoce*')
+                                    request()->is('supcm*') ||
+                                    request()->is('supce*')
                                         ? 'active'
                                         : '' }}"
                                     id="navbarDropdown" role="button" data-bs-toggle="dropdown"
@@ -170,8 +170,8 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item {{ request()->is('objsupce*') ? 'active' : '' }}"
-                                            href="{{ url('objsupce') }}">
+                                        <a class="dropdown-item {{ request()->is('ce*') ? 'active' : '' }}"
+                                            href="{{ url('ce') }}">
                                             Consulta de Contratos Específicos
                                         </a>
                                     </li>
