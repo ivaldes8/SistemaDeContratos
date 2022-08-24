@@ -12,6 +12,7 @@ use App\Models\tipoCM;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class CMController extends Controller
 {
@@ -279,24 +280,28 @@ class CMController extends Controller
             $destinationPath = 'ContratosMarco/' . $year[1] . '/' .  $year[0] . '-' . $year[1];
             $file1Name = '1-' . $year[0] . '-' . $year[1] . "." . $file1->getClientOriginalExtension();
             $file1->move(storage_path('app/public/' . $destinationPath), $file1Name);
+            $cm->file->file1 = $file1Name;
         }
         if ($request->hasFile('file2')) {
             $file2 = $request->file('file2');
             $destinationPath = 'ContratosMarco/' . $year[1] . '/' .  $year[0] . '-' . $year[1]; //'1-' . $CM->noContrato .
             $file2Name = '2-' . $year[0] . '-' . $year[1] . "." . $file2->getClientOriginalExtension();
             $file2->move(storage_path('app/public/' . $destinationPath), $file2Name);
+            $cm->file->file2 = $file2Name;
         }
         if ($request->hasFile('file3')) {
             $file3 = $request->file('file3');
             $destinationPath = 'ContratosMarco/' . $year[1] . '/' .  $year[0] . '-' . $year[1]; //'1-' . $CM->noContrato .
             $file3Name = '3-' . $year[0] . '-' . $year[1] . "." . $file3->getClientOriginalExtension();
             $file3->move(storage_path('app/public/' . $destinationPath), $file3Name);
+            $cm->file->file3 = $file3Name;
         }
         if ($request->hasFile('file4')) {
             $file4 = $request->file('file4');
             $destinationPath = 'ContratosMarco/' . $year[1] . '/' .  $year[0] . '-' . $year[1]; //'1-' . $CM->noContrato .
             $file4Name = '4-' . $year[0] . '-' . $year[1] . "." . $file4->getClientOriginalExtension();
             $file4->move(storage_path('app/public/' . $destinationPath), $file4Name);
+            $cm->file->file4 = $file4Name;
         }
         if ($request->hasFile('file1') || $request->hasFile('file2') || $request->hasFile('file3') || $request->hasFile('file4')) {
             $cm->file->path = $destinationPath;
@@ -312,8 +317,9 @@ class CMController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function download($id)
     {
-        //
+        // dd($id);
+        return Storage::download('public/storage/app/public/1.pdf');
     }
 }

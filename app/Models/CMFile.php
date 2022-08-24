@@ -9,5 +9,5 @@ class CMFile extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['cm_id', 'path'];
+    protected $fillable = ['cm_id', 'path', 'file1', 'file2', 'file3', 'file4'];
 }

@@ -155,7 +155,7 @@
             <div class="table-responsive">
                 <table class="table  table-sm table-bordered table-striped">
                     <thead>
-                        <tr style="font-size: 90%;">
+                        <tr style="font-size: 80%;">
                             <th style="width: 100px;">No. Contrato</th>
                             <th style="width: 100px;">Código interno</th>
                             <th style="width: 100px;">Código REU</th>
@@ -167,7 +167,7 @@
                             <th style="width: 450px;">Fecha de firma</th>
                             <th style="width: 150px;">Fecha de vencimiento</th>
                             <th style="width: 430px;">Observaciones</th>
-                            <th style="width: 100px;">Contrato</th>
+                            <th style="width: 500px;">Contrato</th>
                             <th style="width: 100px;">Contratos específicos</th>
                             <th style="width: 100px;">Suplementos</th>
                         </tr>
@@ -180,7 +180,7 @@
                         @else
                             @foreach ($cm as $item)
                                 <tr class="{{ (\Carbon\Carbon::parse($item->fechaVenc)->addMonth(3)->lte($now)? 'bg-warning': \Carbon\Carbon::parse($item->fechaVenc)->lte($now))? 'bg-danger': '' }}"
-                                    style="font-size: 80%">
+                                    style="font-size: 70%">
                                     <td>
                                         <a style="font-weight: bold;" href="{{ url('cm/' . $item->id . '/edit') }}"><i
                                                 class="bi bi-pencil">{{ $item->noContrato ? $item->noContrato : '---' }}</i></a>
@@ -205,25 +205,53 @@
                                     <td>{{ $item->fechaFirma ? $item->fechaFirma : '---' }}</td>
                                     <td>{{ $item->fechaVenc ? $item->fechaVenc : '---' }}</td>
                                     <td>{{ $item->observ ? $item->observ : '---' }}</td>
+                                    @if ($item->file)
+                                        <td>
+                                            @if ($item->file->file1)
+                                                <a style="font-weight: bold;font-size: 180%"
+                                                    href="{{ asset('storage/' . $item->file->path . '/' . $item->file->file1) }}"><i
+                                                        class="bi bi-dice-1"></i></a>
+                                            @else
+                                                -
+                                            @endif
+                                            @if ($item->file->file2)
+                                                <a style="font-weight: bold;font-size: 180%"
+                                                    href="{{ asset('storage/' . $item->file->path . '/' . $item->file->file2) }}"><i
+                                                        class="bi bi-dice-2"></i></a>
+                                            @else
+                                                -
+                                            @endif
+                                            @if ($item->file->file3)
+                                                <a style="font-weight: bold;font-size: 180%"
+                                                    href="{{ asset('storage/' . $item->file->path . '/' . $item->file->file3) }}"><i
+                                                        class="bi bi-dice-3"></i></a>
+                                            @else
+                                                -
+                                            @endif
+                                            @if ($item->file->file4)
+                                                <a style="font-weight: bold;font-size: 180%"
+                                                    href="{{ asset('storage/' . $item->file->path . '/' . $item->file->file4) }}"><i
+                                                        class="bi bi-dice-4"></i></a>
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
+                                    @else
+                                        <td>---</td>
+                                    @endif
+
                                     <td>
                                         <a style="font-weight: bold;font-size: 180%"
-                                            href="{{ url('cm/' . $item->id . '/edit') }}" disabled>
-                                            <i class="bi bi-file-earmark-medical"></i>
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a style="font-weight: bold;font-size: 180%"
-                                            href="{{ url('cm/' . $item->id . '/edit') }}" disabled>
+                                            href="{{ url('ce/' . $item->id) }}" disabled>
                                             <i class="bi bi-file-earmark-text"></i>
                                         </a>
                                     </td>
                                     <td>
                                         <a style="font-weight: bold;font-size: 180%"
-                                            href="{{ url('cm/' . $item->id . '/edit') }}" disabled>
+                                            href="{{ url('supcm/' . $item->id) }}" disabled>
                                             <i class="bi bi-file-earmark-plus"></i>
                                         </a>
                                     </td>
-
                                 </tr>
                             @endforeach
                         @endif

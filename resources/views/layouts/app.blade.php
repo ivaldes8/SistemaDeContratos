@@ -170,6 +170,12 @@
                                         </a>
                                     </li>
                                     <li>
+                                        <a class="dropdown-item {{ request()->is('supcm*') ? 'active' : '' }}"
+                                            href="{{ url('supcm') }}">
+                                            Consulta de Suplementos de Contrato Marco
+                                        </a>
+                                    </li>
+                                    <li>
                                         <a class="dropdown-item {{ request()->is('ce*') ? 'active' : '' }}"
                                             href="{{ url('ce') }}">
                                             Consulta de Contratos Específicos

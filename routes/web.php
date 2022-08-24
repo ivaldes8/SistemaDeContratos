@@ -69,10 +69,11 @@ Route::middleware(['auth','admin'])->group(function () {
     Route::get('objsupcm/delete/{id}', [ObjSupCMController::class, 'delete'])->name('delete');
 
     Route::resource('supcm',SupCMController::class);
+    Route::get('supcm/create/{id}', [SupCMController::class, 'create']);
+    Route::post('supcm/{id}', [SupCMController::class, 'store']);
     Route::get('supcm/delete/{id}', [SupCMController::class, 'delete'])->name('delete');
 
     Route::resource('cm',CMController::class);
-    Route::get('cm/delete/{id}', [CMController::class, 'delete'])->name('delete');
 
 
 

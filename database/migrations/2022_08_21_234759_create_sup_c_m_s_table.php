@@ -20,10 +20,10 @@ class CreateSupCMSTable extends Migration
             $table->unsignedBigInteger('obj_sup_id')->unsigned()->nullable();
             $table->foreign('obj_sup_id')->references('id')->on('obj_sup_c_m_s')->nullOnDelete();
             $table->string('noSupCM')->required();
-            $table->date('fechaIni')->required();
-            $table->date('fechaEnd')->required();
+            $table->date('fechaIni')->nullable();
+            $table->date('fechaEnd')->nullable();
             $table->string('ejecutor')->required();
-            $table->text('observ')->required();
+            $table->text('observ')->nullable();
             $table->timestamps();
         });
     }

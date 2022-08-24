@@ -16,6 +16,11 @@ class CM extends Model
         return $this->hasOne(entidadClientProvider::class, 'entidad_id', 'entidad_id');
     }
 
+    public function grupoOrg()
+    {
+        return $this->hasOne(entidadGrupoOrganismo::class, 'entidad_id', 'entidad_id');
+    }
+
     public function tipo()
     {
         return $this->hasOne(tipoCM::class, 'id', 'tipo_id');
