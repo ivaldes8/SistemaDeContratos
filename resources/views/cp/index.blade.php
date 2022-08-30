@@ -14,10 +14,10 @@
                 <div class="row">
                     <div class="row">
                         <div class="col-9 mt-1 d-flex justify-content-start">
-                            Contratos Marco
+                            Contratos
                         </div>
                         <div class="col-3 d-flex justify-content-end">
-                            <a href="{{ url('cm/create') }}" class="btn btn-primary">
+                            <a href="{{ url('cp/create') }}" class="btn btn-primary">
                                 <i class="bi bi-plus-circle"></i>
                             </a>
                         </div>
@@ -25,7 +25,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <form action="{{ url('cm') }}" method="get">
+                <form action="{{ url('cp') }}" method="get">
                     <div class="row">
                         <div class="col-3 mt-1 d-flex justify-content-start">
                             <div class="input-group ">
@@ -96,9 +96,10 @@
 
                         <div class="col-3 mt-1 d-flex justify-content-start">
                             <div class="input-group">
-                                <select name="cliente_id" class="form-control form-control-sm clienteSelect" id="cliente">
+                                <select name="proveedor_id" class="form-control form-control-sm clienteSelect"
+                                    id="cliente">
                                     <option></option>
-                                    @foreach ($clientes as $item)
+                                    @foreach ($proveedores as $item)
                                         <option value="{{ $item->identidad }}">
                                             {{ $item->nombre }}-{{ $item->abreviatura }}
                                         </option>
@@ -140,7 +141,7 @@
                                 <i class="bi bi-file-earmark-excel"></i>
                             </button>
 
-                            <a href="{{ url('cm') }}" class="btn btn-sm btn-primary">
+                            <a href="{{ url('cp') }}" class="btn btn-sm btn-primary">
                                 <i class="bi bi-arrow-repeat"></i>
                             </a>
 
@@ -166,44 +167,45 @@
                             <th style="width: 150px;">Estado</th>
                             <th style="width: 450px;">Fecha de firma</th>
                             <th style="width: 150px;">Fecha de vencimiento</th>
+                            <th style="width: 150px;">Monto</th>
                             <th style="width: 430px;">Observaciones</th>
                             <th style="width: 500px;">Contrato</th>
-                            <th style="width: 100px;">Contratos específicos</th>
                             <th style="width: 100px;">Suplementos</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @if (count($cm) < 1)
+                        @if (count($cp) < 1)
                             <tr>
                                 <td class="text-center" colspan="16">No se encontraron Contratos marco</td>
                             </tr>
                         @else
-                            @foreach ($cm as $item)
+                            @foreach ($cp as $item)
                                 <tr class="{{ (\Carbon\Carbon::parse($item->fechaVenc)->addMonth(3)->lte($now)? 'bg-warning': \Carbon\Carbon::parse($item->fechaVenc)->lte($now))? 'bg-danger': '' }}"
                                     style="font-size: 70%">
                                     <td>
-                                        <a style="font-weight: bold;" href="{{ url('cm/' . $item->id . '/edit') }}"><i
+                                        <a style="font-weight: bold;" href="{{ url('cp/' . $item->id . '/edit') }}"><i
                                                 class="bi bi-pencil">{{ $item->noContrato ? $item->noContrato : '---' }}</i></a>
                                     </td>
                                     <td>
-                                        {{ $item->cliente && $item->cliente->entidad && $item->cliente->entidad->codigo ? $item->cliente->entidad->codigo : '---' }}
+                                        {{ $item->proveedor && $item->proveedor->entidad && $item->proveedor->entidad->codigo ? $item->proveedor->entidad->codigo : '---' }}
                                     </td>
                                     <td>
-                                        {{ $item->cliente && $item->cliente->entidad && $item->cliente->entidad->codigoreu ? $item->cliente->entidad->codigoreu : '---' }}
+                                        {{ $item->proveedor && $item->proveedor->entidad && $item->proveedor->entidad->codigoreu ? $item->proveedor->entidad->codigoreu : '---' }}
                                     </td>
                                     <td style="font-size: 80%;">
-                                        {{ $item->cliente && $item->cliente->entidad && $item->cliente->entidad->nombre ? $item->cliente->entidad->nombre : '---' }}
+                                        {{ $item->proveedor && $item->proveedor->entidad && $item->proveedor->entidad->nombre ? $item->proveedor->entidad->nombre : '---' }}
                                     </td>
                                     <td style="font-size: 80%;">
-                                        {{ $item->cliente && $item->cliente->entidad && $item->cliente->entidad->abreviatura ? $item->cliente->entidad->abreviatura : '---' }}</td>
+                                        {{ $item->proveedor && $item->proveedor->entidad && $item->proveedor->entidad->abreviatura ? $item->proveedor->entidad->abreviatura : '---' }}</td>
                                     <td>
-                                        {{ $item->cliente && $item->cliente->entidad && $item->cliente->entidad->GrupoOrgnanismo && $item->cliente->entidad->GrupoOrgnanismo->organismo ? $item->cliente->entidad->GrupoOrgnanismo->organismo->siglas : '---' }}/
-                                        {{ $item->cliente && $item->cliente->entidad && $item->cliente->entidad->GrupoOrgnanismo && $item->cliente->entidad->GrupoOrgnanismo->grupo ? $item->cliente->entidad->GrupoOrgnanismo->grupo->siglas : '---' }}
+                                        {{ $item->proveedor && $item->proveedor->entidad && $item->proveedor->entidad->GrupoOrgnanismo && $item->proveedor->entidad->GrupoOrgnanismo->organismo ? $item->proveedor->entidad->GrupoOrgnanismo->organismo->siglas : '---' }}/
+                                        {{ $item->proveedor && $item->proveedor->entidad && $item->proveedor->entidad->GrupoOrgnanismo && $item->proveedor->entidad->GrupoOrgnanismo->grupo ? $item->proveedor->entidad->GrupoOrgnanismo->grupo->siglas : '---' }}
                                     </td>
                                     <td>{{ $item->tipo ? $item->tipo->nombre : '---' }}</td>
                                     <td>{{ $item->estado ? $item->estado->nombre : '---' }}</td>
                                     <td>{{ $item->fechaFirma ? $item->fechaFirma : '---' }}</td>
                                     <td>{{ $item->fechaVenc ? $item->fechaVenc : '---' }}</td>
+                                    <td>{{ $item->monto ? $item->monto : '---' }}</td>
                                     <td>{{ $item->observ ? $item->observ : '---' }}</td>
                                     @if ($item->file)
                                         <td>
@@ -239,16 +241,9 @@
                                     @else
                                         <td>---</td>
                                     @endif
-
                                     <td>
                                         <a style="font-weight: bold;font-size: 180%"
-                                            href="{{ url('ce/' . $item->id) }}" disabled>
-                                            <i class="bi bi-file-earmark-text"></i>
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a style="font-weight: bold;font-size: 180%"
-                                            href="{{ url('supcm/' . $item->id) }}" disabled>
+                                            href="{{ url('supcp/' . $item->id) }}" disabled>
                                             <i class="bi bi-file-earmark-plus"></i>
                                         </a>
                                     </td>
@@ -258,7 +253,7 @@
                     </tbody>
                 </table>
                 <div class="d-flex">
-                    {{ $cm->withQueryString()->links() }}
+                    {{ $cp->withQueryString()->links() }}
                 </div>
             </div>
         </div>

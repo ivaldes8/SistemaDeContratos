@@ -172,7 +172,7 @@
                                     <li>
                                         <a class="dropdown-item {{ request()->is('supcm*') ? 'active' : '' }}"
                                             href="{{ url('supcm') }}">
-                                            Consulta de Suplementos de Contrato Marco
+                                            Consulta de Suplementos
                                         </a>
                                     </li>
                                     <li>
@@ -186,11 +186,34 @@
 
                             <li class="nav-item dropdown mx-1">
                                 <a class="nav-link dropdown-toggle
-                                    {{ request()->is('proveedor*') ||
-                                    request()->is('cp*') ||
-                                    request()->is('suplementocp*')
-                                        ? 'active'
-                                        : '' }}"
+                                    {{ request()->is('tipocp*') || request()->is('estadocp*') || request()->is('objsupcp*') ? 'active' : '' }}"
+                                    id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">Nomencladores de Proveedores</a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li>
+                                        <a class="dropdown-item {{ request()->is('tipocp*') ? 'active' : '' }}"
+                                            href="{{ url('tipocp') }}">
+                                            Tipo de Contrato Proveedor
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item {{ request()->is('estadocp*') ? 'active' : '' }}"
+                                            href="{{ url('estadocp') }}">
+                                            Estado de Contrato Proveedor
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item {{ request()->is('objsupcp*') ? 'active' : '' }}"
+                                            href="{{ url('objsupcp') }}">
+                                            Objeto de suplemento de Contrato Proveedor
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="nav-item dropdown mx-1">
+                                <a class="nav-link dropdown-toggle
+                                    {{ request()->is('proveedor*') || request()->is('cp*') || request()->is('supcp*') ? 'active' : '' }}"
                                     id="navbarDropdown" role="button" data-bs-toggle="dropdown"
                                     aria-expanded="false">Proveedores</a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -201,9 +224,15 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item {{ request()->is('cm*') ? 'active' : '' }}"
-                                            href="{{ url('cm') }}">
+                                        <a class="dropdown-item {{ request()->is('cp*') ? 'active' : '' }}"
+                                            href="{{ url('cp') }}">
                                             Contratos
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item {{ request()->is('supcp*') ? 'active' : '' }}"
+                                            href="{{ url('supcp') }}">
+                                            Consulta de Suplementos
                                         </a>
                                     </li>
                                 </ul>

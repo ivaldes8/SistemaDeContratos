@@ -53,38 +53,38 @@ class GrupoController extends Controller
 
     public function getClientByGrupo(Request $request)
     {
-        $query = Entidad::query();
+        $query = entidadClientProvider::query();
 
-        $query->whereHas('ClienteProveedor', function ($q) {
-            return $q->where('isClient', 1);
-        });
+        $query->where('isClient', 1);
 
-        $query->whereHas('GrupoOrgnanismo', function ($q) {
-            $q->whereHas('grupo', function ($q) {
-                return $q->where('grupo_id', request()->input('grupo_id'));
+        $query->whereHas('entidad', function ($q) {
+            $q->whereHas('GrupoOrgnanismo', function ($q) {
+                $q->whereHas('grupo', function ($q) {
+                    return $q->where('grupo_id', request()->input('grupo_id'));
+                });
             });
         });
 
-        $clientes = $query->pluck("nombre", "identidad");
+        $clientes = $query->join("dbo.EntidadesView", 'dbo.EntidadesView.identidad', '=', 'entidad_id')->pluck("nombre", "identidad");
         return response()->json($clientes);
     }
 
     public function getProviderByGrupo(Request $request)
     {
-        $query = Entidad::query();
+        $query = entidadClientProvider::query();
 
-        $query->whereHas('ClienteProveedor', function ($q) {
-            return $q->where('isProvider', 1);
-        });
+        $query->where('isProvider', 1);
 
-        $query->whereHas('GrupoOrgnanismo', function ($q) {
-            $q->whereHas('grupo', function ($q) {
-                return $q->where('grupo_id', request()->input('grupo_id'));
+        $query->whereHas('entidad', function ($q) {
+            $q->whereHas('GrupoOrgnanismo', function ($q) {
+                $q->whereHas('grupo', function ($q) {
+                    return $q->where('grupo_id', request()->input('grupo_id'));
+                });
             });
         });
 
-        $clientes = $query->pluck("nombre", "identidad");
-        return response()->json($clientes);
+        $proveedores = $query->join("dbo.EntidadesView", 'dbo.EntidadesView.identidad', '=', 'entidad_id')->pluck("nombre", "identidad");
+        return response()->json($proveedores);
     }
 
 

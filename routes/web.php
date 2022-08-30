@@ -2,10 +2,12 @@
 
 use App\Http\Controllers\ActividadController;
 use App\Http\Controllers\CMController;
+use App\Http\Controllers\CPController;
 use App\Http\Controllers\CPCUController;
 use App\Http\Controllers\CuotaMercadoController;
 use App\Http\Controllers\EntidadController;
 use App\Http\Controllers\EstadoCMController;
+use App\Http\Controllers\EstadoCPController;
 use App\Http\Controllers\FamiliaController;
 use App\Http\Controllers\IndicadorController;
 use App\Http\Controllers\IndicadorProductoController;
@@ -14,12 +16,15 @@ use App\Http\Controllers\NAEController;
 use App\Http\Controllers\OrganismoController;
 use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\ObjSupCMController;
+use App\Http\Controllers\ObjSupCPController;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ReportesController;
 use App\Http\Controllers\SACLAPController;
 use App\Http\Controllers\SupCMController;
+use App\Http\Controllers\SupCPController;
 use App\Http\Controllers\TipoCMController;
+use App\Http\Controllers\TipoCPController;
 use App\Http\Controllers\UnidadController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Mail;
@@ -52,12 +57,15 @@ Route::middleware(['auth','admin'])->group(function () {
     Route::resource('grupo',GrupoController::class);
     Route::get('GrupoByOrganismo',[GrupoController::class, 'getGrupoByOrganismo']);
     Route::get('ClienteByGrupo',[GrupoController::class, 'getClientByGrupo']);
+    Route::get('ProveedorByGrupo',[GrupoController::class, 'getProviderByGrupo']);
     Route::get('grupo/delete/{id}', [GrupoController::class, 'delete'])->name('delete');
     Route::get('grupo-file-export', [GrupoController::class, 'export']);
 
     Route::resource('entidad',EntidadController::class);
     Route::get('cliente', [EntidadController::class, 'clientes']);
     Route::get('proveedor', [EntidadController::class, 'proveedores']);
+
+
 
     Route::resource('tipocm',TipoCMController::class);
     Route::get('tipocm/delete/{id}', [TipoCMController::class, 'delete'])->name('delete');
@@ -74,6 +82,24 @@ Route::middleware(['auth','admin'])->group(function () {
     Route::get('supcm/delete/{id}', [SupCMController::class, 'delete'])->name('delete');
 
     Route::resource('cm',CMController::class);
+
+
+
+    Route::resource('tipocp',TipoCPController::class);
+    Route::get('tipocp/delete/{id}', [TipoCPController::class, 'delete'])->name('delete');
+
+    Route::resource('estadocp',EstadoCPController::class);
+    Route::get('estadocp/delete/{id}', [EstadoCPController::class, 'delete'])->name('delete');
+
+    Route::resource('objsupcp',ObjSupCPController::class);
+    Route::get('objsupcp/delete/{id}', [ObjSupCPController::class, 'delete'])->name('delete');
+
+    Route::resource('supcp',SupCPController::class);
+    Route::get('supcp/create/{id}', [SupCPController::class, 'create']);
+    Route::post('supcp/{id}', [SupCPController::class, 'store']);
+    Route::get('supcp/delete/{id}', [SupCPController::class, 'delete'])->name('delete');
+
+    Route::resource('cp',CPController::class);
 
 
 
