@@ -8,6 +8,7 @@ use App\Models\Entidad;
 use App\Models\entidadClientProvider;
 use App\Models\estadoCM;
 use App\Models\Grupo;
+use App\Models\Logs;
 use App\Models\Organismo;
 use App\Models\tipoCM;
 use Carbon\Carbon;
@@ -187,9 +188,23 @@ class CMController extends Controller
         $cm->user_id = Auth::user()->id;
         $cm->save($validatedData);
 
+        $logCM = new Logs();
+        $logCM->user_id = Auth::user()->id;
+        $logCM->action = 'create';
+        $logCM->element = $cm->id;
+        $logCM->type = 'CM';
+        $logCM->save();
+
         $cmf = new CMFile();
         $cmf->cm_id = $cm->id;
         $cmf->save();
+
+        $logCMF = new Logs();
+        $logCMF->user_id = Auth::user()->id;
+        $logCMF->action = 'create';
+        $logCMF->element = $cmf->id;
+        $logCMF->type = 'CMF';
+        $logCMF->save();
 
         return redirect('cm')->with('status', 'Contrato Marco añadido satisfactoriamente');
     }
@@ -265,7 +280,7 @@ class CMController extends Controller
 
         $cm = CM::find($id);
         $cm->tipo_id = $request->input('tipo_id');
-        $cm->entidad_id = entidadClientProvider::where('entidad_id', $request->input('proveedor_id'))->get()[0]->id;
+        $cm->entidad_id = entidadClientProvider::where('entidad_id', $request->input('cliente_id'))->get()[0]->id;
         $cm->estado_id = $request->input('estado_id');
         $cm->fechaFirma = Carbon::createFromFormat('Y-m-d', $request->input('fechaFirma'))->toDateString();
         $cm->fechaVenc = Carbon::createFromFormat('Y-m-d', $request->input('fechaVenc'))->toDateString();
@@ -274,6 +289,13 @@ class CMController extends Controller
         $cm->recibidoPor = $request->input('recibidoPor');
         $cm->observ = $request->input('observ');
         $cm->update($validatedData);
+
+        $logCM = new Logs();
+        $logCM->user_id = Auth::user()->id;
+        $logCM->action = 'edit';
+        $logCM->element = $cm->id;
+        $logCM->type = 'CM';
+        $logCM->save();
 
         $year = explode("/", $cm->noContrato);
         if ($request->hasFile('file1')) {
@@ -307,6 +329,13 @@ class CMController extends Controller
         if ($request->hasFile('file1') || $request->hasFile('file2') || $request->hasFile('file3') || $request->hasFile('file4')) {
             $cm->file->path = $destinationPath;
             $cm->file->update();
+
+            $logCMF = new Logs();
+            $logCMF->user_id = Auth::user()->id;
+            $logCMF->action = 'edit';
+            $logCMF->element = $cm->file->id;
+            $logCMF->type = 'CMF';
+            $logCMF->save();
         }
 
         return redirect('cm')->with('status', 'Contrato Marco editado satisfactoriamente');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CP;
+use App\Models\Logs;
 use App\Models\CPFile;
 use App\Models\Entidad;
 use App\Models\entidadClientProvider;
@@ -177,9 +178,23 @@ class CPController extends Controller
         $cp->user_id = Auth::user()->id;
         $cp->save($validatedData);
 
+        $logCP = new Logs();
+        $logCP->user_id = Auth::user()->id;
+        $logCP->action = 'create';
+        $logCP->element = $cp->id;
+        $logCP->type = 'CP';
+        $logCP->save();
+
         $cpf = new CPFile();
         $cpf->cp_id = $cp->id;
         $cpf->save();
+
+        $logCPF = new Logs();
+        $logCPF->user_id = Auth::user()->id;
+        $logCPF->action = 'create';
+        $logCPF->element = $cpf->id;
+        $logCPF->type = 'CPF';
+        $logCPF->save();
 
         return redirect('cp')->with('status', 'Contrato añadido satisfactoriamente');
     }
@@ -267,6 +282,13 @@ class CPController extends Controller
         $cp->noContrato = $request->input('noContrato');
         $cp->update($validatedData);
 
+        $logCP = new Logs();
+        $logCP->user_id = Auth::user()->id;
+        $logCP->action = 'edit';
+        $logCP->element = $cp->id;
+        $logCP->type = 'CP';
+        $logCP->save();
+
         $year = explode("/", $cp->noContrato);
         if ($request->hasFile('file1')) {
             $file1 = $request->file('file1');
@@ -299,6 +321,13 @@ class CPController extends Controller
         if ($request->hasFile('file1') || $request->hasFile('file2') || $request->hasFile('file3') || $request->hasFile('file4')) {
             $cp->file->path = $destinationPath;
             $cp->file->update();
+
+            $logCP = new Logs();
+            $logCP->user_id = Auth::user()->id;
+            $logCP->action = 'edit';
+            $logCP->element = $cp->file->id;
+            $logCP->type = 'CPF';
+            $logCP->save();
         }
 
         return redirect('cp')->with('status', 'Contrato editado satisfactoriamente');

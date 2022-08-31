@@ -25,7 +25,7 @@ use App\Http\Controllers\SupCMController;
 use App\Http\Controllers\SupCPController;
 use App\Http\Controllers\TipoCMController;
 use App\Http\Controllers\TipoCPController;
-use App\Http\Controllers\UnidadController;
+use App\Http\Controllers\LogController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Mail;
 use App\Http\Controllers\UserController;
@@ -47,6 +47,10 @@ Route::get('/', function () {
 
 Auth::routes();
 Route::middleware(['auth','admin'])->group(function () {
+    Route::get('logs', [LogController::class, 'index']);
+    Route::get('logs/delete', [LogController::class, 'delete'])->name('delete');
+    Route::delete('logs', [LogController::class, 'destroy']);
+
     Route::resource('user', UserController::class);
     Route::get('user/delete/{id}', [UserController::class, 'delete'])->name('delete');
 
