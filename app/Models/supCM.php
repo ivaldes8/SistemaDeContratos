@@ -16,8 +16,8 @@ class supCM extends Model
         return $this->hasOne(CM::class, 'id', 'cm_id');
     }
 
-    public function objeto()
+    public function objetos()
     {
-        return $this->hasOne(objSupCM::class, 'id', 'obj_sup_id');
+        return $this->belongsToMany(objSupCM::class, 'sup_obj_c_m_s');
     }
 }

@@ -77,18 +77,25 @@ class SupCMController extends Controller
             'required' => 'Este campo es requerido'
         ]);
 
-        $sups = supCM::all();
-        $noSup = count($sups) + 1;
+        $sups = supCM::latest()->first();
 
+        $noSup = 1;
+
+        if($sups){
+            $noSup = $sups->id + 1;
+        }
         $supcm = new supCM();
         $supcm->cm_id = $id;
-        $supcm->obj_sup_id = $request->input('objeto_id');
         $supcm->ejecutor = $request->input('ejecutor');
         $supcm->observ = $request->input('observ');
         $supcm->fechaIni = $request->input('fechaIni') ? Carbon::createFromFormat('Y-m-d', $request->input('fechaIni'))->toDateString() : null;
         $supcm->fechaEnd = $request->input('fechaEnd') ? Carbon::createFromFormat('Y-m-d', $request->input('fechaEnd'))->toDateString() : null;
         $supcm->noSupCM = $noSup;
         $supcm->save($validatedData);
+
+        if ($request->input('objeto_id') !== null) {
+            $supcm->objetos()->attach($request->input('objeto_id'));
+        }
         return redirect('/supcm/' . $id)->with('status', 'Suplemento Creado satisfactoriamente');
     }
 
@@ -163,12 +170,15 @@ class SupCMController extends Controller
         ]);
 
         $supcm = supCM::find($id);
-        $supcm->obj_sup_id = $request->input('objeto_id');
         $supcm->ejecutor = $request->input('ejecutor');
         $supcm->observ = $request->input('observ');
         $supcm->fechaIni = $request->input('fechaIni') ? Carbon::createFromFormat('Y-m-d', $request->input('fechaIni'))->toDateString() : null;
         $supcm->fechaEnd = $request->input('fechaEnd') ? Carbon::createFromFormat('Y-m-d', $request->input('fechaEnd'))->toDateString() : null;
-        $supcm->save($validatedData);
+        $supcm->update($validatedData);
+
+        if ($request->input('objeto_id') !== null) {
+            $supcm->objetos()->sync($request->input('objeto_id'));
+        }
         return redirect('/supcm/' . $supcm->cm_id)->with('status', 'Suplemento Creado satisfactoriamente');
     }
 

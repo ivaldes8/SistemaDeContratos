@@ -118,7 +118,15 @@
                                     <tr>
                                         <td>{{ $item->cp ? $item->cp->noContrato : '---' }}</td>
                                         <td>{{ $item->noSupCP }}</td>
-                                        <td>{{ $item->objeto ? $item->objeto->nombre : '---' }}</td>
+                                        <td>
+                                            @if (count($item->objetos) > 0)
+                                                @foreach ($item->objetos as $objeto)
+                                                    / {{ $objeto->nombre }}
+                                                @endforeach
+                                            @else
+                                                ---
+                                            @endif
+                                        </td>
                                         <td>{{ $item->ejecutor ? $item->ejecutor : '---' }}</td>
                                         <td>{{ $item->fechaIni ? $item->fechaIni : '---' }}</td>
                                         <td>{{ $item->fechaEnd ? $item->fechaEnd : '---' }}</td>

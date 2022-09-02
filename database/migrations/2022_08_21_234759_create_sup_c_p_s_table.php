@@ -17,8 +17,6 @@ class CreateSupCPSTable extends Migration
             $table->id();
             $table->unsignedBigInteger('cp_id')->unsigned()->nullable();
             $table->foreign('cp_id')->references('id')->on('c_p_s')->onDelete('cascade');
-            $table->unsignedBigInteger('obj_sup_id')->unsigned()->nullable();
-            $table->foreign('obj_sup_id')->references('id')->on('obj_sup_c_p_s')->nullOnDelete();
             $table->string('noSupCP')->required();
             $table->date('fechaIni')->nullable();
             $table->date('fechaEnd')->nullable();

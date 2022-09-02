@@ -77,18 +77,25 @@ class SupCPController extends Controller
             'required' => 'Este campo es requerido'
         ]);
 
-        $sups = supCP::all();
-        $noSup = count($sups) + 1;
+        $sups = supCP::latest()->first();
+
+        $noSup = 1;
+        if ($sups) {
+            $noSup = $sups->id + 1;
+        }
 
         $supcp = new supCP();
         $supcp->cp_id = $id;
-        $supcp->obj_sup_id = $request->input('objeto_id');
         $supcp->ejecutor = $request->input('ejecutor');
         $supcp->observ = $request->input('observ');
         $supcp->fechaIni = $request->input('fechaIni') ? Carbon::createFromFormat('Y-m-d', $request->input('fechaIni'))->toDateString() : null;
         $supcp->fechaEnd = $request->input('fechaEnd') ? Carbon::createFromFormat('Y-m-d', $request->input('fechaEnd'))->toDateString() : null;
         $supcp->noSupCP = $noSup;
         $supcp->save($validatedData);
+
+        if ($request->input('objeto_id') !== null) {
+            $supcp->objetos()->attach($request->input('objeto_id'));
+        }
         return redirect('/supcp/' . $id)->with('status', 'Suplemento Creado satisfactoriamente');
     }
 
@@ -163,12 +170,15 @@ class SupCPController extends Controller
         ]);
 
         $supcp = supCP::find($id);
-        $supcp->obj_sup_id = $request->input('objeto_id');
         $supcp->ejecutor = $request->input('ejecutor');
         $supcp->observ = $request->input('observ');
         $supcp->fechaIni = $request->input('fechaIni') ? Carbon::createFromFormat('Y-m-d', $request->input('fechaIni'))->toDateString() : null;
         $supcp->fechaEnd = $request->input('fechaEnd') ? Carbon::createFromFormat('Y-m-d', $request->input('fechaEnd'))->toDateString() : null;
-        $supcp->save($validatedData);
+        $supcp->update($validatedData);
+
+        if ($request->input('objeto_id') !== null) {
+            $supcp->objetos()->sync($request->input('objeto_id'));
+        }
         return redirect('/supcp/' . $supcp->cp_id)->with('status', 'Suplemento Creado satisfactoriamente');
     }
 

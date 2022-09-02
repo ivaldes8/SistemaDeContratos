@@ -39,10 +39,11 @@
 
                 <div class="form-group mb-3">
                     <label class="mx-2" for="">Objeto:</label>
-                    <select name="objeto_id" class="form-control objetoSelect">
+                    <select name="objeto_id[]" multiple="multiple" class="form-control objetoSelect">
                         <option></option>
                         @foreach ($objetos as $item)
-                            <option {{ $supcm !== 'none' && $item->id == $supcm->obj_sup_id ? 'selected' : '' }}
+                            <option
+                                {{ $supcm !== 'none' && !!$supcm->objetos->where('id', $item->id)->first() ? 'selected' : '' }}
                                 value="{{ $item->id }}">{{ $item->nombre }}
                             </option>
                         @endforeach
