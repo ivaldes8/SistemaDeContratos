@@ -24,7 +24,7 @@ class SupCPController extends Controller
         });
 
         $query->when(request()->input('noContrato'), function ($q) {
-            $q->whereHas('cm', function ($q) {
+            $q->whereHas('cp', function ($q) {
                 return $q->where('noContrato', 'like', '%' . request()->input('noContrato') . '%');
             });
         });
@@ -47,7 +47,7 @@ class SupCPController extends Controller
 
         $supcps = $query->paginate(10);
         $cp = null;
-        return view('supCP.index', compact('supcps', 'cm'));
+        return view('supCP.index', compact('supcps', 'cp'));
     }
 
     /**
