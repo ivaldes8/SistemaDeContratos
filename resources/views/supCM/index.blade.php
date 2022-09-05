@@ -31,9 +31,9 @@
                         <p style="margin:0">Tipo de Contrato: {{ $cm->tipo ? $cm->tipo->nombre : '---' }}</p>
                         <p style="margin:0">Organismo:
                             {{ $cm->grupoOrg && $cm->grupoOrg->organismo ? $cm->grupoOrg->organismo->nombre : '---' }}</p>
-                        <p style="margin:0">Organismo:
+                        <p style="margin:0">Grupo:
                             {{ $cm->grupoOrg && $cm->grupoOrg->grupo ? $cm->grupoOrg->grupo->nombre : '---' }}</p>
-                        <p style="margin:0">No.Contrato:
+                        <p style="margin:0">Cliente:
                             {{ $cm->cliente && $cm->cliente->entidad ? $cm->cliente->entidad->nombre : '---' }}</p>
                     </div>
                     <hr>

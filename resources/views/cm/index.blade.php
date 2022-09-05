@@ -195,7 +195,8 @@
                                         {{ $item->cliente && $item->cliente->entidad && $item->cliente->entidad->nombre ? $item->cliente->entidad->nombre : '---' }}
                                     </td>
                                     <td style="font-size: 80%;">
-                                        {{ $item->cliente && $item->cliente->entidad && $item->cliente->entidad->abreviatura ? $item->cliente->entidad->abreviatura : '---' }}</td>
+                                        {{ $item->cliente && $item->cliente->entidad && $item->cliente->entidad->abreviatura ? $item->cliente->entidad->abreviatura : '---' }}
+                                    </td>
                                     <td>
                                         {{ $item->cliente && $item->cliente->entidad && $item->cliente->entidad->GrupoOrgnanismo && $item->cliente->entidad->GrupoOrgnanismo->organismo ? $item->cliente->entidad->GrupoOrgnanismo->organismo->siglas : '---' }}/
                                         {{ $item->cliente && $item->cliente->entidad && $item->cliente->entidad->GrupoOrgnanismo && $item->cliente->entidad->GrupoOrgnanismo->grupo ? $item->cliente->entidad->GrupoOrgnanismo->grupo->siglas : '---' }}
@@ -241,14 +242,13 @@
                                     @endif
 
                                     <td>
-                                        <a style="font-weight: bold;font-size: 180%"
-                                            href="{{ url('ce/' . $item->id) }}" disabled>
+                                        <a style="font-weight: bold;font-size: 180%" href="{{ url('ce/' . $item->id) }}">
                                             <i class="bi bi-file-earmark-text"></i>
                                         </a>
                                     </td>
                                     <td>
                                         <a style="font-weight: bold;font-size: 180%"
-                                            href="{{ url('supcm/' . $item->id) }}" disabled>
+                                            href="{{ url('supcm/' . $item->id) }}">
                                             <i class="bi bi-file-earmark-plus"></i>
                                         </a>
                                     </td>
@@ -308,6 +308,31 @@
 
                         } else {
                             $("#grupo").empty();
+                        }
+                    }
+                });
+            } else {
+                $("#grupo").empty();
+                $("#cliente").empty();
+            }
+        });
+        $('#organismo').change(function() {
+            var organismoID = $(this).val();
+            if (organismoID) {
+                $.ajax({
+                    type: "GET",
+                    url: "{{ url('ClienteByOrganismo') }}?org_id=" + organismoID,
+                    success: function(res) {
+                        if (res) {
+                            $("#cliente").empty();
+                            $("#cliente").append("<option value='@'>Cliente no seleccionado</option>");
+                            $.each(res, function(key, value) {
+                                $("#cliente").append('<option value="' + key + '">' + value +
+                                    '</option>');
+                            });
+
+                        } else {
+                            $("#cliente").empty();
                         }
                     }
                 });

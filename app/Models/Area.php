@@ -18,6 +18,6 @@ class Area extends Model
 
     public function AreaServicio()
     {
-        return $this->hasOne(entidadAreaServicio::class, 'area_id', 'idarea');
+        return $this->hasMany(entidadAreaServicio::class, 'area_id', 'idarea');
     }
 }

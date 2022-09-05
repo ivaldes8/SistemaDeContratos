@@ -51,6 +51,24 @@ class GrupoController extends Controller
     }
 
 
+    public function getClientByOrganismo(Request $request)
+    {
+        $query = entidadClientProvider::query();
+
+        $query->where('isClient', 1);
+
+        $query->whereHas('entidad', function ($q) {
+            $q->whereHas('GrupoOrgnanismo', function ($q) {
+                $q->whereHas('organismo', function ($q) {
+                    return $q->where('org_id', request()->input('org_id'));
+                });
+            });
+        });
+
+        $clientes = $query->join("dbo.EntidadesView", 'dbo.EntidadesView.identidad', '=', 'entidad_id')->pluck("nombre", "identidad");
+        return response()->json($clientes);
+    }
+
     public function getClientByGrupo(Request $request)
     {
         $query = entidadClientProvider::query();
@@ -67,6 +85,24 @@ class GrupoController extends Controller
 
         $clientes = $query->join("dbo.EntidadesView", 'dbo.EntidadesView.identidad', '=', 'entidad_id')->pluck("nombre", "identidad");
         return response()->json($clientes);
+    }
+
+    public function getProviderByOrganismo(Request $request)
+    {
+        $query = entidadClientProvider::query();
+
+        $query->where('isProvider', 1);
+
+        $query->whereHas('entidad', function ($q) {
+            $q->whereHas('GrupoOrgnanismo', function ($q) {
+                $q->whereHas('organismo', function ($q) {
+                    return $q->where('org_id', request()->input('org_id'));
+                });
+            });
+        });
+
+        $proveedores = $query->join("dbo.EntidadesView", 'dbo.EntidadesView.identidad', '=', 'entidad_id')->pluck("nombre", "identidad");
+        return response()->json($proveedores);
     }
 
     public function getProviderByGrupo(Request $request)

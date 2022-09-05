@@ -106,6 +106,7 @@
                                     request()->is('estadocm*') ||
                                     request()->is('objsupcm*') ||
                                     request()->is('estadoce*') ||
+                                    request()->is('areaserv*') ||
                                     request()->is('objsupce*')
                                         ? 'active'
                                         : '' }}"
@@ -134,6 +135,12 @@
                                         <a class="dropdown-item {{ request()->is('estadoce*') ? 'active' : '' }}"
                                             href="{{ url('estadoce') }}">
                                             Estado de Contrato Específico
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item {{ request()->is('areaserv*') ? 'active' : '' }}"
+                                            href="{{ url('areaserv') }}">
+                                            Áreas/Servicios
                                         </a>
                                     </li>
                                     <li>

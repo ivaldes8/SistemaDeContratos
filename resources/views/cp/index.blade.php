@@ -243,7 +243,7 @@
                                     @endif
                                     <td>
                                         <a style="font-weight: bold;font-size: 180%"
-                                            href="{{ url('supcp/' . $item->id) }}" disabled>
+                                            href="{{ url('supcp/' . $item->id) }}">
                                             <i class="bi bi-file-earmark-plus"></i>
                                         </a>
                                     </td>
@@ -275,7 +275,7 @@
             allowClear: true
         });
         $('.clienteSelect').select2({
-            placeholder: "Cliente",
+            placeholder: "Proveedor",
             allowClear: true
         });
         $('.tipoSelect').select2({
@@ -311,6 +311,31 @@
                 $("#cliente").empty();
             }
         });
+        $('#organismo').change(function() {
+            var organismoID = $(this).val();
+            if (organismoID) {
+                $.ajax({
+                    type: "GET",
+                    url: "{{ url('ProveedorByOrganismo') }}?org_id=" + organismoID,
+                    success: function(res) {
+                        if (res) {
+                            $("#cliente").empty();
+                            $("#cliente").append("<option value='@'>Proveedor no seleccionado</option>");
+                            $.each(res, function(key, value) {
+                                $("#cliente").append('<option value="' + key + '">' + value +
+                                    '</option>');
+                            });
+
+                        } else {
+                            $("#cliente").empty();
+                        }
+                    }
+                });
+            } else {
+                $("#grupo").empty();
+                $("#cliente").empty();
+            }
+        });
         $('#grupo').on('change', function() {
             var grupoID = $(this).val();
             if (grupoID) {
@@ -320,7 +345,7 @@
                     success: function(res) {
                         if (res) {
                             $("#cliente").empty();
-                            $("#cliente").append("<option value='@'>Cliente no seleccionado</option>");
+                            $("#cliente").append("<option value='@'>Proveedor no seleccionado</option>");
                             $.each(res, function(key, value) {
                                 $("#cliente").append('<option value="' + key + '">' + value +
                                     '</option>');
