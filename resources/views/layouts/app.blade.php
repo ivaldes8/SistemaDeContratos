@@ -189,8 +189,8 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item {{ request()->is('supcm*') ? 'active' : '' }}"
-                                            href="{{ url('supcm') }}">
+                                        <a class="dropdown-item {{ request()->is('supce*') ? 'active' : '' }}"
+                                            href="{{ url('supce') }}">
                                             Consulta de Suplementos de Contratos Específicos
                                         </a>
                                     </li>

@@ -38,7 +38,8 @@
                             </div>
                         </div>
                         <div class="col-3 d-flex justify-content-end">
-                            <a href="{{ url('estadocp') }}" class="btn btn-sm btn-primary"><i class="bi bi-arrow-repeat"></i></a>
+                            <a href="{{ url('estadocp') }}" class="btn btn-sm btn-primary"><i
+                                    class="bi bi-arrow-repeat"></i></a>
                             <button class="btn btn-sm btn-primary mx-1" type="submit"><i class="bi bi-search"></i></button>
                         </div>
                     </div>
@@ -72,11 +73,15 @@
                                         <td>
                                             <a href="{{ url('estadocp/' . $item->id . '/edit') }}"
                                                 class="btn-sm btn-primary"><i class="bi bi-pencil"></i></a>
-                                            <button class="btn-sm btn-danger" data-toggle="modal" id="smallButton"
-                                                data-target="#smallModal"
-                                                data-attr="{{ url('estadocp/delete', $item->id) }}" title="Delete Project">
-                                                <i class="bi bi-trash"></i>
-                                            </button>
+
+                                            @if (Auth::user()->role === 'Administrador')
+                                                <button class="btn-sm btn-danger" data-toggle="modal" id="smallButton"
+                                                    data-target="#smallModal"
+                                                    data-attr="{{ url('estadocp/delete', $item->id) }}"
+                                                    title="Delete Project">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach

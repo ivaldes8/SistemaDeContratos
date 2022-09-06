@@ -263,11 +263,14 @@
                                         <td>
                                             <a href="{{ url('ce/' . $item->id . '/edit') }}"
                                                 class="btn-sm btn-primary"><i class="bi bi-pencil"></i></a>
-                                            <button class="btn-sm btn-danger" data-toggle="modal" id="smallButton"
-                                                data-target="#smallModal" data-attr="{{ url('ce/delete', $item->id) }}"
-                                                title="Delete Project">
-                                                <i class="bi bi-trash"></i>
-                                            </button>
+
+                                            @if (Auth::user()->role === 'Administrador')
+                                                <button class="btn-sm btn-danger" data-toggle="modal" id="smallButton"
+                                                    data-target="#smallModal"
+                                                    data-attr="{{ url('ce/delete', $item->id) }}" title="Delete Project">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach
@@ -347,7 +350,8 @@
                     success: function(res) {
                         if (res) {
                             $("#servicio").empty();
-                            $("#servicio").append("<option value='@'>Servicio no seleccionado</option>");
+                            $("#servicio").append(
+                                "<option value='@'>Servicio no seleccionado</option>");
                             $.each(res, function(key, value) {
                                 $("#servicio").append('<option value="' + key + '">' + value +
                                     '</option>');

@@ -134,11 +134,15 @@
                                         <td>
                                             <a href="{{ url('supcm/' . $item->id . '/edit') }}"
                                                 class="btn-sm btn-primary"><i class="bi bi-pencil"></i></a>
-                                            <button class="btn-sm btn-danger" data-toggle="modal" id="smallButton"
-                                                data-target="#smallModal" data-attr="{{ url('supcm/delete', $item->id) }}"
-                                                title="Delete Project">
-                                                <i class="bi bi-trash"></i>
-                                            </button>
+
+                                            @if (Auth::user()->role === 'Administrador')
+                                                <button class="btn-sm btn-danger" data-toggle="modal" id="smallButton"
+                                                    data-target="#smallModal"
+                                                    data-attr="{{ url('supcm/delete', $item->id) }}"
+                                                    title="Delete Project">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach
