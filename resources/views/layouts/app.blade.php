@@ -100,8 +100,9 @@
                                 </ul>
                             </li>
 
-                            <li class="nav-item dropdown mx-1">
-                                <a class="nav-link dropdown-toggle
+                            @if (Auth::user()->role !== 'Comercial de Proveedores' && Auth::user()->role !== 'Usuario')
+                                <li class="nav-item dropdown mx-1">
+                                    <a class="nav-link dropdown-toggle
                                     {{ request()->is('tipocm*') ||
                                     request()->is('estadocm*') ||
                                     request()->is('objsupcm*') ||
@@ -110,50 +111,50 @@
                                     request()->is('objsupce*')
                                         ? 'active'
                                         : '' }}"
-                                    id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-                                    aria-expanded="false">Nomencladores de Clientes</a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li>
-                                        <a class="dropdown-item {{ request()->is('tipocm*') ? 'active' : '' }}"
-                                            href="{{ url('tipocm') }}">
-                                            Tipo de Contrato Marco
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item {{ request()->is('estadocm*') ? 'active' : '' }}"
-                                            href="{{ url('estadocm') }}">
-                                            Estado de Contrato Marco
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item {{ request()->is('objsupcm*') ? 'active' : '' }}"
-                                            href="{{ url('objsupcm') }}">
-                                            Objeto de suplemento de Contrato Marco
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item {{ request()->is('estadoce*') ? 'active' : '' }}"
-                                            href="{{ url('estadoce') }}">
-                                            Estado de Contrato Específico
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item {{ request()->is('areaserv*') ? 'active' : '' }}"
-                                            href="{{ url('areaserv') }}">
-                                            Áreas/Servicios
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item {{ request()->is('objsupce*') ? 'active' : '' }}"
-                                            href="{{ url('objsupce') }}">
-                                            Objeto de suplemento de Contrato Específico
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
+                                        id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                                        aria-expanded="false">Nomencladores de Clientes</a>
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <li>
+                                            <a class="dropdown-item {{ request()->is('tipocm*') ? 'active' : '' }}"
+                                                href="{{ url('tipocm') }}">
+                                                Tipo de Contrato Marco
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item {{ request()->is('estadocm*') ? 'active' : '' }}"
+                                                href="{{ url('estadocm') }}">
+                                                Estado de Contrato Marco
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item {{ request()->is('objsupcm*') ? 'active' : '' }}"
+                                                href="{{ url('objsupcm') }}">
+                                                Objeto de suplemento de Contrato Marco
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item {{ request()->is('estadoce*') ? 'active' : '' }}"
+                                                href="{{ url('estadoce') }}">
+                                                Estado de Contrato Específico
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item {{ request()->is('areaserv*') ? 'active' : '' }}"
+                                                href="{{ url('areaserv') }}">
+                                                Áreas/Servicios
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item {{ request()->is('objsupce*') ? 'active' : '' }}"
+                                                href="{{ url('objsupce') }}">
+                                                Objeto de suplemento de Contrato Específico
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
 
-                            <li class="nav-item dropdown mx-1">
-                                <a class="nav-link dropdown-toggle
+                                <li class="nav-item dropdown mx-1">
+                                    <a class="nav-link dropdown-toggle
                                     {{ request()->is('cliente*') ||
                                     request()->is('cm*') ||
                                     request()->is('ce*') ||
@@ -161,42 +162,44 @@
                                     request()->is('supce*')
                                         ? 'active'
                                         : '' }}"
-                                    id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-                                    aria-expanded="false">Clientes</a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li>
-                                        <a class="dropdown-item {{ request()->is('cliente*') ? 'active' : '' }}"
-                                            href="{{ url('cliente') }}">
-                                            Clientes
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item {{ request()->is('cm*') ? 'active' : '' }}"
-                                            href="{{ url('cm') }}">
-                                            Contratos Marco
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item {{ request()->is('supcm*') ? 'active' : '' }}"
-                                            href="{{ url('supcm') }}">
-                                            Consulta de Suplementos de Contratos Marco
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item {{ request()->is('ce*') ? 'active' : '' }}"
-                                            href="{{ url('ce') }}">
-                                            Consulta de Contratos Específicos
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item {{ request()->is('supce*') ? 'active' : '' }}"
-                                            href="{{ url('supce') }}">
-                                            Consulta de Suplementos de Contratos Específicos
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
+                                        id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                                        aria-expanded="false">Clientes</a>
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <li>
+                                            <a class="dropdown-item {{ request()->is('cliente*') ? 'active' : '' }}"
+                                                href="{{ url('cliente') }}">
+                                                Clientes
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item {{ request()->is('cm*') ? 'active' : '' }}"
+                                                href="{{ url('cm') }}">
+                                                Contratos Marco
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item {{ request()->is('supcm*') ? 'active' : '' }}"
+                                                href="{{ url('supcm') }}">
+                                                Consulta de Suplementos de Contratos Marco
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item {{ request()->is('ce*') ? 'active' : '' }}"
+                                                href="{{ url('ce') }}">
+                                                Consulta de Contratos Específicos
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item {{ request()->is('supce*') ? 'active' : '' }}"
+                                                href="{{ url('supce') }}">
+                                                Consulta de Suplementos de Contratos Específicos
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            @endif
 
+                            @if (Auth::user()->role !== 'Comercial de Clientes' && Auth::user()->role !== 'Usuario')
                             <li class="nav-item dropdown mx-1">
                                 <a class="nav-link dropdown-toggle
                                     {{ request()->is('tipocp*') || request()->is('estadocp*') || request()->is('objsupcp*') ? 'active' : '' }}"
@@ -250,7 +253,7 @@
                                     </li>
                                 </ul>
                             </li>
-
+                            @endif
 
                             <li class="nav-item dropdown mx-1">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
