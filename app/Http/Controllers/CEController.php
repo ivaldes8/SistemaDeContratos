@@ -9,10 +9,12 @@ use App\Models\Entidad;
 use App\Models\entidadServCE;
 use App\Models\estadoCE;
 use App\Models\Grupo;
+use App\Models\Logs;
 use App\Models\Organismo;
 use App\Models\Servicio;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CEController extends Controller
 {
@@ -228,6 +230,14 @@ class CEController extends Controller
                 $servCe->save();
             }
         }
+
+        $logCE = new Logs();
+        $logCE->user_id = Auth::user()->id;
+        $logCE->action = 'create';
+        $logCE->element = $ce->id;
+        $logCE->type = 'CE';
+        $logCE->save();
+
         return redirect('/ce/' . $id)->with('status', 'Contrato Específico Creado satisfactoriamente');
     }
 
@@ -441,6 +451,13 @@ class CEController extends Controller
             }
         }
 
+        $logCE = new Logs();
+        $logCE->user_id = Auth::user()->id;
+        $logCE->action = 'edit';
+        $logCE->element = $ce->id;
+        $logCE->type = 'CE';
+        $logCE->save();
+
         return redirect('/ce/' . $ce->c_m_id)->with('status', 'Contrato Específico Editado satisfactoriamente');
     }
 
@@ -459,6 +476,14 @@ class CEController extends Controller
     public function destroy($id)
     {
         $ce = CE::find($id);
+
+        $logCE = new Logs();
+        $logCE->user_id = Auth::user()->id;
+        $logCE->action = 'delete';
+        $logCE->element = $ce->id;
+        $logCE->type = 'CE';
+        $logCE->save();
+
         $ce->delete();
         return redirect()->back()->with('status', 'Contrato Específico eliminado Satisfactoriamente');
     }

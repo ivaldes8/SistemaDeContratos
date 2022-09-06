@@ -38,7 +38,7 @@ class LogController extends Controller
         $logs = $query->orderBy('id', 'desc')->paginate(50);
 
         $actions = ["create", "edit", "delete"];
-        $types = ["CM", "CMF", "CP", "CPF", "CE"];
+        $types = ["CM", "CMF", "CP", "CPF", "CE", "supCM", "supCE", "supCP"];
         $users = User::all();
 
         return view('logs.index', compact('logs', 'types', 'actions', 'users'));

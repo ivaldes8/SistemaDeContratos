@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\CP;
+use App\Models\Logs;
 use App\Models\objSupCP;
 use App\Models\supCP;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SupCPController extends Controller
 {
@@ -97,6 +99,14 @@ class SupCPController extends Controller
         if ($request->input('objeto_id') !== null) {
             $supcp->objetos()->attach($request->input('objeto_id'));
         }
+
+        $logCE = new Logs();
+        $logCE->user_id = Auth::user()->id;
+        $logCE->action = 'create';
+        $logCE->element = $supcp->id;
+        $logCE->type = 'supCP';
+        $logCE->save();
+
         return redirect('/supcp/' . $id)->with('status', 'Suplemento Creado satisfactoriamente');
     }
 
@@ -180,6 +190,14 @@ class SupCPController extends Controller
         if ($request->input('objeto_id') !== null) {
             $supcp->objetos()->sync($request->input('objeto_id'));
         }
+
+        $logCE = new Logs();
+        $logCE->user_id = Auth::user()->id;
+        $logCE->action = 'edit';
+        $logCE->element = $supcp->id;
+        $logCE->type = 'supCP';
+        $logCE->save();
+
         return redirect('/supcp/' . $supcp->cp_id)->with('status', 'Suplemento Creado satisfactoriamente');
     }
 
@@ -198,6 +216,14 @@ class SupCPController extends Controller
     public function destroy($id)
     {
         $supcp = supCP::find($id);
+
+        $logCE = new Logs();
+        $logCE->user_id = Auth::user()->id;
+        $logCE->action = 'delete';
+        $logCE->element = $supcp->id;
+        $logCE->type = 'supCP';
+        $logCE->save();
+
         $supcp->delete();
         return redirect()->back()->with('status', 'Suplemento eliminado Satisfactoriamente');
     }
