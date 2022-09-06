@@ -6,6 +6,7 @@ use App\Models\Area;
 use App\Models\CE;
 use App\Models\CM;
 use App\Models\Entidad;
+use App\Models\entidadServCE;
 use App\Models\estadoCE;
 use App\Models\Grupo;
 use App\Models\Organismo;
@@ -172,9 +173,14 @@ class CEController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
-        //
+        $ce = 'none';
+        $areas = Area::where('activa', 1)->get();
+        $servicios = Servicio::all();
+        $estados = estadoCE::all();
+        $cm = CM::find($id);
+        return view('ce.edit', compact('ce', 'cm', 'areas', 'servicios', 'estados', 'id'));
     }
 
     /**
@@ -183,9 +189,46 @@ class CEController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
-        //
+        $validatedData = $request->validate([
+            'fechaIni' => 'required',
+            'area_id' => 'required',
+            'serv_id' => 'required'
+        ], [
+            'required' => 'Este campo es requerido'
+        ]);
+
+        $ces = CE::where('c_m_id', $id)->get();
+
+        $noCe = 1;
+
+        if (count($ces) > 0) {
+            $noCe = count($ces) + 1;
+        }
+
+        $ce = new CE();
+        $ce->c_m_id = $id;
+        $ce->ejecutor = $request->input('ejecutor');
+        $ce->cliente = $request->input('cliente');
+        $ce->observ = $request->input('observ');
+        $ce->fechaFirma = $request->input('fechaIni') ? Carbon::createFromFormat('Y-m-d', $request->input('fechaIni'))->toDateString() : null;
+        $ce->fechaVenc = $request->input('fechaEnd') ? Carbon::createFromFormat('Y-m-d', $request->input('fechaEnd'))->toDateString() : null;
+        $ce->noCE = $noCe;
+        $ce->estado_c_e_id = $request->input('estado_id');
+        $ce->area_id = $request->input('area_id');
+        $ce->monto =  $request->input('monto');
+        $ce->save($validatedData);
+
+        if ($request->input('serv_id') !== null) {
+            foreach ($request->input('serv_id') as $servicio) {
+                $servCe = new entidadServCE();
+                $servCe->serv_id = $servicio;
+                $servCe->ce_id = $ce->id;
+                $servCe->save();
+            }
+        }
+        return redirect('/ce/' . $id)->with('status', 'Contrato Específico Creado satisfactoriamente');
     }
 
     /**
@@ -349,7 +392,13 @@ class CEController extends Controller
      */
     public function edit($id)
     {
-        //
+        $ce = CE::find($id);
+        $cm = CM::find($ce->c_m_id);
+        $areas = Area::where('activa', 1)->get();
+        $servicios = Servicio::all();
+        $estados = estadoCE::all();
+
+        return view('ce.edit', compact('ce', 'cm', 'areas', 'servicios', 'estados', 'id'));
     }
 
     /**
@@ -361,7 +410,44 @@ class CEController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validatedData = $request->validate([
+            'fechaIni' => 'required',
+            'area_id' => 'required',
+            'serv_id' => 'required'
+        ], [
+            'required' => 'Este campo es requerido'
+        ]);
+
+        $ce = CE::find($id);
+        $ce->ejecutor = $request->input('ejecutor');
+        $ce->cliente = $request->input('cliente');
+        $ce->observ = $request->input('observ');
+        $ce->fechaFirma = $request->input('fechaIni') ? Carbon::createFromFormat('Y-m-d', $request->input('fechaIni'))->toDateString() : null;
+        $ce->fechaVenc = $request->input('fechaEnd') ? Carbon::createFromFormat('Y-m-d', $request->input('fechaEnd'))->toDateString() : null;
+        $ce->estado_c_e_id = $request->input('estado_id');
+        $ce->area_id = $request->input('area_id');
+        $ce->monto =  $request->input('monto');
+        $ce->update($validatedData);
+
+        if ($request->input('serv_id') !== null) {
+
+            $servCe = entidadServCE::where('ce_id', $id)->delete();
+
+            foreach ($request->input('serv_id') as $servicio) {
+                $servCe = new entidadServCE();
+                $servCe->serv_id = $servicio;
+                $servCe->ce_id = $ce->id;
+                $servCe->save();
+            }
+        }
+
+        return redirect('/ce/' . $ce->c_m_id)->with('status', 'Contrato Específico Editado satisfactoriamente');
+    }
+
+    public function delete($id)
+    {
+        $ce = CE::find($id);
+        return view('ce.delete', compact('ce'));
     }
 
     /**
@@ -372,6 +458,8 @@ class CEController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $ce = CE::find($id);
+        $ce->delete();
+        return redirect()->back()->with('status', 'Contrato Específico eliminado Satisfactoriamente');
     }
 }

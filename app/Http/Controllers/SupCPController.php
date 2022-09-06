@@ -77,11 +77,12 @@ class SupCPController extends Controller
             'required' => 'Este campo es requerido'
         ]);
 
-        $sups = supCP::latest()->first();
+        $sups = supCP::where('cp_id', $id)->get();
 
         $noSup = 1;
-        if ($sups) {
-            $noSup = $sups->id + 1;
+
+        if (count($sups) > 0) {
+            $noSup = count($sups) + 1;
         }
 
         $supcp = new supCP();

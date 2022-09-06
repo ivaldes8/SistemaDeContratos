@@ -77,12 +77,12 @@ class SupCMController extends Controller
             'required' => 'Este campo es requerido'
         ]);
 
-        $sups = supCM::latest()->first();
+        $sups = supCM::where('cm_id', $id)->get();
 
         $noSup = 1;
 
-        if($sups){
-            $noSup = $sups->id + 1;
+        if (count($sups) > 0) {
+            $noSup = count($sups) + 1;
         }
         $supcm = new supCM();
         $supcm->cm_id = $id;
