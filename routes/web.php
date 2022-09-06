@@ -16,12 +16,14 @@ use App\Http\Controllers\NAEController;
 use App\Http\Controllers\OrganismoController;
 use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\ObjSupCMController;
+use App\Http\Controllers\ObjSupCEController;
 use App\Http\Controllers\ObjSupCPController;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\AreaServController;
 use App\Http\Controllers\CEController;
 use App\Http\Controllers\SupCMController;
+use App\Http\Controllers\SupCEController;
 use App\Http\Controllers\SupCPController;
 use App\Http\Controllers\TipoCMController;
 use App\Http\Controllers\TipoCPController;
@@ -91,6 +93,14 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('ce/create/{id}', [CEController::class, 'create']);
     Route::post('ce/{id}', [CEController::class, 'store']);
     Route::get('ce/delete/{id}', [CEController::class, 'delete'])->name('delete');
+
+    Route::resource('objsupce', ObjSupCEController::class);
+    Route::get('objsupce/delete/{id}', [ObjSupCEController::class, 'delete'])->name('delete');
+
+    Route::resource('supce', SupCEController::class);
+    Route::get('supce/create/{id}', [SupCEController::class, 'create']);
+    Route::post('supce/{id}', [SupCEController::class, 'store']);
+    Route::get('supce/delete/{id}', [SupCEController::class, 'delete'])->name('delete');
 
     Route::resource('estadoce', EstadoCEController::class);
     Route::get('estadoce/delete/{id}', [EstadoCEController::class, 'delete'])->name('delete');
