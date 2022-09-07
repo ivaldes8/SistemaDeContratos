@@ -24,6 +24,10 @@ class EntidadController extends Controller
             return $q->where('codigoreu', 'like', '%' . request()->input('codigoreu') . '%');
         });
 
+        $query->when(request()->input('codigo'), function ($q) {
+            return $q->where('codigo', 'like', '%' . request()->input('codigo') . '%');
+        });
+
         $query->when(request()->input('nombre'), function ($q) {
             return $q->where('nombre', 'like', '%' . request()->input('nombre') . '%');
         });
@@ -93,6 +97,10 @@ class EntidadController extends Controller
             return $q->where('codigoreu', 'like', '%' . request()->input('codigoreu') . '%');
         });
 
+        $query->when(request()->input('codigo'), function ($q) {
+            return $q->where('codigo', 'like', '%' . request()->input('codigo') . '%');
+        });
+
         $query->when(request()->input('nombre'), function ($q) {
             return $q->where('nombre', 'like', '%' . request()->input('nombre') . '%');
         });
@@ -152,6 +160,10 @@ class EntidadController extends Controller
 
         $query->when(request()->input('codigoreu'), function ($q) {
             return $q->where('codigoreu', 'like', '%' . request()->input('codigoreu') . '%');
+        });
+
+        $query->when(request()->input('codigo'), function ($q) {
+            return $q->where('codigo', 'like', '%' . request()->input('codigo') . '%');
         });
 
         $query->when(request()->input('nombre'), function ($q) {

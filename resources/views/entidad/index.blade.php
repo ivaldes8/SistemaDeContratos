@@ -29,9 +29,15 @@
                 @endif
 
                 <div class="row">
-                    <div class="col-3 mt-1 d-flex justify-content-start">
+                    <div class="col-2 mt-1 d-flex justify-content-start">
                         <div class="input-group ">
                             <input name="codigoreu" class="form-control form-control-sm" placeholder="Código REU" />
+                        </div>
+                    </div>
+
+                    <div class="col-1 mt-1 d-flex justify-content-start">
+                        <div class="input-group ">
+                            <input name="codigo" class="form-control form-control-sm" placeholder="Código Interno" />
                         </div>
                     </div>
 
@@ -145,6 +151,7 @@
                 <table class="table table-primary table-sm table-bordered table-striped">
                     <thead>
                         <tr style="font-size: 90%;">
+                            <th style="width: 100px;">Código Interno</th>
                             <th style="width: 340px;">Nombre</th>
                             <th style="width: 50px;">Código REU</th>
                             <th style="width: 150px;">Siglas</th>
@@ -171,6 +178,7 @@
                         @else
                             @foreach ($entidad as $item)
                                 <tr style="font-size: 80%;">
+                                    <td>{{ $item->codigo ? $item->codigo : '---' }}</td>
                                     <td>
                                         <a style="font-weight: bold;"
                                             href="{{ url('entidad/' . $item->identidad . '/edit') }}"><i
