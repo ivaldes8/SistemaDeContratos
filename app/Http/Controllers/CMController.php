@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\CMExport;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Models\CM;
 use App\Models\CMFile;
 use App\Models\Entidad;
@@ -25,6 +27,10 @@ class CMController extends Controller
      */
     public function index(Request $request)
     {
+        if ($request->input('excel') && $request->input('excel') === 'true') {
+            return $this->exportExcel($request);
+        }
+
         $query = CM::query();
 
         $query->when(request()->input('noContrato'), function ($q) {
@@ -347,9 +353,8 @@ class CMController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function download($id)
+    public function exportExcel(Request $request)
     {
-        // dd($id);
-        return Storage::download('public/storage/app/public/1.pdf');
+        return Excel::download(new CMExport($request), 'cm.xlsx');
     }
 }

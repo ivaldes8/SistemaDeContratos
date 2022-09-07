@@ -134,17 +134,17 @@
                                     placeholder="Fecha de venc. hasta" />
                             </div>
                         </div>
-
+                        <input style="display: none" name="excel" id="excel-input" value="">
                         <div class="col-12 d-flex justify-content-center my-2">
-                            <button class="btn btn-sm btn-primary mx-1" disabled>
+                            <button  class="btn btn-sm btn-primary mx-1" id="excel">
                                 <i class="bi bi-file-earmark-excel"></i>
                             </button>
 
-                            <a href="{{ url('cm') }}" class="btn btn-sm btn-primary">
+                            <a href="{{ url('cm') }}" class="btn btn-sm btn-primary mx-1">
                                 <i class="bi bi-arrow-repeat"></i>
                             </a>
 
-                            <button class="btn btn-sm btn-primary mx-1" type="submit">
+                            <button class="btn btn-sm btn-primary mx-1" type="submit" id="search">
                                 <i class="bi bi-search"></i>
                             </button>
                         </div>
@@ -363,6 +363,12 @@
             } else {
                 $("#cliente").empty();
             }
+        });
+        $('#excel').click(function() {
+            $("#excel-input").val("true");
+        });
+        $('#search').click(function() {
+            $("#excel-input").val("false");
         });
     </script>
 @endsection

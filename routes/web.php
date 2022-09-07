@@ -117,6 +117,7 @@ Route::middleware(['auth', 'client'])->group(function () {
     Route::get('servByArea', [AreaServController::class, 'getServicioByArea']);
 
     Route::resource('cm', CMController::class);
+    Route::get('cm-export', [CMController::class, 'exportExcel']);
 });
 
 Route::middleware(['auth', 'provider'])->group(function () {
