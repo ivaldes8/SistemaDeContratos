@@ -3,16 +3,15 @@
 namespace App\Exports;
 
 use App\Models\CM;
-use App\Models\nae;
-use App\Models\unidad;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromCollection;
-use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Concerns\WithDrawings;
+use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class CMExport implements FromCollection, WithHeadings
+class CMExport implements FromCollection, WithHeadings, WithDrawings
 {
 
     use Exportable;
@@ -20,6 +19,18 @@ class CMExport implements FromCollection, WithHeadings
     public function __construct(Request $request)
     {
         $this->request = $request;
+    }
+
+    public function drawings()
+    {
+        $drawing = new Drawing();
+        $drawing->setName('Logo');
+        $drawing->setDescription('DISAIC');
+        $drawing->setPath(public_path('logotipodisaic2.png'));
+        $drawing->setHeight(90);
+        $drawing->setCoordinates('N1');
+
+        return $drawing;
     }
 
 

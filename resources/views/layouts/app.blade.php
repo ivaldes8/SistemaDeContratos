@@ -34,7 +34,7 @@
 <body>
     <div id="app">
         <a class="col-12 card disaicBrand" href="https://www.disaic.cu">
-            <img class="disaicLogo" src="{{ asset('logotipo disaic2.png') }}" alt="">
+            <img class="disaicLogo" src="{{ asset('logotipodisaic2.png') }}" alt="">
         </a>
         <nav class="navbar navbar-expand-md navbar-light bg-white main-nav shadow-sm sticky-top">
             <div class="container">
