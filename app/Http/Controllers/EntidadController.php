@@ -232,8 +232,7 @@ class EntidadController extends Controller
     public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
-            'org_id' => 'required',
-            'grupo_id' => 'required'
+            'org_id' => 'required'
         ], [
             'required' => 'Este campo es requerido'
         ]);
